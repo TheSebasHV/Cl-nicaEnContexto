@@ -18,6 +18,7 @@
     --rose: #b23a6e;   --rose-s: #fbe8f0;        /* Habilidades clínicas */
     --cyan: #0a6e8f;   --cyan-s: #e2f2f7;        /* Conceptos psicológicos */
     --ochre: #8a5a1c;  --ochre-s: #f6eddf;       /* Contexto clínico general */
+    --indigo: #3949ab; --indigo-s: #e8eaf6;      /* Trastornos (DSM) */
     --ok: #1b7a46; --ok-s: #e3f4ea; --bad: #b3261e; --bad-s: #fbe9e7;
     --radius: 14px; --shadow: 0 1px 2px rgba(30,50,80,.06), 0 6px 20px rgba(30,50,80,.05);
   }
@@ -697,13 +698,27 @@
   /* ===== Biblioteca Relacional ===== */
   .tag.hab { background: var(--rose-s); color: var(--rose); border: 1px solid #f0c9da; --tc: var(--rose); }
   .tag.psi { background: var(--cyan-s); color: var(--cyan); border: 1px solid #bfe0ec; --tc: var(--cyan); }
+  .tag.tra { background: var(--indigo-s); color: var(--indigo); border: 1px solid #c5cae9; --tc: var(--indigo); }
+  .cx-card.is-tra { --cx: var(--indigo); max-width: 640px; }
+  .cx-rel.tra { background: var(--indigo-s); color: var(--indigo); border-color: #c5cae9; }
+  .dsm-toggle { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem; margin: 0 0 .9rem; }
+  .dsm-toggle button { font: 700 .82rem system-ui, sans-serif; border: 1.5px solid #c5cae9; background: #fff; color: var(--indigo); border-radius: 999px; padding: .38rem .95rem; cursor: pointer; transition: background .2s, color .2s; }
+  .dsm-toggle button[aria-pressed=true] { background: var(--indigo); color: #fff; border-color: var(--indigo); }
+  .dsm-toggle .dsm-swap { margin-left: auto; border-style: dashed; font-weight: 600; }
+  .dsm-toggle .dsm-swap:hover { background: var(--indigo-s); }
+  .dsm-panel { border: 1px solid #dfe3f4; border-radius: 14px; padding: .9rem 1rem .4rem; background: linear-gradient(180deg, #f7f8fe, #fff); margin-bottom: .9rem; }
+  .dsm-panel.swap { animation: dsmSwap .35s var(--ease); }
+  @keyframes dsmSwap { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }
+  .dsm-name { margin: 0 0 .35rem; font: 800 1rem/1.35 system-ui, sans-serif; color: var(--indigo); }
+  .dsm-code { display: block; margin-top: .15rem; font: 600 .74rem system-ui, sans-serif; color: var(--muted); letter-spacing: .03em; }
+  .dsm-brief { margin: 0 0 .8rem; font-size: .96rem; }
+  .dsm-list { margin: 0 0 .9rem; padding-left: 1.15rem; font: .9rem/1.5 system-ui, sans-serif; } .dsm-list li { margin-bottom: .3rem; }
+  .dsm-change { margin: 0 0 .7rem; padding: .55rem .75rem; border-radius: 10px; background: var(--indigo-s); font: .84rem/1.45 system-ui, sans-serif; }
+  .dsm-aviso { display: flex; gap: .55rem; align-items: flex-start; margin: 0 0 1rem; padding: .7rem .85rem; border-radius: 12px; background: var(--yellow-s); border: 1px solid #f3dfa4;
+               border-left: 5px solid var(--yellow); font: .82rem/1.5 system-ui, sans-serif; color: #5c4300; }
+  .dsm-aviso .ic { flex: none; margin-top: .15rem; color: #9a6b00; }
   .tag.med { background: var(--ochre-s); color: var(--ochre); border: 1px solid #e9d6b8; --tc: var(--ochre); }
   .tag.hab[data-concept]:hover { background: #f6d6e4; } .tag.psi[data-concept]:hover { background: #cfe9f2; } .tag.med[data-concept]:hover { background: #efe0c7; }
-  .basis { display: block; margin-top: .4rem; padding-top: .35rem; border-top: 1px dashed var(--border); font: .82rem/1.9 system-ui, sans-serif; color: var(--muted); }
-  .basis > b { color: var(--slate); text-transform: uppercase; letter-spacing: .06em; font-size: .72rem; margin-right: .2rem; }
-  .basis > i { font-style: normal; font-size: .72rem; opacity: .85; margin-right: .15rem; }
-  .basis .tag { font-size: .8rem; }
-  .basis .bi { display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap; }
 
   /* Catálogo y fichas */
   .cx-card.is-catalog { max-width: 680px; }
@@ -728,35 +743,57 @@
   .onode button:hover .on-n, .onode button:focus-visible .on-n { background: rgba(255,255,255,.25); color: #fff; }
   @media (max-width: 760px) { .onode button { max-width: 7.2rem; } .on-n { display: none; } .orbit-core small { display: none; } }
 
-  /* Mapa relacional (despliegue del núcleo) */
-  .relmap-bd { position: fixed; inset: 0; z-index: 25; background: radial-gradient(circle at 50% 55%, #fff 0%, #eef3fb 58%, #e1e9f6 100%); }
+  /* Mapa relacional (despliegue del núcleo): escena orbital oscura */
+  .relmap-bd { position: fixed; inset: 0; z-index: 25; color: #e8eefc; overflow: hidden;
+               background: radial-gradient(ellipse at 50% 45%, #22407a 0%, #142a57 38%, #0c1938 72%, #070f24 100%); }
+  .relmap-bd::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .9;
+               background-image:
+                 radial-gradient(1.2px 1.2px at 12% 18%, #fff, transparent), radial-gradient(1px 1px at 27% 72%, #cfe0ff, transparent),
+                 radial-gradient(1.4px 1.4px at 44% 12%, #fff, transparent), radial-gradient(1px 1px at 63% 84%, #fff, transparent),
+                 radial-gradient(1.3px 1.3px at 78% 28%, #d8e6ff, transparent), radial-gradient(1px 1px at 90% 62%, #fff, transparent),
+                 radial-gradient(1px 1px at 8% 88%, #fff, transparent), radial-gradient(1.2px 1.2px at 55% 48%, rgba(255,255,255,.7), transparent),
+                 radial-gradient(rgba(255,255,255,.06) 1px, transparent 1.2px);
+               background-size: auto, auto, auto, auto, auto, auto, auto, auto, 28px 28px; animation: rmTwinkle 6s ease-in-out infinite alternate; }
+  .relmap-bd::after { content: ""; position: absolute; inset: -20%; pointer-events: none; filter: blur(40px); opacity: .75;
+               background: radial-gradient(circle at 20% 25%, rgba(76,175,80,.30), transparent 32%), radial-gradient(circle at 80% 72%, rgba(176,110,232,.32), transparent 34%),
+                           radial-gradient(circle at 75% 18%, rgba(25,179,166,.26), transparent 30%), radial-gradient(circle at 25% 80%, rgba(240,87,122,.20), transparent 30%);
+               animation: rmNebula 28s ease-in-out infinite alternate; }
+  @keyframes rmTwinkle { to { opacity: .55; } }
+  @keyframes rmNebula { to { transform: translate(3%, -2%) rotate(6deg) scale(1.05); } }
   .relmap-bd[hidden] { display: none; }
-  .relmap { position: absolute; inset: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; font-family: system-ui, sans-serif; }
-  .rm-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: 1rem 1.5rem .3rem; }
-  .rm-k { margin: 0; font: 800 .72rem system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-  .rm-top h3 { margin: .1rem 0 0; font-size: 1.5rem; color: var(--blue); }
-  .rm-sub { margin: .25rem 0 0; font-size: .86rem; color: var(--muted); max-width: 48rem; line-height: 1.45; }
-  .rm-close { flex: none; width: 2.7rem; height: 2.7rem; border-radius: 50%; border: 1px solid var(--border); background: #fff; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--text); box-shadow: var(--shadow); }
-  .rm-close:hover { background: var(--blue); color: #fff; }
-  .rm-stage { display: flex; overflow: auto; min-height: 0; }
+  .relmap { position: absolute; inset: 0; z-index: 1; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; font-family: system-ui, sans-serif; }
+  .rm-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: 1rem 1.5rem .4rem; }
+  .rm-k { margin: 0; font: 800 .72rem system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #8fb4ff; }
+  .rm-top h3 { margin: .1rem 0 0; font-size: 1.55rem; color: #fff; text-shadow: 0 2px 18px rgba(79,142,240,.6); }
+  .rm-sub { margin: .25rem 0 0; font-size: .86rem; color: rgba(232,238,252,.72); max-width: 50rem; line-height: 1.45; }
+  .rm-close { flex: none; width: 2.7rem; height: 2.7rem; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.1); font-size: 1.5rem; line-height: 1;
+              cursor: pointer; color: #fff; backdrop-filter: blur(8px); transition: background .2s, transform .2s; }
+  .rm-close:hover { background: rgba(255,255,255,.25); transform: rotate(90deg); }
+  .rm-stage { position: relative; display: flex; overflow: auto; min-height: 0; cursor: grab; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.25) transparent; }
+  .rm-stage.dragging { cursor: grabbing; user-select: none; }
   .rm-canvas { position: relative; flex: none; margin: auto; }
-  .rm-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .rm-world { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  .rm-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 5px rgba(140,180,255,.35)); }
+  .rm-orb { fill: none; stroke: rgba(255,255,255,.14); stroke-width: 1.2; stroke-dasharray: 3 9; animation: rmOrb 40s linear infinite; }
+  .rm-orb.o2 { stroke: rgba(160,190,255,.12); animation-duration: 70s; animation-direction: reverse; }
+  @keyframes rmOrb { to { stroke-dashoffset: -480; } }
   .rm-lines path { fill: none; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: opacity .25s, stroke-width .25s; }
-  .rm-l1 { stroke: color-mix(in srgb, var(--green) 60%, #fff); stroke-width: 2.6; }
-  .rm-l2 { stroke: color-mix(in srgb, var(--violet) 45%, #fff); stroke-width: 1.6; }
+  .rm-l1 { stroke-width: 2.8; opacity: .9; }
+  .rm-l2 { stroke-width: 1.7; opacity: .6; }
   .rm-nodes { position: absolute; inset: 0; }
   .rm-node, .rm-hub { position: absolute; transform: translate(-50%, -50%); }
-  .rm-node { max-width: 8.4rem; font: 600 .74rem/1.2 system-ui, sans-serif; text-align: center; border-radius: 12px; padding: .38rem .55rem; cursor: pointer;
-             background: #fff; color: var(--violet); border: 1.5px solid #d3c6f1; box-shadow: 0 8px 20px -14px rgba(40,30,90,.6);
+  .rm-node { --c: #4f8ef0; width: max-content; max-width: 9rem; font: 600 .78rem/1.25 system-ui, sans-serif; text-align: center; border-radius: 12px; padding: .42rem .65rem; cursor: pointer;
+             background: rgba(255,255,255,.95); color: #1b2742; border: 1.5px solid color-mix(in srgb, var(--c) 60%, #fff);
+             box-shadow: 0 10px 24px -12px rgba(0,0,0,.6), 0 0 0 3px color-mix(in srgb, var(--c) 18%, transparent);
              opacity: 0; transition: opacity .25s, background .2s, color .2s, box-shadow .2s; }
-  .rm-node.ter { max-width: 9.6rem; font-size: .8rem; font-weight: 800; padding: .5rem .75rem; border-radius: 14px; background: var(--green); color: #fff; border-color: var(--green);
-                 box-shadow: 0 12px 26px -12px var(--green); }
-  .rm-node.tec:hover, .rm-node.tec:focus-visible { background: var(--violet); color: #fff; }
-  .rm-node.ter:hover, .rm-node.ter:focus-visible { background: #24672a; }
-  .rm-hub { width: 9.6rem; height: 9.6rem; border-radius: 50%; display: grid; place-content: center; text-align: center; color: #fff; font: 800 1rem/1.2 system-ui, sans-serif;
-            background: radial-gradient(circle at 30% 25%, #5d8fdc, var(--blue) 55%, #1e3f78); box-shadow: 0 24px 60px -14px rgba(47,93,168,.7), inset 0 2px 10px rgba(255,255,255,.3); }
-  .rm-hub .ic { width: 1.9rem; height: 1.9rem; margin: 0 auto .3rem; display: block; }
-  .rm-hub::before, .rm-hub::after { content: ""; position: absolute; inset: -12px; border-radius: 50%; border: 2px solid rgba(47,93,168,.25); animation: halo 3.2s ease-out infinite; }
+  .rm-node.ter { max-width: 10rem; font-size: .84rem; font-weight: 800; padding: .55rem .85rem; border-radius: 16px; background: var(--c); color: #fff; border-color: rgba(255,255,255,.55);
+                 box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 30%, transparent), 0 14px 34px -10px var(--c); text-shadow: 0 1px 2px rgba(0,0,0,.25); }
+  .rm-node.tec:hover, .rm-node.tec:focus-visible { background: var(--c); color: #fff; }
+  .rm-node.ter:hover, .rm-node.ter:focus-visible { box-shadow: 0 0 0 7px color-mix(in srgb, var(--c) 35%, transparent), 0 18px 40px -10px var(--c); }
+  .rm-hub { width: 10.5rem; height: 10.5rem; border-radius: 50%; display: grid; place-content: center; text-align: center; color: #fff; font: 800 1.05rem/1.2 system-ui, sans-serif;
+            background: radial-gradient(circle at 30% 25%, #7fb0ff, #3d73d6 50%, #1a3a7c); box-shadow: 0 0 60px 6px rgba(79,142,240,.55), inset 0 2px 12px rgba(255,255,255,.35); }
+  .rm-hub .ic { width: 2rem; height: 2rem; margin: 0 auto .3rem; display: block; }
+  .rm-hub::before, .rm-hub::after { content: ""; position: absolute; inset: -14px; border-radius: 50%; border: 2px solid rgba(143,180,255,.4); animation: halo 3.2s ease-out infinite; }
   .rm-hub::after { animation-delay: 1.6s; }
   .relmap.play .rm-lines path { animation: rmDraw .75s var(--ease) forwards; animation-delay: var(--d); }
   .relmap.play .rm-node { animation: rmPop .5s var(--ease) forwards; animation-delay: var(--d); }
@@ -767,18 +804,24 @@
   .relmap.done .rm-lines path { animation: none; stroke-dashoffset: 0; }
   .relmap.done .rm-node { animation: none; opacity: 1; }
   .relmap.done .rm-node:hover, .relmap.done .rm-node:focus-visible { transform: translate(-50%, -50%) scale(1.07); z-index: 2; }
-  .relmap.done.hl .rm-node:not(.on) { opacity: .28; }
-  .relmap.done.hl .rm-lines path:not(.on) { opacity: .18; }
-  .relmap.done.hl .rm-lines path.on { stroke-width: 3; }
-  .rm-foot { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; align-items: center; padding: .5rem 1rem 1rem; font-size: .8rem; color: var(--muted); }
-  .rm-foot button { --c: var(--blue); display: inline-flex; align-items: center; gap: .35rem; font: 700 .8rem system-ui, sans-serif; cursor: pointer; border-radius: 999px; padding: .38rem .8rem;
-                    color: var(--c); background: #fff; border: 1.5px solid color-mix(in srgb, var(--c) 35%, #fff); transition: background .2s, color .2s; }
+  .relmap.done.hl .rm-node:not(.on) { opacity: .25; }
+  .relmap.done.hl .rm-lines path:not(.on) { opacity: .1; }
+  .relmap.done.hl .rm-lines path.on { stroke-width: 3.4; opacity: 1; }
+  .rm-zoom { position: absolute; right: 1.2rem; bottom: 4.6rem; z-index: 3; display: flex; align-items: center; gap: .2rem; padding: .25rem; border-radius: 999px;
+             background: rgba(10,20,46,.6); border: 1px solid rgba(255,255,255,.18); backdrop-filter: blur(10px); }
+  .rm-zoom button { width: 2.1rem; height: 2.1rem; border-radius: 50%; border: 0; background: rgba(255,255,255,.1); color: #fff; font: 700 1.1rem system-ui, sans-serif; cursor: pointer; }
+  .rm-zoom button[data-zoom="fit"] { width: auto; padding: 0 .8rem; border-radius: 999px; font-size: .78rem; }
+  .rm-zoom button:hover { background: rgba(255,255,255,.25); }
+  .rm-zoom output { min-width: 3rem; text-align: center; font: 700 .78rem system-ui, sans-serif; color: rgba(232,238,252,.8); }
+  .rm-foot { background: none; border-top: 1px solid rgba(255,255,255,.08); display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; align-items: center; padding: .55rem 1rem 1rem; font-size: .8rem; color: rgba(232,238,252,.7); }
+  .rm-foot button { --c: var(--blue); display: inline-flex; align-items: center; gap: .35rem; font: 700 .8rem system-ui, sans-serif; cursor: pointer; border-radius: 999px; padding: .4rem .85rem;
+                    color: #fff; background: rgba(255,255,255,.08); border: 1.5px solid color-mix(in srgb, var(--c) 70%, #fff); backdrop-filter: blur(8px); transition: background .2s, color .2s; }
   .rm-foot button:hover, .rm-foot button:focus-visible { background: var(--c); color: #fff; }
   .rm-foot b { font-weight: 800; opacity: .75; }
-  @media (max-width: 760px) { .rm-top { padding: .8rem 1rem .2rem; } .rm-top h3 { font-size: 1.2rem; } .rm-sub { font-size: .78rem; }
+  @media (max-width: 760px) { .rm-top { padding: .8rem 1rem .2rem; } .rm-top h3 { font-size: 1.2rem; } .rm-sub { display: none; }
     .rm-foot { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; padding: .5rem .8rem .8rem; } .rm-foot > span { display: none; } .rm-foot button { flex: none; }
-    .rm-hub { width: 7.6rem; height: 7.6rem; font-size: .85rem; } }
-  @media (prefers-reduced-motion: reduce) { .relmap .rm-node { opacity: 1; } .relmap .rm-lines path { stroke-dashoffset: 0; } }
+    .rm-zoom { right: .7rem; bottom: 4rem; } }
+  @media (prefers-reduced-motion: reduce) { .relmap .rm-node { opacity: 1; } .relmap .rm-lines path { stroke-dashoffset: 0; } .relmap-bd::before, .relmap-bd::after, .rm-orb { animation: none; } }
 </style>
 <style id="m3-casos">
 /* =====================================================================
@@ -1068,10 +1111,11 @@
           <button type="button" class="orbit-core" id="lib-core" aria-haspopup="dialog" aria-controls="relmap"><span><svg class="ic" aria-hidden="true"><use href="#i-net"/></svg>Biblioteca<br>Relacional<small>Toca para expandir</small></span></button>
           <div class="orbit-spin">
             <div class="onode" style="--a:0deg"><div class="onode-in"><button type="button" data-catalog="ter" style="--c:var(--green)"><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg><span>Enfoques y Terapias</span></button></div></div>
-            <div class="onode" style="--a:72deg"><div class="onode-in"><button type="button" data-catalog="tec" style="--c:var(--violet)"><svg class="ic" aria-hidden="true"><use href="#i-tool"/></svg><span>Técnicas y Herramientas</span></button></div></div>
-            <div class="onode" style="--a:144deg"><div class="onode-in"><button type="button" data-catalog="hab" style="--c:var(--rose)"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span>Habilidades Clínicas</span></button></div></div>
-            <div class="onode" style="--a:216deg"><div class="onode-in"><button type="button" data-catalog="psi" style="--c:var(--cyan)"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg><span>Conceptos Psicológicos</span></button></div></div>
-            <div class="onode" style="--a:288deg"><div class="onode-in"><button type="button" data-catalog="med" style="--c:var(--ochre)"><svg class="ic" aria-hidden="true"><use href="#i-pulse"/></svg><span>Contexto Clínico</span></button></div></div>
+            <div class="onode" style="--a:60deg"><div class="onode-in"><button type="button" data-catalog="tec" style="--c:var(--violet)"><svg class="ic" aria-hidden="true"><use href="#i-tool"/></svg><span>Técnicas y Herramientas</span></button></div></div>
+            <div class="onode" style="--a:120deg"><div class="onode-in"><button type="button" data-catalog="hab" style="--c:var(--rose)"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span>Habilidades Clínicas</span></button></div></div>
+            <div class="onode" style="--a:180deg"><div class="onode-in"><button type="button" data-catalog="tra" style="--c:var(--indigo)"><svg class="ic" aria-hidden="true"><use href="#i-clip"/></svg><span>Trastornos (DSM)</span></button></div></div>
+            <div class="onode" style="--a:240deg"><div class="onode-in"><button type="button" data-catalog="psi" style="--c:var(--cyan)"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg><span>Conceptos Psicológicos</span></button></div></div>
+            <div class="onode" style="--a:300deg"><div class="onode-in"><button type="button" data-catalog="med" style="--c:var(--ochre)"><svg class="ic" aria-hidden="true"><use href="#i-pulse"/></svg><span>Contexto Clínico</span></button></div></div>
           </div>
         </div>
         <p class="orbit-hint">Toca el núcleo para desplegar el mapa de relaciones o elige un pilar para abrir su catálogo.</p>
@@ -1145,20 +1189,21 @@
           <button type="button" data-catalog="hab" style="background:var(--rose-s);color:var(--rose)"><svg class="ic"><use href="#i-chat"/></svg>Habilidades clínicas</button>
           <button type="button" data-catalog="psi" style="background:var(--cyan-s);color:var(--cyan)"><svg class="ic"><use href="#i-spark"/></svg>Conceptos psicológicos</button>
           <button type="button" data-catalog="med" style="background:var(--ochre-s);color:var(--ochre)"><svg class="ic"><use href="#i-pulse"/></svg>Contexto clínico</button>
+          <button type="button" data-catalog="tra" style="background:var(--indigo-s);color:var(--indigo)"><svg class="ic"><use href="#i-clip"/></svg>Trastornos (DSM)</button>
           <span style="background:var(--slate-s);color:var(--slate)"><svg class="ic"><use href="#i-quote"/></svg>Autores</span>
           <span style="background:var(--coral-s);color:var(--coral)"><svg class="ic"><use href="#i-bulb"/></svg>Recomendaciones</span>
         </div>
-        <p class="legend-hint">Las etiquetas de color del texto son interactivas: haz clic para ver su ficha en la Biblioteca Relacional. Cada «Respaldo» indica el enfoque, habilidad o constructo que sustenta la directriz.</p>
+        <p class="legend-hint">Las etiquetas de color del texto son interactivas: haz clic para ver su ficha en la Biblioteca Relacional.</p>
       </div>
       </aside>
       <div class="f-stage">
 <section class="topic main-new" id="f0"><header class="topic-h"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg><h3>Intervenciones Psicológicas Breves en Cuidado Crónico</h3></header><span class="cat-label breve"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg> Intervención breve</span><div class="src-corner"><svg class="ic" aria-hidden="true"><use href="#i-quote"/></svg><span>Fuentes</span><button type="button" class="cite mini" data-ref="caporino">Caporino, 2024</button><button type="button" class="cite mini" data-ref="enriquez">Enríquez-Estrada et al., 2021</button><button type="button" class="cite mini" data-ref="akyirem">Akyirem et al., 2022</button><button type="button" class="cite mini" data-ref="torres">Torres y Urquijo, 2024</button><button type="button" class="cite mini" data-ref="lunardi">Lunardi et al., 2023</button><button type="button" class="cite mini" data-ref="schmill">Schmill et al., 2025</button><button type="button" class="cite mini" data-ref="richmond">Richmond et al., 2012</button><button type="button" class="cite mini" data-ref="mcclintock">McClintock et al., 2024</button><button type="button" class="cite mini" data-ref="gentile">Gentile et al., 2024</button></div><p><strong>¿Qué es una intervención breve?</strong> Es un conjunto de modelos y estrategias psicológicas orientados a atender necesidades específicas mediante objetivos delimitados y procedimientos organizados (<button type="button" class="cite" data-ref="caporino">Caporino, 2024</button>; <button type="button" class="cite" data-ref="enriquez">Enríquez-Estrada et al., 2021</button>). Su brevedad no se mide solo por el número de sesiones, sino por la delimitación de los objetivos y la organización del proceso. En un escenario hospitalario puede consistir en encuentros de pocos minutos, repetidos según el estado del paciente.</p>
 <p><strong>Principios en contextos hospitalarios</strong></p>
 <ul>
-<li><strong>Focalización:</strong> identificar la necesidad prioritaria del momento (por ejemplo, ansiedad ante un procedimiento o malestar por la estancia) en lugar de abarcar toda la historia de la persona. La <span class="tag hab">escucha focalizada</span> delimita una sola preocupación por encuentro; la <span class="tag ter">intervención en crisis</span> ordena las necesidades empezando por la más urgente, y la <span class="tag ter">Terapia Breve Centrada en Soluciones</span> dirige la conversación hacia el cambio que la persona quiere ahora. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">escucha focalizada</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag ter">intervención en crisis</span> <i>enfoque</i></span> · <span class="bi"><span class="tag ter">Terapia Breve Centrada en Soluciones</span> <i>enfoque</i></span></span></li>
-<li><strong>Eficiencia:</strong> aprovechar encuentros cortos combinando habilidades clínicas transversales (<span class="tag hab">escucha activa</span>, <span class="tag hab">validación emocional</span>) con técnicas sencillas (<span class="tag tec">psicoeducación</span>, <span class="tag tec">preguntas de escala y de excepción</span>) y apoyos de <span class="tag tec">comunicación aumentativa</span>. El <span class="tag psi">modelo biopsicosocial</span> justifica intervenir sobre un factor modificable sin pretender abarcarlos todos, y la <span class="tag psi">alianza terapéutica</span> se construye también en contactos breves cuando hay sintonía. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag psi">modelo biopsicosocial</span> <i>concepto</i></span> · <span class="bi"><span class="tag psi">alianza terapéutica</span> <i>concepto</i></span> · <span class="bi"><span class="tag hab">escucha activa</span> <i>habilidad clínica</i></span></span></li>
-<li><strong>Delimitación de objetivos:</strong> metas pequeñas, concretas y acordadas con el paciente, que se revisan en cada encuentro. La <span class="tag psi">autoeficacia</span> (Bandura) se fortalece con logros alcanzables; las <span class="tag tec">preguntas de escala y de excepción</span> definen «un punto más» y la <span class="tag tec">asignación gradual de tareas</span> fragmenta la meta. La <span class="tag psi">indefensión aprendida</span> advierte que las metas inalcanzables refuerzan la pasividad. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag psi">autoeficacia</span> <i>concepto</i></span> · <span class="bi"><span class="tag psi">indefensión aprendida</span> <i>concepto</i></span> · <span class="bi"><span class="tag ter">Terapia Breve Centrada en Soluciones</span> <i>enfoque</i></span> · <span class="bi"><span class="tag ter">activación conductual</span> <i>enfoque</i></span></span></li>
-<li><strong>Seguridad y límites:</strong> una actuación breve no siempre consiste en aplicar una técnica; a veces lo más adecuado es detener el abordaje y coordinar con el equipo (véase el Caso 1). La <span class="tag ter">intervención en crisis</span> y su herramienta de <span class="tag tec">desescalada verbal</span> priorizan la seguridad; el <span class="tag hab">encuadre y manejo de límites</span> sostiene el rol de practicante, y la <span class="tag med">ruta ante riesgo suicida</span> y la <span class="tag med">interconsulta a Psiquiatría</span> definen a quién y cómo derivar. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag ter">intervención en crisis</span> <i>enfoque</i></span> · <span class="bi"><span class="tag hab">encuadre y manejo de límites</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag med">ruta ante riesgo suicida</span> <i>contexto clínico</i></span></span></li>
+<li><strong>Focalización:</strong> identificar la necesidad prioritaria del momento (por ejemplo, ansiedad ante un procedimiento o malestar por la estancia) en lugar de abarcar toda la historia de la persona. La <span class="tag hab">escucha focalizada</span> delimita una sola preocupación por encuentro; la <span class="tag ter">intervención en crisis</span> ordena las necesidades empezando por la más urgente, y la <span class="tag ter">Terapia Breve Centrada en Soluciones</span> dirige la conversación hacia el cambio que la persona quiere ahora.</li>
+<li><strong>Eficiencia:</strong> aprovechar encuentros cortos combinando habilidades clínicas transversales (<span class="tag hab">escucha activa</span>, <span class="tag hab">validación emocional</span>) con técnicas sencillas (<span class="tag tec">psicoeducación</span>, <span class="tag tec">preguntas de escala y de excepción</span>) y apoyos de <span class="tag tec">comunicación aumentativa</span>. El <span class="tag psi">modelo biopsicosocial</span> justifica intervenir sobre un factor modificable sin pretender abarcarlos todos, y la <span class="tag psi">alianza terapéutica</span> se construye también en contactos breves cuando hay sintonía.</li>
+<li><strong>Delimitación de objetivos:</strong> metas pequeñas, concretas y acordadas con el paciente, que se revisan en cada encuentro. La <span class="tag psi">autoeficacia</span> (Bandura) se fortalece con logros alcanzables; las <span class="tag tec">preguntas de escala y de excepción</span> definen «un punto más» y la <span class="tag tec">asignación gradual de tareas</span> fragmenta la meta. La <span class="tag psi">indefensión aprendida</span> advierte que las metas inalcanzables refuerzan la pasividad.</li>
+<li><strong>Seguridad y límites:</strong> una actuación breve no siempre consiste en aplicar una técnica; a veces lo más adecuado es detener el abordaje y coordinar con el equipo (véase el Caso 1). La <span class="tag ter">intervención en crisis</span> y su herramienta de <span class="tag tec">desescalada verbal</span> priorizan la seguridad; el <span class="tag hab">encuadre y manejo de límites</span> sostiene el rol de practicante, y la <span class="tag med">ruta ante riesgo suicida</span> y la <span class="tag med">interconsulta a Psiquiatría</span> definen a quién y cómo derivar.</li>
 </ul>
 <p><strong>Fundamentación en la literatura.</strong> <button type="button" class="cite" data-ref="akyirem">Akyirem et al. (2022)</button> revisaron 12 estudios sobre intervenciones psicosociales para adultos con enfermedad crónica recién diagnosticada y las agruparon en tres categorías, cada una con al menos dos de ocho técnicas activas; esto permite describir las intervenciones por sus técnicas concretas y no solo por su duración. <button type="button" class="cite" data-ref="caporino">Caporino (2024)</button> dedica un artículo específico a las intervenciones breves para la ansiedad, lo que respalda considerar formatos de contacto limitado con un foco definido. <button type="button" class="cite" data-ref="torres">Torres Torres y Urquijo Acevedo (2024)</button> adaptaron la <span class="tag ter">activación conductual</span> a una paciente en cuidado intensivo mediante tres fases y seis sesiones, aunque, al ser un estudio de caso, sus resultados no se generalizan. En enfermedad renal crónica, <button type="button" class="cite" data-ref="lunardi">Lunardi et al. (2023)</button> y <button type="button" class="cite" data-ref="schmill">Schmill et al. (2025)</button> muestran beneficios en autogestión, autoeficacia y función física, con evidencia variable o limitada en depresión, ansiedad y calidad de vida.</p>
 <p><strong>Cómo se articulan enfoques, técnicas y habilidades dentro del marco breve</strong></p>
@@ -1179,10 +1224,10 @@
 <aside class="brief-box"><h4 class="cat-label breve"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg> En la práctica: la intervención breve aquí</h4><p class="keyidea"><strong>La idea clave:</strong> cuando la enfermedad dura mucho, las metas grandes (“sentirme mejor”) desaniman. La intervención breve te ayuda a <strong>pensar en pasos pequeños</strong> que la persona sí pueda dar hoy.</p>
 <div class="apply"><span class="cat-label"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg> Especificidad de aplicación</span><p><strong>Cómo hacerlo</strong></p>
 <ol type="1">
-<li>Elige <strong>una sola cosa</strong> de su día a día que la esté afectando (una rutina perdida, algo que extraña). <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">escucha focalizada</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag psi">modelo biopsicosocial</span> <i>concepto</i></span></span></li>
-<li>Pregunta por el <span class="tag tec">futuro preferido</span>: <em>“¿Qué tendría que cambiar para que tu día fuera un poco mejor?”</em>. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag ter">Terapia Breve Centrada en Soluciones</span> <i>enfoque</i></span></span></li>
-<li>Usa una <strong>escala de 1 a 10</strong> para ver dónde está hoy y define <strong>un punto más</strong>, no la meta final. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag tec">preguntas de escala y de excepción</span> <i>técnica</i></span> · <span class="bi"><span class="tag psi">autoeficacia</span> <i>concepto</i></span></span></li>
-<li>Acuerden una acción pequeña y revísenla en el próximo encuentro, celebrando cualquier avance. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag psi">reforzamiento</span> <i>concepto</i></span> · <span class="bi"><span class="tag psi">autoeficacia</span> <i>concepto</i></span></span></li>
+<li>Elige <strong>una sola cosa</strong> de su día a día que la esté afectando (una rutina perdida, algo que extraña).</li>
+<li>Pregunta por el <span class="tag tec">futuro preferido</span>: <em>“¿Qué tendría que cambiar para que tu día fuera un poco mejor?”</em>.</li>
+<li>Usa una <strong>escala de 1 a 10</strong> para ver dónde está hoy y define <strong>un punto más</strong>, no la meta final.</li>
+<li>Acuerden una acción pequeña y revísenla en el próximo encuentro, celebrando cualquier avance.</li>
 </ol></div>
 <p class="resources"><strong>Recursos que sirven:</strong> <span class="tag tec">preguntas de escala y de excepción</span> (<span class="tag ter">Terapia Breve Centrada en Soluciones</span>), un registro sencillo de actividades (<span class="tag ter">activación conductual</span>) y <span class="tag tec">psicoeducación</span> corta si alguna creencia lo bloquea. Se combinan en orden: primero la meta, luego la acción, y solo si hace falta, las ideas que la frenan.</p>
 </aside></section>
@@ -1193,11 +1238,11 @@
 <aside class="brief-box"><h4 class="cat-label breve"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg> En la práctica: la intervención breve aquí</h4><p class="keyidea"><strong>La idea clave:</strong> el cansancio, el dolor y los cambios de estado hacen que un encuentro largo casi nunca funcione. Aquí <strong>menos es más</strong>: encuentros cortos y flexibles que valgan por sí solos.</p>
 <div class="apply"><span class="cat-label"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg> Especificidad de aplicación</span><p><strong>Cómo hacerlo</strong></p>
 <ul>
-<li>Al llegar, <strong>pregunta cómo está</strong> y si prefiere hablar ahora o más tarde. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">encuadre y manejo de límites</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag ter">atención centrada en la persona</span> <i>enfoque</i></span></span></li>
-<li>Quédate con <strong>un solo tema</strong> por encuentro y cierra con un resumen de una frase. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">escucha focalizada</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag hab">resumen</span> <i>habilidad clínica</i></span></span></li>
-<li>Si notas cansancio, <strong>termina</strong>. No hace falta completar la actividad. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">observación clínica</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag hab">encuadre y manejo de límites</span> <i>habilidad clínica</i></span></span></li>
-<li>Piensa cada encuentro como “autocontenido”: la estancia puede cambiar, así que deja claro al supervisor qué quedó pendiente. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag med">equipo interdisciplinario</span> <i>contexto clínico</i></span> · <span class="bi"><span class="tag hab">encuadre y manejo de límites</span> <i>habilidad clínica</i></span></span></li>
-<li>Coordina los horarios con el equipo para no cruzarte con los cuidados. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag med">equipo interdisciplinario</span> <i>contexto clínico</i></span> · <span class="bi"><span class="tag psi">modelo biopsicosocial</span> <i>concepto</i></span></span></li>
+<li>Al llegar, <strong>pregunta cómo está</strong> y si prefiere hablar ahora o más tarde.</li>
+<li>Quédate con <strong>un solo tema</strong> por encuentro y cierra con un resumen de una frase.</li>
+<li>Si notas cansancio, <strong>termina</strong>. No hace falta completar la actividad.</li>
+<li>Piensa cada encuentro como “autocontenido”: la estancia puede cambiar, así que deja claro al supervisor qué quedó pendiente.</li>
+<li>Coordina los horarios con el equipo para no cruzarte con los cuidados.</li>
 </ul></div>
 <p class="resources"><strong>Recursos que sirven:</strong> escucha, observación, <span class="tag hab">validación emocional</span> y, si el paciente lo tolera, una <span class="tag tec">respiración lenta</span> o un ejercicio sencillo para volver al presente.</p>
 </aside></section>
@@ -1213,16 +1258,16 @@
 <aside class="brief-box"><h4 class="cat-label breve"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg> En la práctica: la intervención breve aquí</h4><p class="keyidea"><strong>La idea clave:</strong> no se trata de resolver todo lo que siente la persona, sino de <strong>ayudarla con el malestar de este momento</strong> y darle una herramienta inmediata para afrontarlo.</p>
 <div class="apply"><span class="cat-label"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg> Especificidad de aplicación</span><p><strong>Cómo hacerlo</strong></p>
 <ol type="1">
-<li><strong>Nombra y valida</strong> lo que ves o lo que te dice. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">validación emocional</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag hab">reflejo de emociones</span> <i>habilidad clínica</i></span></span></li>
-<li>Pregunta qué le preocupa <strong>ahora mismo</strong>, con una pregunta corta y abierta. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">preguntas abiertas y cerradas</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag hab">escucha focalizada</span> <i>habilidad clínica</i></span></span></li>
-<li>Explora <strong>qué le ha ayudado antes</strong> (<span class="tag tec">pregunta de recursos</span>). <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag ter">Terapia Breve Centrada en Soluciones</span> <i>enfoque</i></span> · <span class="bi"><span class="tag psi">resiliencia</span> <i>concepto</i></span></span></li>
-<li>Acuerden algo sencillo para hoy y mira después cómo le fue. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag psi">autoeficacia</span> <i>concepto</i></span> · <span class="bi"><span class="tag tec">asignación gradual de tareas</span> <i>técnica</i></span></span></li>
+<li><strong>Nombra y valida</strong> lo que ves o lo que te dice.</li>
+<li>Pregunta qué le preocupa <strong>ahora mismo</strong>, con una pregunta corta y abierta.</li>
+<li>Explora <strong>qué le ha ayudado antes</strong> (<span class="tag tec">pregunta de recursos</span>).</li>
+<li>Acuerden algo sencillo para hoy y mira después cómo le fue.</li>
 </ol></div>
 <div class="apply"><span class="cat-label"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg> Especificidad de aplicación</span><p><strong>Según lo que aparezca</strong></p>
 <ul>
-<li><strong>Ansiedad:</strong> <span class="tag tec">respiración lenta</span>, información clara de lo que va a pasar y volver al presente. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag ter">terapia cognitivo-conductual breve</span> <i>enfoque</i></span> · <span class="bi"><span class="tag psi">ansiedad</span> <i>concepto</i></span> · <span class="bi"><span class="tag tec">psicoeducación</span> <i>técnica</i></span></span></li>
-<li><strong>Tristeza:</strong> una actividad de poco esfuerzo, como escuchar música o recibir compañía (<span class="tag ter">activación conductual breve</span>). <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag psi">reforzamiento</span> <i>concepto</i></span> · <span class="bi"><span class="tag tec">programación de actividades</span> <i>técnica</i></span></span></li>
-<li><strong>Incertidumbre:</strong> explica lo que sí se sabe, reconoce lo que no, y pasa las dudas médicas o de pronóstico al equipo tratante. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag tec">psicoeducación</span> <i>técnica</i></span> · <span class="bi"><span class="tag hab">encuadre y manejo de límites</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag med">equipo interdisciplinario</span> <i>contexto clínico</i></span></span></li>
+<li><strong>Ansiedad:</strong> <span class="tag tec">respiración lenta</span>, información clara de lo que va a pasar y volver al presente.</li>
+<li><strong>Tristeza:</strong> una actividad de poco esfuerzo, como escuchar música o recibir compañía (<span class="tag ter">activación conductual breve</span>).</li>
+<li><strong>Incertidumbre:</strong> explica lo que sí se sabe, reconoce lo que no, y pasa las dudas médicas o de pronóstico al equipo tratante.</li>
 </ul></div>
 <p class="reco"><strong>Recuerda:</strong> estas emociones no son automáticamente un trastorno. La <span class="tag ter">Terapia Breve Centrada en Soluciones</span> te ayuda a definir qué cambio pequeño quiere la persona, y la <span class="tag ter">terapia cognitivo-conductual breve</span> sirve para trabajar pensamientos negativos cuando puede participar.</p>
 </aside></section>
@@ -1252,11 +1297,11 @@
 <aside class="brief-box"><h4 class="cat-label breve"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg> En la práctica: la intervención breve aquí</h4><p class="keyidea"><strong>La idea clave:</strong> la intervención se adapta a la persona, no al revés. Cambias <strong>cuánto dura, qué tan rápido va y con qué recursos</strong> hablas.</p>
 <div class="apply"><span class="cat-label"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg> Especificidad de aplicación</span><p><strong>Cómo adaptarte</strong></p>
 <ul>
-<li><strong>Duración:</strong> varios contactos cortos mejor que uno largo. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag ter">atención centrada en la persona</span> <i>enfoque</i></span> · <span class="bi"><span class="tag hab">observación clínica</span> <i>habilidad clínica</i></span></span></li>
-<li><strong>Ritmo:</strong> una pregunta a la vez, pausas largas y <strong>tiempo para responder</strong>. No completes sus frases (como en el Caso 7). <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">manejo del silencio</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag hab">preguntas abiertas y cerradas</span> <i>habilidad clínica</i></span></span></li>
-<li><strong>Si no puede hablar:</strong> preguntas de sí o no, gestos, asentimiento o parpadeo, escritura, tableros de imágenes o dispositivos de comunicación, siempre con visto bueno del equipo. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag tec">comunicación aumentativa y alternativa</span> <i>técnica</i></span> · <span class="bi"><span class="tag tec">tableros de comunicación y pictogramas</span> <i>técnica</i></span> · <span class="bi"><span class="tag med">equipo interdisciplinario</span> <i>contexto clínico</i></span></span></li>
-<li><strong>Si hay deterioro cognitivo:</strong> frases simples, un solo tema y confirma que te entendió. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">clarificación</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag med">demencia</span> <i>contexto clínico</i></span> · <span class="bi"><span class="tag med">delirium</span> <i>contexto clínico</i></span></span></li>
-<li><strong>Si hay fatiga:</strong> menos tiempo, menos intensidad, y retomas después. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">observación clínica</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag med">analgésicos opioides</span> <i>contexto clínico</i></span></span></li>
+<li><strong>Duración:</strong> varios contactos cortos mejor que uno largo.</li>
+<li><strong>Ritmo:</strong> una pregunta a la vez, pausas largas y <strong>tiempo para responder</strong>. No completes sus frases (como en el Caso 7).</li>
+<li><strong>Si no puede hablar:</strong> preguntas de sí o no, gestos, asentimiento o parpadeo, escritura, tableros de imágenes o dispositivos de comunicación, siempre con visto bueno del equipo.</li>
+<li><strong>Si hay deterioro cognitivo:</strong> frases simples, un solo tema y confirma que te entendió.</li>
+<li><strong>Si hay fatiga:</strong> menos tiempo, menos intensidad, y retomas después.</li>
 </ul></div>
 <p class="resources"><strong>Cómo se combina con las terapias:</strong> la escala de la <span class="tag ter">Terapia Breve Centrada en Soluciones</span> puede responderse con los dedos o con una escala visual; la <span class="tag ter">activación conductual</span> se limita a actividades de bajo esfuerzo; y si hay agitación, entra la <span class="tag tec">desescalada verbal</span> con la seguridad primero. Evita darle significado a gestos que aún no entiendes.</p>
 </aside></section>
@@ -1267,9 +1312,9 @@
 <aside class="brief-box"><h4 class="cat-label breve"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg> En la práctica: la intervención breve aquí</h4><p class="keyidea"><strong>La idea clave:</strong> con la familia el trabajo es breve y concreto: <strong>informar, escuchar y apoyar</strong>. No se convierte en una psicoterapia.</p>
 <div class="apply"><span class="cat-label"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg> Especificidad de aplicación</span><p><strong>Cómo hacerlo</strong></p>
 <ul>
-<li><strong><span class="tag tec">Psicoeducación</span>:</strong> explica de forma simple cómo comunicarse con el paciente y cómo reconocer señales de cansancio. La información médica es del equipo. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag ter">terapia cognitivo-conductual breve</span> <i>enfoque</i></span> · <span class="bi"><span class="tag psi">sobrecarga del cuidador</span> <i>concepto</i></span></span></li>
-<li><strong><span class="tag hab">Escucha focalizada</span>:</strong> una preocupación principal por encuentro. Valida lo que viven, como la incertidumbre de la madre en el Caso 6, sin descartar lo que percibe ni crear falsas expectativas. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">validación emocional</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag psi">pérdida ambigua</span> <i>concepto</i></span> · <span class="bi"><span class="tag psi">duelo anticipado</span> <i>concepto</i></span></span></li>
-<li><strong>Red de apoyo:</strong> ayuda a identificar quién más puede acompañar, organizar turnos y cuidarse un poco. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag psi">apoyo social</span> <i>concepto</i></span> · <span class="bi"><span class="tag med">trabajo social y red de apoyo</span> <i>contexto clínico</i></span></span></li>
+<li><strong><span class="tag tec">Psicoeducación</span>:</strong> explica de forma simple cómo comunicarse con el paciente y cómo reconocer señales de cansancio. La información médica es del equipo.</li>
+<li><strong><span class="tag hab">Escucha focalizada</span>:</strong> una preocupación principal por encuentro. Valida lo que viven, como la incertidumbre de la madre en el Caso 6, sin descartar lo que percibe ni crear falsas expectativas.</li>
+<li><strong>Red de apoyo:</strong> ayuda a identificar quién más puede acompañar, organizar turnos y cuidarse un poco.</li>
 </ul></div>
 <p class="resources"><strong>Recursos que sirven:</strong> <span class="tag hab">validación emocional</span>, <span class="tag tec">psicoeducación</span> y <span class="tag tec">preguntas de recursos</span> (<em>“¿Qué te ha ayudado hasta ahora?”</em>).</p>
 <p class="reco"><strong>Cuándo pasar la voz al equipo:</strong> duelo muy intenso, conflictos familiares que se alargan o agotamiento marcado. Lo avisas al supervisor, cuidando la confidencialidad y sin reemplazar la voz del paciente.</p>
@@ -1291,10 +1336,10 @@
 <aside class="brief-box"><h4 class="cat-label breve"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg> En la práctica: la intervención breve aquí</h4><p class="keyidea"><strong>La idea clave:</strong> como estudiante haces <strong>acompañamiento, escucha y comunicación con el equipo</strong>, siempre con supervisión. No haces psicoterapia por tu cuenta.</p>
 <div class="apply"><span class="cat-label"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg> Especificidad de aplicación</span><p><strong>Tu ruta en cada encuentro</strong></p>
 <ol type="1">
-<li><strong>Antes:</strong> habla con tu supervisor sobre la situación, el objetivo y la estrategia posible. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">encuadre y manejo de límites</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag med">equipo interdisciplinario</span> <i>contexto clínico</i></span></span></li>
-<li><strong>Durante:</strong> encuentro corto, un solo foco, escucha y observación. Sin diagnósticos, interpretaciones ni promesas. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">escucha focalizada</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag hab">observación clínica</span> <i>habilidad clínica</i></span></span></li>
-<li><strong>Si hay riesgo:</strong> detén el acercamiento y pide apoyo al equipo, como en la agresión del Caso 1. Si aparece ideación suicida (Caso 4), avisa de inmediato al equipo responsable. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag ter">intervención en crisis</span> <i>enfoque</i></span> · <span class="bi"><span class="tag tec">desescalada verbal</span> <i>técnica</i></span> · <span class="bi"><span class="tag med">ruta ante riesgo suicida</span> <i>contexto clínico</i></span></span></li>
-<li><strong>Después:</strong> registra lo ocurrido, analízalo con tu supervisor y definan el seguimiento. <span class="basis"><b>Respaldo:</b> <span class="bi"><span class="tag hab">autorregulación y autocuidado del terapeuta</span> <i>habilidad clínica</i></span> · <span class="bi"><span class="tag med">equipo interdisciplinario</span> <i>contexto clínico</i></span></span></li>
+<li><strong>Antes:</strong> habla con tu supervisor sobre la situación, el objetivo y la estrategia posible.</li>
+<li><strong>Durante:</strong> encuentro corto, un solo foco, escucha y observación. Sin diagnósticos, interpretaciones ni promesas.</li>
+<li><strong>Si hay riesgo:</strong> detén el acercamiento y pide apoyo al equipo, como en la agresión del Caso 1. Si aparece ideación suicida (Caso 4), avisa de inmediato al equipo responsable.</li>
+<li><strong>Después:</strong> registra lo ocurrido, analízalo con tu supervisor y definan el seguimiento.</li>
 </ol></div>
 <p class="resources"><strong>Recursos que sirven:</strong> <span class="tag hab">escucha activa</span>, <span class="tag hab">validación emocional</span>, preguntas sencillas de soluciones y actividades de bajo esfuerzo, elegidas con tu supervisor según la necesidad principal.</p>
 <p class="reco"><strong>Límites claros:</strong> no asumes funciones que excedan tu formación ni modificas tratamientos.</p>
@@ -1475,10 +1520,11 @@
   <div class="relmap" role="dialog" aria-modal="true" aria-labelledby="rm-title">
     <header class="rm-top">
       <div><p class="rm-k">Mapa de relaciones</p><h3 id="rm-title">Biblioteca Relacional</h3>
-      <p class="rm-sub">Del núcleo parten los enfoques y terapias; de cada enfoque, sus técnicas y herramientas. Pasa el cursor por un enfoque para resaltar su rama y selecciona cualquier nodo para abrir su ficha.</p></div>
+      <p class="rm-sub">Del núcleo parten los enfoques y terapias; de cada enfoque, sus técnicas y herramientas. Pasa el cursor por un enfoque para resaltar su rama, selecciona cualquier nodo para abrir su ficha y arrastra el fondo o usa el zoom para recorrerlo.</p></div>
       <button type="button" class="rm-close" aria-label="Cerrar el mapa">×</button>
     </header>
-    <div class="rm-stage"><div class="rm-canvas"><svg class="rm-lines" aria-hidden="true"></svg><div class="rm-nodes"></div></div></div>
+    <div class="rm-stage"><div class="rm-canvas"><div class="rm-world"><svg class="rm-lines" aria-hidden="true"></svg><div class="rm-nodes"></div></div></div></div>
+    <div class="rm-zoom" role="group" aria-label="Zoom del mapa"><button type="button" data-zoom="out" aria-label="Alejar">−</button><output>100%</output><button type="button" data-zoom="in" aria-label="Acercar">+</button><button type="button" data-zoom="fit">Ajustar</button></div>
     <footer class="rm-foot"></footer>
   </div>
 </div>
@@ -1840,12 +1886,6 @@
     disartria: { type: 'med', grp: 'cond', name: 'Disartria',
       brief: 'Dificultad para articular las palabras por debilidad o falta de coordinación de los músculos del habla. El lenguaje está conservado, pero se entiende con dificultad.',
       rel: ['afasia', 'caa', 'silencio'], wiki: W('Disartria') },
-    delirium: { type: 'med', grp: 'cond', name: 'Delirium',
-      brief: 'Cuadro agudo y fluctuante de confusión y alteración de la atención, frecuente en pacientes hospitalizados. Requiere valoración médica.',
-      rel: ['agitacion', 'demencia', 'antipsic', 'observacion'], wiki: W('Delírium') },
-    demencia: { type: 'med', grp: 'cond', name: 'Demencia',
-      brief: 'Deterioro progresivo de la memoria y otras funciones cognitivas que afecta la autonomía y puede acompañarse de cambios de conducta.',
-      rel: ['agitacion', 'delirium', 'nonverbal', 'cuidador'], wiki: W('Demencia') },
     agitacion: { type: 'med', grp: 'cond', name: 'Agitación psicomotora',
       brief: 'Aumento de la actividad motora con tensión e irritabilidad que puede escalar hacia la agresividad. La prioridad es la seguridad.',
       rel: ['desescalada', 'delirium', 'crisis', 'antipsic'], wiki: S('Agitación psicomotora') },
@@ -1875,7 +1915,116 @@
       rel: ['biopsico', 'trabsocial', 'interconsulta', 'caa'], wiki: S('Equipo interdisciplinario salud') },
     paliativos: { type: 'med', grp: 'ruta', name: 'Cuidados paliativos',
       brief: 'Atención integral que busca aliviar el sufrimiento y mejorar la calidad de vida de personas con enfermedades avanzadas y de sus familias. Su equipo es una vía de derivación ante dolor difícil, sufrimiento al final de la vida o decisiones de adecuación terapéutica.',
-      rel: ['duelo', 'cuidador', 'opioides', 'acp'], wiki: W('Cuidados_paliativos') }
+      rel: ['duelo', 'cuidador', 'opioides', 'acp'], wiki: W('Cuidados_paliativos') },
+    /* ===================== TRASTORNOS (guía DSM-IV-TR / DSM-5; grp: casos = presentes en los casos clínicos · col = frecuentes en Colombia) ===================== */
+    demencia: { type: 'tra', grp: 'casos', casos: 'Caso 1', name: 'Trastorno neurocognitivo mayor (demencia)',
+      rel: ['delirium', 'tnc_leve', 'depresion', 'agitacion', 'cuidador', 'desescalada'], wiki: W('Demencia'),
+      dsm: {
+        iv: { name: 'Demencia (tipo Alzheimer, vascular o debida a otras enfermedades)', code: '294.1x Alzheimer · 290.4x vascular',
+          brief: 'Desarrollo de múltiples déficits cognitivos, con deterioro obligatorio de la memoria, que provocan un deterioro significativo de la actividad social o laboral respecto al nivel previo.',
+          sx: ['Deterioro de la memoria (aprender información nueva o recordar la aprendida): requisito obligatorio.', 'Al menos una de: afasia, apraxia, agnosia o alteración de la función ejecutiva.', 'Deterioro significativo social o laboral que representa una merma respecto al nivel previo.', 'Inicio gradual y declive continuo (tipo Alzheimer) o signos y síntomas neurológicos focales (tipo vascular).', 'Especificador: con o sin alteración del comportamiento (p. ej., agresividad, deambulación).'],
+          dd: ['Delirium: los déficits no aparecen exclusivamente durante un delirium.', 'Trastorno depresivo mayor («pseudodemencia» depresiva).', 'Retraso mental (inicio en el desarrollo).', 'Deterioro cognitivo relacionado con la edad, dentro de lo normal.', 'Efectos de sustancias o medicamentos.'] },
+        v: { name: 'Trastorno neurocognitivo mayor', code: 'F02.8x / F01.5x (según etiología)',
+          brief: 'Declive cognitivo significativo respecto a un nivel previo en uno o más dominios, que interfiere con la autonomía en las actividades cotidianas. Sustituye el término «demencia», que puede seguir usándose.',
+          sx: ['Declive en uno o más dominios: atención compleja, función ejecutiva, aprendizaje y memoria, lenguaje, habilidad perceptual-motora o cognición social. La memoria ya no es obligatoria.', 'Basado en la preocupación del paciente, un informante o el clínico, y en un deterioro sustancial documentado con evaluación neuropsicológica estandarizada.', 'Interfiere con la independencia en actividades instrumentales (pagar cuentas, manejar la medicación).', 'Se especifica el subtipo etiológico (Alzheimer, vascular, cuerpos de Lewy, frontotemporal, traumatismo, etc.), la gravedad (leve, moderado, grave) y si hay alteración del comportamiento (agitación, psicosis, apatía).'],
+          dd: ['Delirium: inicio agudo, curso fluctuante y alteración central de la atención; pueden coexistir.', 'Trastorno neurocognitivo leve: el declive no impide la independencia.', 'Trastorno depresivo mayor: apatía y quejas de memoria que mejoran con el tratamiento del ánimo.', 'Discapacidad intelectual.', 'Efectos de medicamentos (anticolinérgicos, benzodiacepinas, opioides).'],
+          cambio: 'Pasa de «demencia» a «trastorno neurocognitivo mayor», el deterioro de memoria deja de ser obligatorio y se crea la categoría «leve».' } } },
+    tnc_leve: { type: 'tra', grp: 'casos', casos: 'Caso 3 (déficit cognitivo)', name: 'Trastorno neurocognitivo leve (deterioro cognitivo)',
+      rel: ['demencia', 'delirium', 'esquizofrenia', 'observacion', 'clarificacion'], wiki: S('Deterioro cognitivo leve'),
+      dsm: {
+        iv: { name: 'Trastorno cognoscitivo no especificado', code: '294.9',
+          brief: 'El DSM-IV-TR no tenía una categoría específica para el deterioro cognitivo que no alcanza la demencia: se codificaba como trastorno cognoscitivo no especificado. El «trastorno neurocognoscitivo leve» figuraba solo en el apéndice de criterios para estudios posteriores.',
+          sx: ['Disfunción cognoscitiva atribuible a una enfermedad médica o sustancia que no cumple criterios de demencia, delirium ni trastorno amnésico.', 'Propuesta del apéndice: deterioro en al menos dos áreas (memoria, ejecutivas, atención, lenguaje, perceptivo-motoras) durante al menos dos semanas, con malestar o deterioro.'],
+          dd: ['Demencia.', 'Delirium.', 'Deterioro cognitivo relacionado con la edad.', 'Trastornos del estado de ánimo o de ansiedad con quejas cognitivas.'] },
+        v: { name: 'Trastorno neurocognitivo leve', code: 'G31.84 (o según etiología)',
+          brief: 'Declive cognitivo moderado respecto a un nivel previo en uno o más dominios, que no interfiere con la independencia, aunque las actividades pueden exigir más esfuerzo o estrategias compensatorias.',
+          sx: ['Preocupación del paciente, un informante o el clínico por un declive cognitivo leve.', 'Deterioro modesto en la evaluación objetiva (orientativamente entre 1 y 2 desviaciones estándar por debajo de lo esperado).', 'Conserva la independencia en las actividades cotidianas.', 'No ocurre exclusivamente durante un delirium y no se explica mejor por otro trastorno mental.'],
+          dd: ['Trastorno neurocognitivo mayor.', 'Envejecimiento normal.', 'Déficit cognitivo propio de la esquizofrenia u otro trastorno mental (no se diagnostica si lo explica mejor).', 'Depresión, efectos de medicamentos o delirium.', 'Discapacidad intelectual.'],
+          cambio: 'Se crea como categoría diagnóstica propia, con un umbral claro frente al trastorno mayor: la conservación de la independencia.' } } },
+    delirium: { type: 'tra', grp: 'casos', casos: 'Caso 1 (diagnóstico diferencial)', name: 'Delirium',
+      rel: ['demencia', 'agitacion', 'antipsic', 'observacion', 'interconsulta'], wiki: W('Delírium'),
+      dsm: {
+        iv: { name: 'Delirium (debido a enfermedad médica, inducido por sustancias o de múltiples etiologías)', code: '293.0',
+          brief: 'Alteración de la conciencia y de las funciones cognitivas que se desarrolla en poco tiempo y fluctúa, con evidencia de una causa médica o tóxica.',
+          sx: ['Alteración de la conciencia con menor capacidad para centrar, mantener o dirigir la atención.', 'Cambio en las funciones cognitivas (memoria, orientación, lenguaje) o alteración perceptiva no explicada por una demencia.', 'Se presenta en horas o días y tiende a fluctuar a lo largo del día.', 'Demostración de una etiología: enfermedad médica, intoxicación o abstinencia de sustancias, o varias causas.'],
+          dd: ['Demencia: inicio insidioso, sin alteración marcada de la conciencia.', 'Trastorno psicótico breve o esquizofrenia.', 'Trastorno del estado de ánimo con síntomas psicóticos.', 'Simulación o trastorno facticio.'] },
+        v: { name: 'Delirium', code: 'F05 (según causa)',
+          brief: 'Alteración aguda y fluctuante de la atención y de la conciencia del entorno, con otra alteración cognitiva, causada por una afección médica, una sustancia o un medicamento.',
+          sx: ['Alteración de la atención y de la orientación al entorno.', 'Aparece en poco tiempo (horas o días), representa un cambio respecto al estado basal y fluctúa durante el día.', 'Alteración cognitiva adicional (memoria, orientación, lenguaje, percepción).', 'Especificadores: agudo o persistente; hiperactivo, hipoactivo o mixto.', 'No se explica mejor por un trastorno neurocognitivo previo ni ocurre en un coma.'],
+          dd: ['Trastorno neurocognitivo mayor: atención relativamente conservada al inicio; ambos pueden coexistir.', 'Depresión: el delirium hipoactivo suele confundirse con tristeza o apatía.', 'Trastornos psicóticos primarios.', 'Trastorno de estrés agudo.'],
+          cambio: '«Alteración de la conciencia» se reformula como alteración de la atención y de la orientación al entorno, y se añaden los especificadores de nivel de actividad.' } } },
+    esquizofrenia: { type: 'tra', grp: 'casos', casos: 'Casos 2 y 3', name: 'Esquizofrenia',
+      rel: ['antipsic', 'suicida', 'ruta', 'tnc_leve', 'interconsulta', 'apoyosocial'], wiki: W('Esquizofrenia'),
+      dsm: {
+        iv: { name: 'Esquizofrenia (subtipos paranoide, desorganizado, catatónico, indiferenciado y residual)', code: '295.30 paranoide · 295.xx',
+          brief: 'Trastorno psicótico de al menos seis meses de duración con síntomas positivos y negativos y deterioro social o laboral. Se clasificaba en subtipos según el síntoma predominante.',
+          sx: ['Dos o más durante un mes: ideas delirantes, alucinaciones, lenguaje desorganizado, comportamiento catatónico o gravemente desorganizado, síntomas negativos.', 'Basta un síntoma si las ideas delirantes son extrañas o las alucinaciones son voces que comentan o conversan entre sí.', 'Disfunción social o laboral marcada.', 'Duración continua de al menos seis meses, incluido al menos un mes de síntomas activos.', 'Subtipo paranoide: predominio de ideas delirantes o alucinaciones auditivas, con lenguaje y afecto relativamente conservados.'],
+          dd: ['Trastorno esquizoafectivo y trastornos del estado de ánimo con síntomas psicóticos.', 'Trastorno esquizofreniforme (de uno a seis meses) y trastorno psicótico breve (menos de un mes).', 'Trastorno delirante.', 'Trastorno psicótico debido a enfermedad médica (p. ej., epilepsia) o inducido por sustancias.', 'Delirium y demencia.'] },
+        v: { name: 'Esquizofrenia', code: 'F20.9',
+          brief: 'Trastorno del espectro de la esquizofrenia con síntomas psicóticos durante al menos un mes, signos continuos durante seis meses y deterioro del funcionamiento. Desaparecen los subtipos.',
+          sx: ['Dos o más de cinco síntomas durante un mes, y al menos uno debe ser ideas delirantes, alucinaciones o discurso desorganizado.', 'Los otros posibles: comportamiento muy desorganizado o catatónico, síntomas negativos (expresión emotiva disminuida, abulia).', 'Deterioro del funcionamiento laboral, interpersonal o de autocuidado.', 'Signos continuos durante al menos seis meses.', 'Especificadores de curso, de catatonia y de gravedad dimensional de los síntomas.'],
+          dd: ['Trastorno esquizoafectivo; trastorno depresivo o bipolar con características psicóticas.', 'Trastorno esquizofreniforme, psicótico breve o delirante.', 'Trastorno psicótico debido a otra afección médica (epilepsia, lesiones cerebrales) o inducido por sustancias o medicamentos.', 'Delirium, trastorno neurocognitivo mayor, TOC o trastorno dismórfico corporal con poca introspección.'],
+          cambio: 'Se eliminan los subtipos (incluido el paranoide) y el trato especial de las ideas delirantes extrañas; al menos un síntoma debe ser positivo nuclear.' } } },
+    adaptativo: { type: 'tra', grp: 'casos', casos: 'Caso 4 (y familias del Caso 5)', name: 'Trastorno de adaptación',
+      rel: ['duelo', 'depresion', 'afrontamiento', 'paliativos', 'validacion'], wiki: S('Trastorno de adaptación'),
+      dsm: {
+        iv: { name: 'Trastorno adaptativo', code: '309.x',
+          brief: 'Síntomas emocionales o comportamentales en respuesta a un estresante identificable, con un malestar mayor de lo esperable o un deterioro significativo. Era una categoría propia.',
+          sx: ['Aparición dentro de los tres meses siguientes al estresante (p. ej., un diagnóstico grave o la pérdida de autonomía).', 'Malestar mayor del esperable o deterioro social o laboral significativo.', 'No cumple criterios de otro trastorno del eje I ni es la exacerbación de uno previo.', 'No corresponde a una reacción de duelo.', 'Subtipos: con ánimo depresivo, con ansiedad, mixto, con trastorno del comportamiento; agudo (menos de seis meses) o crónico.'],
+          dd: ['Trastorno depresivo mayor o trastornos de ansiedad.', 'Trastorno por estrés postraumático o agudo.', 'Duelo no complicado.', 'Reacciones no patológicas al estrés (sin deterioro clínicamente significativo).'] },
+        v: { name: 'Trastorno de adaptación', code: 'F43.2x',
+          brief: 'Respuesta emocional o conductual desproporcionada a un estresante identificable. Se reubica en los trastornos relacionados con traumas y factores de estrés.',
+          sx: ['Síntomas dentro de los tres meses posteriores al estresante.', 'Malestar desproporcionado, teniendo en cuenta el contexto y los factores culturales, o deterioro significativo.', 'No cumple criterios de otro trastorno mental ni es duelo normal.', 'Los síntomas no persisten más de seis meses tras terminar el estresante o sus consecuencias.', 'Mismos subtipos que en el DSM-IV-TR.'],
+          dd: ['Trastorno depresivo mayor (si cumple criterios, prevalece).', 'TEPT y trastorno de estrés agudo.', 'Duelo normal y, en el DSM-5-TR, trastorno de duelo prolongado.', 'Factores psicológicos que influyen en otras afecciones médicas.', 'En la enfermedad crónica: tristeza o preocupación esperables que no constituyen trastorno.'],
+          cambio: 'Pasa a la familia de trastornos relacionados con traumas y factores de estrés; los criterios esenciales se mantienen.' } } },
+    tdm: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia (ENSM 2015)', name: 'Trastorno depresivo mayor',
+      rel: ['depresion', 'suicida', 'ruta', 'ac', 'isrs', 'adaptativo'], wiki: S('Trastorno depresivo mayor'),
+      dsm: {
+        iv: { name: 'Trastorno depresivo mayor (episodio único o recidivante)', code: '296.2x / 296.3x',
+          brief: 'Uno o más episodios depresivos mayores sin antecedentes de episodios maníacos, mixtos ni hipomaníacos.',
+          sx: ['Cinco o más síntomas durante dos semanas, al menos uno de ellos ánimo depresivo o pérdida de interés o placer.', 'Otros: cambios de peso o apetito, insomnio o hipersomnia, agitación o enlentecimiento, fatiga, inutilidad o culpa, dificultad para concentrarse, ideas de muerte o suicidio.', 'Malestar o deterioro clínicamente significativo.', 'Exclusión por duelo: no se diagnostica si los síntomas se explican mejor por la pérdida de un ser querido (menos de dos meses).'],
+          dd: ['Trastorno del estado de ánimo debido a enfermedad médica o inducido por sustancias (corticoides, interferón, alcohol).', 'Trastorno bipolar (episodios maníacos o hipomaníacos previos).', 'Trastorno distímico.', 'Trastorno adaptativo con ánimo depresivo; duelo.', 'Demencia y delirium hipoactivo.'] },
+        v: { name: 'Trastorno depresivo mayor', code: 'F32.x (único) · F33.x (recurrente)',
+          brief: 'Mismos nueve síntomas y el mismo umbral; se elimina la exclusión por duelo y se añaden especificadores clínicos.',
+          sx: ['Cinco o más síntomas durante dos semanas, al menos uno ánimo depresivo o anhedonia.', 'En la enfermedad crónica, los síntomas físicos (fatiga, apetito, sueño) se solapan con la enfermedad: pesan más la anhedonia, la culpa, la desesperanza y la ideación suicida.', 'Malestar o deterioro significativo, no atribuible a sustancias ni a otra afección médica.', 'Especificadores: con ansiedad, con características mixtas, melancólicas, psicóticas, con inicio en el periparto, entre otros.'],
+          dd: ['Trastorno depresivo debido a otra afección médica o inducido por sustancias o medicamentos.', 'Trastorno bipolar.', 'Trastorno depresivo persistente (distimia).', 'Trastorno de adaptación con estado de ánimo deprimido y duelo (juicio clínico).', 'Delirium hipoactivo y trastorno neurocognitivo con apatía.'],
+          cambio: 'Se elimina la exclusión por duelo (decide el juicio clínico) y se añade el especificador «con ansiedad».' } } },
+    tag: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia (ENSM 2015)', name: 'Trastorno de ansiedad generalizada',
+      rel: ['ansiedad', 'tcc', 'respiracion', 'benzo', 'isrs'], wiki: S('Trastorno de ansiedad generalizada'),
+      dsm: {
+        iv: { name: 'Trastorno de ansiedad generalizada', code: '300.02',
+          brief: 'Ansiedad y preocupación excesivas y difíciles de controlar sobre diversos temas, la mayoría de los días durante al menos seis meses.',
+          sx: ['Preocupación excesiva sobre varios acontecimientos o actividades, la mayoría de los días, durante seis meses o más.', 'Dificultad para controlar la preocupación.', 'Tres o más de: inquietud, fatigabilidad, dificultad para concentrarse, irritabilidad, tensión muscular, alteraciones del sueño.', 'No se limita a los aspectos de otro trastorno del eje I ni aparece exclusivamente durante un trastorno del estado de ánimo o psicótico.'],
+          dd: ['Trastorno de ansiedad debido a enfermedad médica (hipertiroidismo, hipoxia, dolor).', 'Trastorno de ansiedad inducido por sustancias (cafeína, broncodilatadores, abstinencia).', 'TOC, fobia social, trastorno de angustia, TEPT.', 'Trastorno depresivo mayor y trastorno adaptativo con ansiedad.'] },
+        v: { name: 'Trastorno de ansiedad generalizada', code: 'F41.1',
+          brief: 'Los criterios se mantienen prácticamente sin cambios respecto al DSM-IV-TR.',
+          sx: ['Ansiedad y preocupación excesivas, la mayoría de los días durante al menos seis meses, sobre diversos temas.', 'Difícil de controlar.', 'Tres o más de seis síntomas (inquietud, fatiga, concentración, irritabilidad, tensión muscular, sueño).', 'Malestar o deterioro significativo, no atribuible a sustancias ni a otra afección médica, y no explicado mejor por otro trastorno mental.'],
+          dd: ['Trastorno de ansiedad debido a otra afección médica o inducido por sustancias o medicamentos.', 'Preocupación realista y proporcionada ante una enfermedad grave (no es trastorno).', 'TOC, TEPT, trastorno de adaptación, trastorno de ansiedad por enfermedad.', 'Trastorno depresivo mayor.'],
+          cambio: 'Sin cambios sustanciales; se reorganizan las exclusiones con ejemplos de otros trastornos.' } } },
+    tept: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia (conflicto armado y violencias)', name: 'Trastorno de estrés postraumático',
+      rel: ['crisis', 'pap', 'regulacion', 'apoyosocial', 'adaptativo'], wiki: W('Trastorno_por_estrés_postraumático'),
+      dsm: {
+        iv: { name: 'Trastorno por estrés postraumático', code: '309.81',
+          brief: 'Clasificado entre los trastornos de ansiedad. Tras un acontecimiento traumático aparecen reexperimentación, evitación y aumento de la activación durante más de un mes.',
+          sx: ['A1: exposición a un acontecimiento con muerte o amenaza para la integridad física; A2: respuesta de temor, desesperanza u horror intensos.', 'Reexperimentación (uno o más): recuerdos intrusivos, pesadillas, flashbacks, malestar ante estímulos asociados.', 'Evitación y embotamiento (tres o más).', 'Aumento de la activación (dos o más): insomnio, irritabilidad, hipervigilancia, sobresaltos, problemas de concentración.', 'Duración superior a un mes; agudo (menos de tres meses), crónico o de inicio demorado.'],
+          dd: ['Trastorno por estrés agudo (menos de un mes).', 'Trastorno adaptativo (estresante no traumático).', 'Trastorno depresivo mayor y otros trastornos de ansiedad.', 'TOC, trastornos disociativos y psicóticos.', 'Lesión cerebral traumática.'] },
+        v: { name: 'Trastorno de estrés postraumático', code: 'F43.10',
+          brief: 'Pasa a los trastornos relacionados con traumas y factores de estrés, con cuatro grupos de síntomas.',
+          sx: ['A: exposición directa, como testigo, al enterarse de lo ocurrido a un ser cercano o por exposición repetida a detalles aversivos (p. ej., profesionales). Se elimina A2.', 'Intrusión (uno o más) y evitación (uno o más).', 'Alteraciones negativas de la cognición y el estado de ánimo (dos o más): culpa, creencias negativas, desapego, incapacidad de sentir emociones positivas.', 'Alteración de la activación y la reactividad (dos o más), incluida la conducta imprudente o autodestructiva.', 'Duración superior a un mes; especificadores con síntomas disociativos y con expresión retardada.'],
+          dd: ['Trastorno de estrés agudo (de tres días a un mes).', 'Trastorno de adaptación.', 'Trastorno depresivo mayor, de ansiedad o TOC.', 'Trastornos disociativos y psicóticos.', 'Lesión cerebral traumática; en el hospital, malestar tras la estancia en UCI.'],
+          cambio: 'Sale de los trastornos de ansiedad, desaparece el criterio A2 y la evitación pasa a ser un grupo propio, con un nuevo grupo de cognición y ánimo.' } } },
+    alcohol: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia (ENSM 2015 y estudios de consumo)', name: 'Trastorno por consumo de alcohol',
+      rel: ['emotiv', 'balance', 'delirium', 'benzo', 'interconsulta'], wiki: S('Trastorno por consumo de alcohol'),
+      dsm: {
+        iv: { name: 'Abuso de alcohol / Dependencia del alcohol', code: '305.00 abuso · 303.90 dependencia',
+          brief: 'Dos diagnósticos jerárquicos: el abuso (consecuencias negativas recurrentes) y la dependencia (patrón de pérdida de control, con o sin dependencia fisiológica).',
+          sx: ['Abuso: uno o más en doce meses: incumplir obligaciones, consumo en situaciones peligrosas, problemas legales, consumo pese a problemas sociales.', 'Dependencia: tres o más en doce meses: tolerancia, abstinencia, consumo mayor del previsto, deseo persistente o fracaso al controlarlo, mucho tiempo dedicado, abandono de actividades, consumo pese a problemas físicos o psicológicos.', 'Si alguna vez cumplió criterios de dependencia, no se diagnostica abuso.'],
+          dd: ['Consumo no patológico.', 'Intoxicación o abstinencia aisladas sin patrón de abuso o dependencia.', 'Trastornos inducidos por alcohol (ánimo, ansiedad, sueño).', 'Consumo de otras sustancias.'] },
+        v: { name: 'Trastorno por consumo de alcohol', code: 'F10.10 leve · F10.20 moderado o grave',
+          brief: 'Un único trastorno dimensional que unifica abuso y dependencia, con gravedad según el número de criterios.',
+          sx: ['Dos o más de once criterios en doce meses (control, deterioro social, consumo de riesgo, criterios farmacológicos).', 'Se añade el deseo intenso de consumir (craving) y se elimina «problemas legales».', 'Gravedad: leve (2–3 criterios), moderado (4–5), grave (6 o más).', 'En el hospital: la abstinencia (temblor, sudoración, ansiedad, alucinaciones, convulsiones, delirium tremens a las 48–96 horas) es una urgencia médica que se informa de inmediato.'],
+          dd: ['Consumo no patológico.', 'Intoxicación o abstinencia sin trastorno por consumo.', 'Trastornos depresivos o de ansiedad inducidos por alcohol frente a primarios (valorar tras la abstinencia).', 'Trastornos por consumo de otras sustancias.', 'Encefalopatía de Wernicke y delirium.'],
+          cambio: 'Abuso y dependencia se unen en un solo trastorno con niveles de gravedad; entra el craving y sale el criterio legal.' } } }
   };
   /* Nombres y descripciones de cada pilar de la Biblioteca Relacional */
   const CAT = {
@@ -1883,17 +2032,18 @@
     tec: { name: 'Técnicas y Herramientas', desc: 'Procedimientos prácticos de intervención, agrupados según el enfoque o terapia del que proceden.' },
     hab: { name: 'Habilidades Clínicas', desc: 'Competencias transversales del terapeuta. No pertenecen a un enfoque concreto: sostienen la aplicación de todos.' },
     psi: { name: 'Conceptos Psicológicos', desc: 'Constructos teóricos y tecnolecto de la disciplina que explican por qué funciona lo que haces.' },
-    med: { name: 'Contexto Clínico General', desc: 'Referencia operativa para la práctica institucional: dispositivos, condiciones, psicofármacos frecuentes y vías de derivación.' }
+    med: { name: 'Contexto Clínico General', desc: 'Referencia operativa para la práctica institucional: dispositivos, condiciones, psicofármacos frecuentes y vías de derivación.' },
+    tra: { name: 'Trastornos (DSM)', desc: 'Guía comparada DSM-IV-TR / DSM-5 de los trastornos que aparecen en los casos clínicos y de los más frecuentes en Colombia. Es material de estudio: no sustituye el texto oficial ni la evaluación profesional.' }
   };
-  const GRP = { dev: 'Dispositivos y procedimientos', cond: 'Condiciones que afectan la interacción', farm: 'Psicofármacos y medicación frecuente', ruta: 'Vías de derivación y trabajo en equipo' };
+  const GRP = { dev: 'Dispositivos y procedimientos', cond: 'Condiciones que afectan la interacción', farm: 'Psicofármacos y medicación frecuente', ruta: 'Vías de derivación y trabajo en equipo', casos: 'Presentes en los casos clínicos', col: 'Frecuentes en Colombia' };
   const ALIAS = {
     'activación conductual breve': 'ac', 'comunicación aumentativa': 'caa', 'pregunta de recursos': 'recursos',
     'respiración lenta': 'respiracion', 'respiración diafragmática': 'respiracion', 'atención plena': 'mindfulness',
     'terapia de aceptación y compromiso': 'act', 'primeros auxilios psicológicos (pap)': 'pap', 'escala': 'escala'
   };
   Object.keys(C).forEach(k => { ALIAS[C[k].name.toLowerCase()] = k; });
-  const TYPE = { ter: 'Enfoque / Terapia', tec: 'Técnica / Herramienta', hab: 'Habilidad clínica', psi: 'Concepto psicológico', med: 'Contexto clínico general' };
-  const ICO = { ter: 'heart', tec: 'tool', hab: 'chat', psi: 'spark', med: 'pulse' };
+  const TYPE = { ter: 'Enfoque / Terapia', tec: 'Técnica / Herramienta', hab: 'Habilidad clínica', psi: 'Concepto psicológico', med: 'Contexto clínico general', tra: 'Trastorno · guía DSM' };
+  const ICO = { ter: 'heart', tec: 'tool', hab: 'chat', psi: 'spark', med: 'pulse', tra: 'clip' };
   const svg = n => '<svg class="ic" aria-hidden="true"><use href="#i-' + n + '"/></svg>';
   const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 
@@ -1913,8 +2063,32 @@
 
   const keysOf = t => Object.keys(C).filter(k => C[k].type === t);
   const chip = k => '<button type="button" class="cx-rel ' + C[k].type + '" data-concept="' + k + '">' + svg(ICO[C[k].type]) + esc(C[k].name) + '</button>';
+  /* Ficha de trastorno: alterna DSM-IV-TR / DSM-5 */
+  let dsmV = 'v';
+  function renderTra(c, tl, links, sub, rels) {
+    const d = c.dsm[dsmV], other = dsmV === 'v' ? 'iv' : 'v', lab = { iv: 'DSM-IV-TR', v: 'DSM-5' };
+    $('.cx-kicker', card).innerHTML = svg(ICO.tra) + TYPE.tra + ' · ' + esc(c.casos);
+    $('span', tl).textContent = c.name; tl.href = c.wiki; tl.title = 'Abrir «' + c.name + '» en Wikipedia (pestaña nueva)'; tl.classList.remove('no-link');
+    $('.cx-brief', card).textContent = '';
+    const li = a => '<ul class="dsm-list">' + a.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>';
+    links.innerHTML =
+      '<div class="dsm-toggle" role="group" aria-label="Versión del manual">' + ['iv', 'v'].map(k =>
+        '<button type="button" data-dsm="' + k + '" aria-pressed="' + (k === dsmV) + '">' + lab[k] + '</button>').join('') +
+      '<button type="button" class="dsm-swap" data-dsm="' + other + '">Ver en ' + lab[other] + ' ⇄</button></div>' +
+      '<div class="dsm-panel">' +
+        '<p class="dsm-name">' + esc(d.name) + '<span class="dsm-code">' + lab[dsmV] + ' · ' + esc(d.code) + '</span></p>' +
+        '<p class="dsm-brief">' + esc(d.brief) + '</p>' +
+        '<p class="cx-sub">Síntomas y criterios clave</p>' + li(d.sx) +
+        '<p class="cx-sub">Diagnóstico diferencial</p>' + li(d.dd) +
+        (d.cambio ? '<p class="dsm-change"><b>Qué cambió respecto al DSM-IV-TR:</b> ' + esc(d.cambio) + '</p>' : '') +
+      '</div>' +
+      '<p class="dsm-aviso">' + svg('shield') + '<span><b>Solo es una guía de estudio.</b> Resume criterios para orientarte, pero no es una herramienta diagnóstica. Antes de cualquier decisión clínica revisa el texto oficial del DSM (APA) y la CIE vigente en el sistema de salud colombiano, y consúltalo con tu supervisor. El diagnóstico lo establece un profesional habilitado tras una evaluación completa.</span></p>';
+    sub.textContent = 'Red de conceptos relacionados (' + c.rel.length + ')';
+    rels.className = 'cx-rels';
+    rels.innerHTML = c.rel.map(chip).join('');
+  }
   function render(view) {
-    card.classList.remove('is-ter', 'is-tec', 'is-cat', 'is-hab', 'is-psi', 'is-med', 'is-catalog');
+    card.classList.remove('is-ter', 'is-tec', 'is-cat', 'is-hab', 'is-psi', 'is-med', 'is-tra', 'is-catalog');
     const back = $('.cx-back', card); back.hidden = stack.length < 2;
     const rels = $('.cx-body > .cx-rels', card), sub = $('.cx-body > .cx-sub', card), tl = $('.cx-title-link', card), links = $('.cx-links', card);
     if (view.cat) {
@@ -1927,7 +2101,7 @@
       sub.textContent = ks.length + ' elementos · elige uno para ver su ficha';
       let groups;
       if (t === 'tec') groups = keysOf('ter').map(o => ({ from: o, keys: ks.filter(k => C[k].from === o) })).filter(g => g.keys.length);
-      else if (t === 'med') groups = Object.keys(GRP).map(g => ({ label: GRP[g], keys: ks.filter(k => C[k].grp === g) })).filter(g => g.keys.length);
+      else if (t === 'med' || t === 'tra') groups = Object.keys(GRP).map(g => ({ label: GRP[g], keys: ks.filter(k => C[k].grp === g) })).filter(g => g.keys.length);
       else groups = [{ keys: ks }];
       rels.className = 'cx-rels cx-cat';
       rels.innerHTML = groups.map(g =>
@@ -1937,6 +2111,7 @@
     } else {
       const c = C[view.key];
       card.classList.add('is-' + c.type);
+      if (c.type === 'tra') { renderTra(c, tl, links, sub, rels); card.scrollTop = 0; return; }
       $('.cx-kicker', card).innerHTML = svg(ICO[c.type]) + TYPE[c.type] + (c.grp ? ' · ' + GRP[c.grp] : '');
       $('span', tl).textContent = c.name; tl.href = c.wiki; tl.title = 'Abrir «' + c.name + '» en Wikipedia (pestaña nueva)'; tl.classList.remove('no-link');
       $('.cx-brief', card).textContent = c.brief;
@@ -2237,41 +2412,105 @@
   }
 
   /* ---------- Biblioteca Relacional: el núcleo se centra, se expande y despliega sus ramas ---------- */
-  const COLOR = { ter: 'var(--green)', tec: 'var(--violet)', hab: 'var(--rose)', psi: 'var(--cyan)', med: 'var(--ochre)' };
+  const COLOR = { ter: 'var(--green)', tec: 'var(--violet)', hab: 'var(--rose)', psi: 'var(--cyan)', med: 'var(--ochre)', tra: 'var(--indigo)' };
   $$('.onode [data-catalog]').forEach(b => b.insertAdjacentHTML('beforeend', '<em class="on-n" aria-label="' + keysOf(b.dataset.catalog).length + ' elementos">' + keysOf(b.dataset.catalog).length + '</em>'));
   const orbit = $('.orbit'), core = $('#lib-core'), rmBd = $('#relmap'), rm = rmBd && $('.relmap', rmBd);
   let rmBuilt = false, rmOpener = null, rmTimer = 0;
   const f1 = n => n.toFixed(1);
-  function buildMap() {                                // disposición elíptica que aprovecha todo el ancho disponible
-    const cv = $('.rm-canvas', rm), st = $('.rm-stage', rm);
-    const Wd = Math.max(st.clientWidth, 760), Ht = Math.max(st.clientHeight, Wd < 900 ? 740 : 600);
-    cv.style.width = Wd + 'px'; cv.style.height = Ht + 'px';
-    const cx = Wd / 2, cy = Ht / 2, ax = Wd / 2 - 90, ay = Ht / 2 - 36;
+  const HUE = ['#4caf50', '#4f8ef0', '#f08a3c', '#19b3a6', '#b06ee8', '#f0577a', '#d9b23a'];
+  let rmScale = 1, rmFit = 1, rmWorld = { w: 0, h: 0 };
+  function buildMap() {                                // diseño por anillos + relajación de colisiones + ajuste a pantalla
+    if (!rmBuilt) $('.rm-foot', rm).innerHTML = '<span>Catálogos completos:</span>' + Object.keys(CAT).map(t =>
+      '<button type="button" data-catalog="' + t + '" style="--c:' + COLOR[t] + '">' + svg(ICO[t]) + esc(CAT[t].name) + ' <b>' + keysOf(t).length + '</b></button>').join('');
+    const st = $('.rm-stage', rm), world = $('.rm-world', rm), nodesEl = $('.rm-nodes', rm);
+    const sw = st.clientWidth, sh = st.clientHeight;
+    const asp = Math.min(2.1, Math.max(.5, sw / Math.max(sh, 1)));
+    const portrait = sw < sh * .9;                       // pantallas verticales (móvil): óvalo vertical
+    const W0 = portrait ? 660 : Math.max(980, 860 * asp), H0 = portrait ? Math.max(1000, 660 / Math.max(asp, .5)) : 860, cx = W0 / 2, cy = H0 / 2;
+    const ax = W0 / 2 - 120, ay = H0 / 2 - 60;
     const E = (k, deg) => { const a = deg * Math.PI / 180; return [cx + ax * k * Math.cos(a), cy + ay * k * Math.sin(a)]; };
     const ters = keysOf('ter'), tecs = keysOf('tec');
     const kids = t => tecs.filter(k => C[k].from === t);
-    const w = t => Math.max(kids(t).length, 1.4), W = ters.reduce((acc, t) => acc + w(t), 0);
-    const at = (x, y) => 'left:' + f1(x) + 'px;top:' + f1(y) + 'px';
-    let ang = -90, lines = '', nodes = '', n = 0;
+    const w = t => Math.max(kids(t).length, 1.5), W = ters.reduce((acc, t) => acc + w(t), 0);
+    const N = [];                                      // nodos: {k, t, kind, x, y, tx, ty, hue}
+    let ang = -90, n = 0;
     ters.forEach((t, ti) => {
-      const sec = 360 * w(t) / W, th = ang + sec / 2, [x, y] = E(.5, th);
-      lines += '<path class="rm-l1" data-t="' + t + '" pathLength="1" style="--d:' + (ti * 80) + 'ms" d="M' + f1(cx) + ' ' + f1(cy) + 'L' + f1(x) + ' ' + f1(y) + '"/>';
-      nodes += '<button type="button" class="rm-node ter" data-concept="' + t + '" data-t="' + t + '" style="' + at(x, y) + ';--d:' + (220 + ti * 80) + 'ms">' + esc(C[t].name) + '</button>';
-      const ks = kids(t), span = sec * .9;
+      const sec = 360 * w(t) / W, th = ang + sec / 2, [x, y] = E(.47, th), hue = HUE[ti % HUE.length];
+      N.push({ k: t, t, kind: 'ter', x, y, tx: x, ty: y, hue, ti });
+      const ks = kids(t), span = sec * .92;
       ks.forEach((k, j) => {
-        const a = th - span / 2 + (j + .5) * span / ks.length, kk = n % 2 ? .84 : 1;
-        const [kx, ky] = E(kk, a), [qx, qy] = E((.5 + kk) / 2, th), d = 800 + n * 45;
-        lines += '<path class="rm-l2" data-t="' + t + '" pathLength="1" style="--d:' + d + 'ms" d="M' + f1(x) + ' ' + f1(y) + 'Q' + f1(qx) + ' ' + f1(qy) + ' ' + f1(kx) + ' ' + f1(ky) + '"/>';
-        nodes += '<button type="button" class="rm-node tec" data-concept="' + k + '" data-t="' + t + '" style="' + at(kx, ky) + ';--d:' + (d + 220) + 'ms">' + esc(C[k].name) + '</button>';
-        n++;
+        const a = th - span / 2 + (j + .5) * span / ks.length, [kx, ky] = E(n % 2 ? .86 : 1, a);
+        N.push({ k, t, kind: 'tec', x: kx, y: ky, tx: kx, ty: ky, hue, n: n++ });
       });
       ang += sec;
     });
-    const svgEl = $('.rm-lines', rm); svgEl.setAttribute('viewBox', '0 0 ' + Wd + ' ' + Ht); svgEl.innerHTML = lines;
-    $('.rm-nodes', rm).innerHTML = '<div class="rm-hub" style="' + at(cx, cy) + '" aria-hidden="true">' + svg('net') + 'Biblioteca<br>Relacional</div>' + nodes;
-    if (!rmBuilt) $('.rm-foot', rm).innerHTML = '<span>Catálogos completos:</span>' + Object.keys(CAT).map(t =>
-      '<button type="button" data-catalog="' + t + '" style="--c:' + COLOR[t] + '">' + svg(ICO[t]) + esc(CAT[t].name) + ' <b>' + keysOf(t).length + '</b></button>').join('');
+    // 1) pintar para medir
+    nodesEl.innerHTML = '<div class="rm-hub" aria-hidden="true">' + svg('net') + 'Biblioteca<br>Relacional</div>' +
+      N.map(o => '<button type="button" class="rm-node ' + o.kind + '" data-concept="' + o.k + '" data-t="' + o.t + '" style="--c:' + o.hue + '">' + esc(C[o.k].name) + '</button>').join('');
+    const els = $$('.rm-node', nodesEl), hub = $('.rm-hub', nodesEl);
+    N.forEach((o, i) => { o.el = els[i]; o.w = els[i].offsetWidth; o.h = els[i].offsetHeight; });
+    const H = { x: cx, y: cy, w: hub.offsetWidth + 30, h: hub.offsetHeight + 30, fixed: true };
+    // 2) relajación: separa recuadros que se tocan, con un resorte suave hacia su órbita
+    const B = [H].concat(N), PAD = 12;
+    for (let it = 0; it < 900; it++) {
+      let moved = false;
+      for (let i = 0; i < B.length; i++) for (let j = i + 1; j < B.length; j++) {
+        const a = B[i], b = B[j], dx = b.x - a.x, dy = b.y - a.y;
+        const ox = (a.w + b.w) / 2 + PAD - Math.abs(dx), oy = (a.h + b.h) / 2 + PAD - Math.abs(dy);
+        if (ox <= 0 || oy <= 0) continue;
+        moved = true;
+        const wa = a.fixed ? 0 : (a.kind === 'ter' ? 1 : 3), wb = b.fixed ? 0 : (b.kind === 'ter' ? 1 : 3), s = wa + wb || 1;
+        if (ox / (a.w + b.w) < oy / (a.h + b.h)) { const p = ox * (dx >= 0 ? 1 : -1) * .55; a.x -= p * wa / s; b.x += p * wb / s; }
+        else { const p = oy * (dy >= 0 ? 1 : -1) * .55; a.y -= p * wa / s; b.y += p * wb / s; }
+      }
+      if (it < 220) N.forEach(o => { o.x += (o.tx - o.x) * .015; o.y += (o.ty - o.y) * .015; });   // al final, sin resorte: solo separar
+      if (!moved && it > 20) break;
+    }
+    // 3) recuadro total y traslado para que nada quede cortado
+    const M = 28;
+    let x0 = H.x - H.w / 2, x1 = H.x + H.w / 2, y0 = H.y - H.h / 2, y1 = H.y + H.h / 2;
+    N.forEach(o => { x0 = Math.min(x0, o.x - o.w / 2); x1 = Math.max(x1, o.x + o.w / 2); y0 = Math.min(y0, o.y - o.h / 2); y1 = Math.max(y1, o.y + o.h / 2); });
+    const ox = M - x0, oy = M - y0, WW = x1 - x0 + 2 * M, HH = y1 - y0 + 2 * M, at = (x, y) => 'left:' + f1(x + ox) + 'px;top:' + f1(y + oy) + 'px';
+    hub.style.cssText = at(H.x, H.y);
+    N.forEach(o => { o.el.style.cssText += ';' + at(o.x, o.y) + ';--d:' + (o.kind === 'ter' ? 220 + o.ti * 80 : 1020 + o.n * 40) + 'ms'; });
+    // 4) órbitas decorativas y enlaces
+    const T = {}; N.forEach(o => { if (o.kind === 'ter') T[o.t] = o; });
+    let lines = '<ellipse class="rm-orb" cx="' + f1(cx + ox) + '" cy="' + f1(cy + oy) + '" rx="' + f1(ax * .47) + '" ry="' + f1(ay * .47) + '"/>' +
+                '<ellipse class="rm-orb o2" cx="' + f1(cx + ox) + '" cy="' + f1(cy + oy) + '" rx="' + f1(ax * .93) + '" ry="' + f1(ay * .93) + '"/>';
+    N.forEach(o => {
+      if (o.kind === 'ter') lines += '<path class="rm-l1" data-t="' + o.t + '" pathLength="1" style="stroke:' + o.hue + ';--d:' + (o.ti * 80) + 'ms" d="M' + f1(H.x + ox) + ' ' + f1(H.y + oy) + 'L' + f1(o.x + ox) + ' ' + f1(o.y + oy) + '"/>';
+      else {
+        const p = T[o.t], qx = p.x + (p.x - H.x) * .45, qy = p.y + (p.y - H.y) * .45;
+        lines += '<path class="rm-l2" data-t="' + o.t + '" pathLength="1" style="stroke:' + o.hue + ';--d:' + (800 + o.n * 40) + 'ms" d="M' + f1(p.x + ox) + ' ' + f1(p.y + oy) + 'Q' + f1(qx + ox) + ' ' + f1(qy + oy) + ' ' + f1(o.x + ox) + ' ' + f1(o.y + oy) + '"/>';
+      }
+    });
+    const svgEl = $('.rm-lines', rm); svgEl.setAttribute('viewBox', '0 0 ' + f1(WW) + ' ' + f1(HH)); svgEl.innerHTML = lines;
+    world.style.width = WW + 'px'; world.style.height = HH + 'px';
+    rmWorld = { w: WW, h: HH };
+    rmFit = Math.min(1.25, (sw - 16) / WW, (sh - 16) / HH);
+    setZoom(Math.max(rmFit, sw < 700 ? .78 : .62));
     rmBuilt = true;
+  }
+  function setZoom(z, keepCenter) {
+    const st = $('.rm-stage', rm), cv = $('.rm-canvas', rm);
+    const fx = keepCenter ? (st.scrollLeft + st.clientWidth / 2) / Math.max(cv.offsetWidth, 1) : .5;
+    const fy = keepCenter ? (st.scrollTop + st.clientHeight / 2) / Math.max(cv.offsetHeight, 1) : .5;
+    rmScale = Math.min(1.6, Math.max(.4, z));
+    cv.style.width = rmWorld.w * rmScale + 'px'; cv.style.height = rmWorld.h * rmScale + 'px';
+    $('.rm-world', rm).style.transform = 'scale(' + rmScale + ')';
+    st.scrollLeft = cv.offsetWidth * fx - st.clientWidth / 2; st.scrollTop = cv.offsetHeight * fy - st.clientHeight / 2;
+    $('.rm-zoom output', rm).textContent = Math.round(rmScale * 100) + '%';
+  }
+  if (rm) {
+    rm.addEventListener('click', e => {
+      const z = e.target.closest('[data-zoom]'); if (!z) return;
+      const v = z.dataset.zoom; setZoom(v === 'fit' ? rmFit : rmScale * (v === 'in' ? 1.2 : 1 / 1.2), v !== 'fit');
+    });
+    const st = $('.rm-stage', rm); let drag = null;          // arrastrar el fondo para desplazarse
+    st.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse' || e.target.closest('button')) return; drag = { x: e.clientX, y: e.clientY, l: st.scrollLeft, t: st.scrollTop }; st.classList.add('dragging'); });
+    window.addEventListener('pointermove', e => { if (!drag) return; st.scrollLeft = drag.l - (e.clientX - drag.x); st.scrollTop = drag.t - (e.clientY - drag.y); });
+    window.addEventListener('pointerup', () => { drag = null; st.classList.remove('dragging'); });
+    st.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); setZoom(rmScale * (e.deltaY < 0 ? 1.1 : 1 / 1.1), true); }, { passive: false });
   }
   window.addEventListener('resize', () => { if (rmBd && !rmBd.hidden) { buildMap(); rm.classList.add('done'); } });
   function highlight(t) {
@@ -2349,7 +2588,8 @@
     if (t.closest('#reset-all')) return $$('.question').forEach(q => delete q.dataset.chosen);
     if ((el = t.closest('[data-scroll]'))) { const d = $(el.dataset.scroll); if (d) d.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); return; }
     if (t.closest('#lib-core')) return openMap();
-    if (t.closest('.rm-close') || t === rmBd || t.classList.contains('rm-stage')) return closeMap();
+    if (t.closest('.rm-close')) return closeMap();
+    if ((el = t.closest('[data-dsm]'))) { dsmV = el.dataset.dsm; render(stack[stack.length - 1]); const p = $('.dsm-panel', card); if (p) p.classList.add('swap'); return; }
     if ((el = t.closest('[data-concept]'))) { e.preventDefault(); return openView({ key: el.dataset.concept }, !modal.hidden); }
     if ((el = t.closest('[data-catalog]'))) return openView({ cat: el.dataset.catalog }, !modal.hidden);
     if (t.closest('.cx-back')) { stack.pop(); return render(stack[stack.length - 1]); }
