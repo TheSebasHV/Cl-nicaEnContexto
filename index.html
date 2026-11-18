@@ -3454,13 +3454,13 @@ html.touring .fx-dock .fx-btn { transform: none; opacity: 1; }
   /* ---------- Sedes HeLi Salud (para cambiar una foto, edita «img») ---------- */
   const PBX = '3009121102';
   const SEDES = [
-    { n: 'Montevideo', dir: 'Av 68 # 13 - 71', admin: true, img: 'img/sedes/sede-2.webp' },
+    { n: 'Montevideo', dir: 'Av 68 # 13 - 71', admin: true, img: '' },
     { n: 'Toberín', dir: 'Carrera 22 # 166 - 90', img: '' },
     { n: 'J. Vargas', dir: 'Cra 66 # 67g 30', img: '' },
-    { n: 'Chapinero', dir: 'Calle 57 14a-14', img: '' },
+    { n: 'Chapinero', dir: 'Calle 57 14a-14', img: 'img/sedes/sede-5.webp' },
     { n: 'Castellana', dir: 'AK 45 # 94-51', img: 'img/sedes/sede-4.webp' },
-    { n: 'Modelia', dir: 'Av Calle 24 # 81C - 71', img: '' },
-    { n: 'Américas', dir: 'Calle 6 # 49-21', img: '' },
+    { n: 'Modelia', dir: 'Av Calle 24 # 81C - 71', img: 'img/sedes/sede-3.webp' },
+    { n: 'Américas', dir: 'Calle 6 # 49-21', img: 'img/sedes/sede-2.webp' },
     { n: 'Subachoque', dir: 'Km 14 vía Puente Piedra - La Cuesta, vereda El Santuario, finca La Yunta', img: 'img/sedes/sede-1.webp', rural: true }
   ];
   const sedeCard = s => '<article class="sede' + (s.img ? '' : ' ph') + '" tabindex="0" aria-label="Sede ' + s.n + '">' +
