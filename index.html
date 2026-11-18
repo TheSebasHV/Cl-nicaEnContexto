@@ -19,6 +19,7 @@
     --cyan: #0a6e8f;   --cyan-s: #e2f2f7;        /* Conceptos psicológicos */
     --ochre: #8a5a1c;  --ochre-s: #f6eddf;       /* Contexto clínico general */
     --indigo: #3949ab; --indigo-s: #e8eaf6;      /* Trastornos (DSM) */
+    --steel: #3f5f73;  --steel-s: #e6eef3;       /* Condiciones de salud */
     --ok: #1b7a46; --ok-s: #e3f4ea; --bad: #b3261e; --bad-s: #fbe9e7;
     --radius: 14px; --shadow: 0 1px 2px rgba(30,50,80,.06), 0 6px 20px rgba(30,50,80,.05);
   }
@@ -698,8 +699,31 @@
   /* ===== Biblioteca Relacional ===== */
   .tag.hab { background: var(--rose-s); color: var(--rose); border: 1px solid #f0c9da; --tc: var(--rose); }
   .tag.psi { background: var(--cyan-s); color: var(--cyan); border: 1px solid #bfe0ec; --tc: var(--cyan); }
+  .tag.cond { background: var(--steel-s); color: var(--steel); border: 1px solid #c9d8e2; --tc: var(--steel); }
+  .cx-card.is-cond { --cx: var(--steel); } .cx-rel.cond { background: var(--steel-s); color: var(--steel); border-color: #c9d8e2; }
+  .cx-aka { position: relative; z-index: 1; margin: .55rem 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: .3rem; font: .76rem/1.3 system-ui, sans-serif; color: rgba(255,255,255,.85); }
+  .cx-aka .aka-code { background: rgba(0,0,0,.18); padding: .2rem .6rem; border-radius: 999px; font-weight: 700; letter-spacing: .02em; margin-right: .3rem; }
+  .cx-aka .aka-k { font-weight: 700; opacity: .8; }
+  .cx-aka .aka { background: rgba(255,255,255,.16); padding: .18rem .55rem; border-radius: 999px; }
+  .cx-cards2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: .55rem; margin-bottom: 1rem; }
+  .cx-card2 { --k: var(--blue); display: flex; flex-direction: column; gap: .25rem; text-align: left; cursor: pointer; padding: .65rem .8rem .7rem; border-radius: 12px;
+              background: #fff; border: 1px solid var(--border); border-left: 4px solid var(--k); font: .8rem/1.4 system-ui, sans-serif; color: var(--muted);
+              transition: transform .2s var(--ease), box-shadow .2s, border-color .2s; }
+  .cx-card2 b { display: flex; align-items: center; gap: .35rem; font-size: .88rem; color: var(--k); }
+  .cx-card2 b .ic { width: .95em; height: .95em; }
+  .cx-card2:hover, .cx-card2:focus-visible { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .cx-card2.ter { --k: var(--green); } .cx-card2.tec { --k: var(--violet); } .cx-card2.hab { --k: var(--rose); } .cx-card2.psi { --k: var(--cyan); }
+  .cx-card2.med { --k: var(--ochre); } .cx-card2.cond { --k: var(--steel); } .cx-card2.tra { --k: var(--indigo); }
+  .cx-relcards { display: block; }
+  .cx-cat.swap { animation: dsmSwap .35s var(--ease); }
+  .cx-practica { display: flex; gap: .55rem; align-items: flex-start; margin: 0 0 1rem; padding: .7rem .85rem; border-radius: 12px; background: var(--teal-s); color: #0d5c50; font: .86rem/1.5 system-ui, sans-serif; }
+  .cx-practica .ic { flex: none; margin-top: .15rem; }
+  .dsm-dd { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: .45rem; }
+  .dsm-dd li { padding: .55rem .75rem; border-radius: 10px; background: #f7f8fe; border: 1px solid #e3e6f5; font: .86rem/1.5 system-ui, sans-serif; }
+  .dsm-dd b { display: block; color: var(--indigo); font-size: .88rem; margin-bottom: .1rem; }
   .tag.tra { background: var(--indigo-s); color: var(--indigo); border: 1px solid #c5cae9; --tc: var(--indigo); }
-  .cx-card.is-tra { --cx: var(--indigo); max-width: 640px; }
+  .cx-card.is-tra { --cx: var(--indigo); max-width: 680px; }
+  .cx-card:not(.is-catalog) { max-width: 620px; }
   .cx-rel.tra { background: var(--indigo-s); color: var(--indigo); border-color: #c5cae9; }
   .dsm-toggle { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem; margin: 0 0 .9rem; }
   .dsm-toggle button { font: 700 .82rem system-ui, sans-serif; border: 1.5px solid #c5cae9; background: #fff; color: var(--indigo); border-radius: 999px; padding: .38rem .95rem; cursor: pointer; transition: background .2s, color .2s; }
@@ -1047,6 +1071,94 @@
 @media (max-width: 760px) { .fo-entrada, .fo-card { padding: 1rem; } .fo-acciones .fo-resp-btn { margin-left: 0; } }
 </style>
 
+<style id="ux-css">
+/* ===== Ilustraciones ===== */
+.ill { width: 100%; height: auto; display: block; overflow: visible; }
+.ill .fl { animation: illFloat 5s ease-in-out infinite; transform-box: fill-box; }
+.ill .fl2 { animation: illFloat 6s ease-in-out -2s infinite; transform-box: fill-box; }
+.ill .pulse { animation: illPulse 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.ill .sway { animation: illSway 4.5s ease-in-out infinite; transform-box: fill-box; transform-origin: bottom center; }
+.ill .blink { animation: illBlink 4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.ill .spin-h { animation: spin 8s linear infinite; transform-origin: 0 0; }
+.ill .draw { stroke-dasharray: 220; stroke-dashoffset: 220; animation: illDraw 3.2s ease-in-out infinite; }
+@keyframes illFloat { 50% { translate: 0 -6px; } }
+@keyframes illPulse { 50% { scale: 1.08; } }
+@keyframes illSway { 50% { rotate: 4deg; } }
+@keyframes illBlink { 46%, 54% { scale: 1 1; } 50% { scale: 1 .15; } }
+@keyframes illDraw { 60%, 100% { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .ill * { animation: none !important; stroke-dashoffset: 0 !important; } }
+
+/* ===== Inicio: autocuidado ===== */
+.care { margin-top: 3.5rem; }
+.care-card { display: grid; grid-template-columns: minmax(180px, 280px) 1fr; gap: 2rem; align-items: center; padding: 2rem 2.2rem; border-radius: 26px;
+             background: linear-gradient(135deg, rgba(228,245,241,.9), rgba(253,238,231,.85) 60%, rgba(239,234,250,.85)); border: 1px solid rgba(255,255,255,.9); box-shadow: var(--shadow); }
+.care-txt h3 { margin: .1rem 0 .7rem; font-size: 1.7rem; color: var(--text); }
+.care-txt p { margin: 0 0 .7rem; font-size: 1.04rem; }
+.care-tips { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .8rem; margin-top: 1rem; }
+.care-tip { --c: var(--teal); display: flex; flex-direction: column; gap: .3rem; padding: 1rem 1rem 1.1rem; border-radius: 18px; background: rgba(255,255,255,.85); border: 1px solid rgba(255,255,255,.95);
+            box-shadow: var(--shadow); font: .86rem/1.45 system-ui, sans-serif; color: var(--muted); transition: transform .3s var(--ease); }
+.care-tip:hover { transform: translateY(-4px); }
+.care-tip .ic { width: 2.2rem; height: 2.2rem; padding: .5rem; border-radius: 12px; color: var(--c); background: color-mix(in srgb, var(--c) 14%, #fff); }
+.care-tip b { color: var(--text); font-size: .95rem; }
+.care-quote { text-align: center; margin: 1.4rem auto 0; max-width: 46rem; font-style: italic; color: var(--muted); }
+@media (max-width: 960px) { .care-card { grid-template-columns: 1fr; text-align: center; } .care-ill { max-width: 220px; margin: 0 auto; } .care-tips { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ===== Fundamentos: cabecera ilustrada y animación ===== */
+.f-hero { display: grid; grid-template-columns: 1fr minmax(170px, 250px); gap: 1.5rem; align-items: center; margin: -.4rem 0 1.4rem; padding: 1.3rem 1.5rem; border-radius: 20px;
+          background: linear-gradient(135deg, rgba(233,240,251,.95), rgba(228,245,241,.9)); border: 1px solid rgba(255,255,255,.95); }
+.f-hero .topic-h { margin: 0; }
+.f-hero-k { margin: 0 0 .2rem; font: 800 .72rem system-ui, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+.f-hero-idea { display: flex; gap: .55rem; align-items: flex-start; margin: .8rem 0 0; padding: .7rem .9rem; border-radius: 14px; background: rgba(255,255,255,.8); font-size: 1rem; line-height: 1.55; }
+.f-hero-idea .ic { flex: none; color: #c98a00; margin-top: .2rem; }
+.f-hero-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .7rem; }
+.f-hero-chips span { display: inline-flex; align-items: center; gap: .35rem; font: 600 .76rem system-ui, sans-serif; color: var(--slate); background: rgba(255,255,255,.75); border-radius: 999px; padding: .25rem .7rem; }
+.f-page.stagger .f-hero-ill { animation: heroIll .8s var(--ease) both; }
+.f-page.stagger .f-card, .f-page.stagger .f-grid > li, .f-page.stagger .f-acc, .f-page.stagger .brief-box .apply { animation: fCardIn .55s var(--ease) both; animation-delay: calc(var(--i, 0) * 70ms + 150ms); }
+@keyframes heroIll { from { opacity: 0; transform: translateY(14px) scale(.9) rotate(-3deg); } to { opacity: 1; transform: none; } }
+@keyframes fCardIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+#mod2 .f-card, #mod2 .f-grid > li { transition: transform .3s var(--ease), box-shadow .3s; }
+#mod2 .f-card:hover, #mod2 .f-grid > li:hover { transform: translateY(-3px); box-shadow: 0 14px 30px -16px rgba(30,50,80,.35); }
+@media (max-width: 760px) { .f-hero { grid-template-columns: 1fr; text-align: left; } .f-hero-ill { max-width: 200px; margin: 0 auto; order: -1; } }
+
+/* ===== Casos clínicos: ficha, recuadros y desplegables ===== */
+#mod3 .cs-hero { display: grid; grid-template-columns: minmax(170px, 250px) 1fr; gap: 1.6rem; align-items: center; padding: 1.3rem 1.5rem; border-radius: 20px;
+                 background: linear-gradient(135deg, rgba(233,240,251,.95), rgba(255,246,220,.85)); border: 1px solid rgba(255,255,255,.95); box-shadow: var(--shadow); }
+#mod3 .cs-k { margin: 0; display: flex; align-items: center; gap: .4rem; font: 800 .72rem system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); }
+#mod3 .cs-name { margin: .25rem 0 .6rem; font: 800 1.35rem system-ui, sans-serif; color: var(--text); }
+#mod3 .cs-chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+#mod3 .cs-chips span { display: flex; flex-direction: column; padding: .4rem .75rem; border-radius: 12px; background: rgba(255,255,255,.85); border: 1px solid var(--border); font: 600 .86rem/1.3 system-ui, sans-serif; max-width: 22rem; }
+#mod3 .cs-chips small { font: 700 .66rem system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+#mod3 .kv-na { margin: .6rem 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: .3rem; font: .76rem system-ui, sans-serif; color: var(--muted); }
+#mod3 .kv-na span { background: var(--slate-s); border-radius: 999px; padding: .12rem .55rem; }
+#mod3 .cs-quote { margin: .9rem 0 0; display: flex; gap: .6rem; padding: .85rem 1rem; border-radius: 14px; background: #fff; border-left: 5px solid var(--yellow); box-shadow: 0 6px 18px -12px rgba(30,50,80,.35); }
+#mod3 .cs-quote > .ic { flex: none; color: var(--yellow); width: 1.5rem; height: 1.5rem; }
+#mod3 .cs-quote small { display: block; font: 800 .7rem system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #9a6b00; margin-bottom: .2rem; }
+#mod3 .cs-quote p { margin: 0 0 .3rem; font-size: 1rem; }
+#mod3 .cs-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(240px, 1fr); gap: 1rem; align-items: start; }
+#mod3 .cs-side { display: grid; gap: 1rem; position: sticky; top: 5rem; }
+#mod3 .cs-box { margin: 0; }
+#mod3 .cs-factores .fgrid { margin-top: .4rem; }
+#mod3 .cs-analisis { border-left: 5px solid var(--blue); }
+#mod3 .cs-accs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; align-items: start; }
+#mod3 details.cs-acc { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+#mod3 details.cs-acc[open] { grid-column: 1 / -1; }
+#mod3 details.cs-acc > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: .5rem; padding: .85rem 1rem; font: 700 .95rem system-ui, sans-serif; color: var(--blue); }
+#mod3 details.cs-acc > summary::-webkit-details-marker { display: none; }
+#mod3 details.cs-acc > summary span { display: flex; align-items: center; gap: .45rem; }
+#mod3 details.cs-acc > summary em { margin-left: auto; font: 600 .74rem system-ui, sans-serif; font-style: normal; color: var(--muted); background: var(--slate-s); border-radius: 999px; padding: .15rem .55rem; }
+#mod3 details.cs-acc > summary > .ic:last-child { transition: transform .3s; color: var(--muted); }
+#mod3 details.cs-acc[open] > summary > .ic:last-child { transform: rotate(180deg); }
+#mod3 details.cs-acc > summary:hover { background: var(--slate-s); }
+#mod3 .cs-acc-body { padding: .2rem 1.1rem 1rem; border-top: 1px solid var(--border); animation: fCardIn .35s var(--ease); }
+#mod3 .ct-ill { width: 3rem; flex: none; }
+#mod3 .ct-ill .ill * { animation: none !important; }
+#mod3 .block[data-block="1"]:not([hidden]) .ctx > * { animation: fCardIn .5s var(--ease) both; }
+#mod3 .block[data-block="1"]:not([hidden]) .ctx > :nth-child(2) { animation-delay: .08s; } #mod3 .block[data-block="1"]:not([hidden]) .ctx > :nth-child(3) { animation-delay: .16s; }
+#mod3 .block[data-block="1"]:not([hidden]) .ctx > :nth-child(4) { animation-delay: .24s; } #mod3 .block[data-block="1"]:not([hidden]) .ctx > :nth-child(5) { animation-delay: .32s; }
+@media (max-width: 1100px) { #mod3 .cs-grid { grid-template-columns: 1fr; } #mod3 .cs-side { position: static; } #mod3 .cs-accs { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { #mod3 .cs-hero { grid-template-columns: 1fr; } #mod3 .cs-ill { max-width: 200px; margin: 0 auto; } #mod3 .ct-ill { display: none; } }
+</style>
+
 </head>
 <body>
 <!-- Iconos (estilo Lucide, en línea; sin librerías externas) -->
@@ -1073,6 +1185,7 @@
   <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
   <symbol id="i-net" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="3.5" r="1.6"/><circle cx="20" cy="16.5" r="1.6"/><circle cx="4" cy="16.5" r="1.6"/><path d="M12 9.4V5.1M14.3 13.3l4.3 2.4M9.7 13.3l-4.3 2.4"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M12 8v8M8 12h8"/></symbol>
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol>
 </defs></svg>
 <div class="bg-fx" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="blob b4"></i></div>
@@ -1110,12 +1223,13 @@
           <div class="orbit-ring"></div><div class="orbit-ring r2"></div>
           <button type="button" class="orbit-core" id="lib-core" aria-haspopup="dialog" aria-controls="relmap"><span><svg class="ic" aria-hidden="true"><use href="#i-net"/></svg>Biblioteca<br>Relacional<small>Toca para expandir</small></span></button>
           <div class="orbit-spin">
-            <div class="onode" style="--a:0deg"><div class="onode-in"><button type="button" data-catalog="ter" style="--c:var(--green)"><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg><span>Enfoques y Terapias</span></button></div></div>
-            <div class="onode" style="--a:60deg"><div class="onode-in"><button type="button" data-catalog="tec" style="--c:var(--violet)"><svg class="ic" aria-hidden="true"><use href="#i-tool"/></svg><span>Técnicas y Herramientas</span></button></div></div>
-            <div class="onode" style="--a:120deg"><div class="onode-in"><button type="button" data-catalog="hab" style="--c:var(--rose)"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span>Habilidades Clínicas</span></button></div></div>
-            <div class="onode" style="--a:180deg"><div class="onode-in"><button type="button" data-catalog="tra" style="--c:var(--indigo)"><svg class="ic" aria-hidden="true"><use href="#i-clip"/></svg><span>Trastornos (DSM)</span></button></div></div>
-            <div class="onode" style="--a:240deg"><div class="onode-in"><button type="button" data-catalog="psi" style="--c:var(--cyan)"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg><span>Conceptos Psicológicos</span></button></div></div>
-            <div class="onode" style="--a:300deg"><div class="onode-in"><button type="button" data-catalog="med" style="--c:var(--ochre)"><svg class="ic" aria-hidden="true"><use href="#i-pulse"/></svg><span>Contexto Clínico</span></button></div></div>
+            <div class="onode" style="--a:0.00deg"><div class="onode-in"><button type="button" data-catalog="ter" style="--c:var(--green)"><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg><span>Enfoques y Terapias</span></button></div></div>
+            <div class="onode" style="--a:51.43deg"><div class="onode-in"><button type="button" data-catalog="tec" style="--c:var(--violet)"><svg class="ic" aria-hidden="true"><use href="#i-tool"/></svg><span>Técnicas y Herramientas</span></button></div></div>
+            <div class="onode" style="--a:102.86deg"><div class="onode-in"><button type="button" data-catalog="hab" style="--c:var(--rose)"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span>Habilidades Clínicas</span></button></div></div>
+            <div class="onode" style="--a:154.29deg"><div class="onode-in"><button type="button" data-catalog="tra" style="--c:var(--indigo)"><svg class="ic" aria-hidden="true"><use href="#i-clip"/></svg><span>Trastornos (DSM)</span></button></div></div>
+            <div class="onode" style="--a:205.71deg"><div class="onode-in"><button type="button" data-catalog="cond" style="--c:var(--steel)"><svg class="ic" aria-hidden="true"><use href="#i-cross"/></svg><span>Condiciones de Salud</span></button></div></div>
+            <div class="onode" style="--a:257.14deg"><div class="onode-in"><button type="button" data-catalog="psi" style="--c:var(--cyan)"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg><span>Conceptos Psicológicos</span></button></div></div>
+            <div class="onode" style="--a:308.57deg"><div class="onode-in"><button type="button" data-catalog="med" style="--c:var(--ochre)"><svg class="ic" aria-hidden="true"><use href="#i-pulse"/></svg><span>Contexto Clínico</span></button></div></div>
           </div>
         </div>
         <p class="orbit-hint">Toca el núcleo para desplegar el mapa de relaciones o elige un pilar para abrir su catálogo.</p>
@@ -1189,6 +1303,7 @@
           <button type="button" data-catalog="hab" style="background:var(--rose-s);color:var(--rose)"><svg class="ic"><use href="#i-chat"/></svg>Habilidades clínicas</button>
           <button type="button" data-catalog="psi" style="background:var(--cyan-s);color:var(--cyan)"><svg class="ic"><use href="#i-spark"/></svg>Conceptos psicológicos</button>
           <button type="button" data-catalog="med" style="background:var(--ochre-s);color:var(--ochre)"><svg class="ic"><use href="#i-pulse"/></svg>Contexto clínico</button>
+          <button type="button" data-catalog="cond" style="background:var(--steel-s);color:var(--steel)"><svg class="ic"><use href="#i-cross"/></svg>Condiciones de salud</button>
           <button type="button" data-catalog="tra" style="background:var(--indigo-s);color:var(--indigo)"><svg class="ic"><use href="#i-clip"/></svg>Trastornos (DSM)</button>
           <span style="background:var(--slate-s);color:var(--slate)"><svg class="ic"><use href="#i-quote"/></svg>Autores</span>
           <span style="background:var(--coral-s);color:var(--coral)"><svg class="ic"><use href="#i-bulb"/></svg>Recomendaciones</span>
@@ -1298,7 +1413,7 @@
 <div class="apply"><span class="cat-label"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg> Especificidad de aplicación</span><p><strong>Cómo adaptarte</strong></p>
 <ul>
 <li><strong>Duración:</strong> varios contactos cortos mejor que uno largo.</li>
-<li><strong>Ritmo:</strong> una pregunta a la vez, pausas largas y <strong>tiempo para responder</strong>. No completes sus frases (como en el Caso 7).</li>
+<li><strong>Ritmo:</strong> una pregunta a la vez, pausas largas y <strong>tiempo para responder</strong>. No completes sus frases (como en el Caso 6).</li>
 <li><strong>Si no puede hablar:</strong> preguntas de sí o no, gestos, asentimiento o parpadeo, escritura, tableros de imágenes o dispositivos de comunicación, siempre con visto bueno del equipo.</li>
 <li><strong>Si hay deterioro cognitivo:</strong> frases simples, un solo tema y confirma que te entendió.</li>
 <li><strong>Si hay fatiga:</strong> menos tiempo, menos intensidad, y retomas después.</li>
@@ -1313,7 +1428,7 @@
 <div class="apply"><span class="cat-label"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg> Especificidad de aplicación</span><p><strong>Cómo hacerlo</strong></p>
 <ul>
 <li><strong><span class="tag tec">Psicoeducación</span>:</strong> explica de forma simple cómo comunicarse con el paciente y cómo reconocer señales de cansancio. La información médica es del equipo.</li>
-<li><strong><span class="tag hab">Escucha focalizada</span>:</strong> una preocupación principal por encuentro. Valida lo que viven, como la incertidumbre de la madre en el Caso 6, sin descartar lo que percibe ni crear falsas expectativas.</li>
+<li><strong><span class="tag hab">Escucha focalizada</span>:</strong> una preocupación principal por encuentro. Valida lo que viven, como la incertidumbre de la madre en el Caso 5, sin descartar lo que percibe ni crear falsas expectativas.</li>
 <li><strong>Red de apoyo:</strong> ayuda a identificar quién más puede acompañar, organizar turnos y cuidarse un poco.</li>
 </ul></div>
 <p class="resources"><strong>Recursos que sirven:</strong> <span class="tag hab">validación emocional</span>, <span class="tag tec">psicoeducación</span> y <span class="tag tec">preguntas de recursos</span> (<em>“¿Qué te ha ayudado hasta ahora?”</em>).</p>
@@ -1338,7 +1453,7 @@
 <ol type="1">
 <li><strong>Antes:</strong> habla con tu supervisor sobre la situación, el objetivo y la estrategia posible.</li>
 <li><strong>Durante:</strong> encuentro corto, un solo foco, escucha y observación. Sin diagnósticos, interpretaciones ni promesas.</li>
-<li><strong>Si hay riesgo:</strong> detén el acercamiento y pide apoyo al equipo, como en la agresión del Caso 1. Si aparece ideación suicida (Caso 4), avisa de inmediato al equipo responsable.</li>
+<li><strong>Si hay riesgo:</strong> detén el acercamiento y pide apoyo al equipo, como en la agresión del Caso 1. Si aparece ideación suicida (Caso 3), avisa de inmediato al equipo responsable.</li>
 <li><strong>Después:</strong> registra lo ocurrido, analízalo con tu supervisor y definan el seguimiento.</li>
 </ol></div>
 <p class="resources"><strong>Recursos que sirven:</strong> <span class="tag hab">escucha activa</span>, <span class="tag hab">validación emocional</span>, preguntas sencillas de soluciones y actividades de bajo esfuerzo, elegidas con tu supervisor según la necesidad principal.</p>
@@ -1505,6 +1620,7 @@
       <button type="button" class="cx-back" hidden>← Volver</button>
       <p class="cc-kicker cx-kicker"></p>
       <h4 id="cx-title"><a class="cx-title-link" target="_blank" rel="noopener noreferrer"><span></span><svg class="ic" aria-hidden="true"><use href="#i-ext"/></svg></a></h4>
+      <p class="cx-aka" hidden></p>
     </div>
     <div class="cx-body">
       <p class="cx-brief"></p>
@@ -1677,25 +1793,25 @@
   /* Biblioteca Relacional · type: ter = enfoque/terapia · tec = técnica/herramienta (from = enfoque de origen) · hab = habilidad clínica · psi = concepto psicológico · med = contexto clínico general (grp = subapartado) */
   const C = {
     /* ===================== 1 · ENFOQUES Y TERAPIAS (marcos de referencia) ===================== */
-    tbcs: { type: 'ter', name: 'Terapia Breve Centrada en Soluciones',
+    tbcs: { type: 'ter', short: 'TBCS', alias: ['Terapia centrada en soluciones', 'SFBT'], practica: 'úsala cuando la persona se siente estancada: pregunta qué quiere que sea distinto, cuándo el problema ha sido menor y qué pequeño paso podría dar hoy. Funciona en encuentros de pocos minutos.', name: 'Terapia Breve Centrada en Soluciones',
       brief: 'Enfoque breve creado por Steve de Shazer e Insoo Kim Berg que se centra en construir soluciones en lugar de analizar problemas: define lo que la persona quiere lograr, sus recursos y los momentos en que el problema no aparece.',
       rel: ['autoeficacia', 'resiliencia', 'alianza', 'preguntas', 'escucha'], wiki: W('Terapia_breve_centrada_en_soluciones') },
-    tcc: { type: 'ter', name: 'Terapia cognitivo-conductual breve',
+    tcc: { type: 'ter', short: 'TCC breve', alias: ['TCC', 'Terapia cognitivo-conductual'], practica: 'ayuda cuando un pensamiento («no sirvo para nada», «algo malo va a pasar») alimenta el malestar. Primero escucha y valida; después explora con la persona qué otra lectura es posible.', name: 'Terapia cognitivo-conductual breve',
       brief: 'Versión focalizada y de pocas sesiones de la terapia cognitivo-conductual. Trabaja la relación entre pensamientos, emociones y conductas (modelo ABC) para identificar creencias poco útiles y practicar habilidades concretas de afrontamiento.',
       rel: ['abc', 'distorsiones', 'ansiedad', 'depresion', 'regulacion', 'afrontamiento'], wiki: W('Terapia_cognitivo-conductual') },
-    ac: { type: 'ter', name: 'Activación conductual',
+    ac: { type: 'ter', practica: 'ante el ánimo bajo y la inactividad, acuerda una actividad pequeña y significativa adaptada a su energía (escuchar música, una llamada) y revísala en el siguiente encuentro.', name: 'Activación conductual',
       brief: 'Intervención de base conductual que reduce el ánimo deprimido aumentando de forma gradual actividades agradables o significativas, ajustadas a la energía y a las posibilidades reales de la persona.',
       rel: ['reforzamiento', 'indefension', 'depresion', 'autoeficacia', 'tcc'], wiki: S('Activación conductual') },
-    act: { type: 'ter', name: 'Terapia de Aceptación y Compromiso (ACT)',
+    act: { type: 'ter', short: 'ACT', alias: ['Terapia de aceptación y compromiso', 'Terapias de tercera generación'], practica: 'sirve cuando lo que duele no puede cambiarse (la enfermedad, la pérdida de autonomía): ayuda a hacerle espacio a la emoción y a encontrar qué sigue siendo importante para la persona.', name: 'Terapia de Aceptación y Compromiso (ACT)',
       brief: 'Terapia contextual de tercera generación (Steven Hayes) que busca la flexibilidad psicológica: aceptar las experiencias internas difíciles que no pueden cambiarse, como el dolor o la incertidumbre de la enfermedad, y orientar la conducta hacia lo que la persona valora.',
       rel: ['regulacion', 'afrontamiento', 'ansiedad', 'duelo', 'tcc'], wiki: S('Terapia de aceptación y compromiso') },
-    emotiv: { type: 'ter', name: 'Entrevista motivacional',
+    emotiv: { type: 'ter', alias: ['EM'], practica: 'úsala cuando hay ambivalencia frente a un tratamiento, la dieta o una terapia: explora sus razones sin discutir y refleja lo que la propia persona dice a favor del cambio.', name: 'Entrevista motivacional',
       brief: 'Enfoque colaborativo (William Miller y Stephen Rollnick) que evoca y fortalece la motivación propia de la persona hacia el cambio, explorando su ambivalencia sin confrontarla. Se apoya en preguntas abiertas, afirmaciones, reflejos y resúmenes.',
       rel: ['adherencia', 'autoeficacia', 'preguntas', 'reflejo', 'resumen', 'alianza'], wiki: S('Entrevista motivacional') },
-    crisis: { type: 'ter', name: 'Intervención en crisis',
+    crisis: { type: 'ter', practica: 'ante un desborde, prioriza la seguridad, acompaña sin presionar y avisa al equipo. Como practicante ofreces primeros auxilios psicológicos, no la intervención de segundo orden.', name: 'Intervención en crisis',
       brief: 'Modelo de intervención breve e inmediata (Caplan; Slaikeu) ante un desborde emocional: busca restablecer la seguridad y el equilibrio, reducir el riesgo y conectar con apoyos. Distingue la ayuda de primer orden (primeros auxilios psicológicos) de la de segundo orden, propia de profesionales.',
       rel: ['suicida', 'agitacion', 'escuchaf', 'validacion', 'apoyosocial', 'ruta'], wiki: S('Intervención en crisis') },
-    acp: { type: 'ter', name: 'Atención centrada en la persona',
+    acp: { type: 'ter', short: 'ACP', alias: ['Modelo de atención centrada en la persona'], practica: 'antes de cualquier técnica, pregunta cómo prefiere comunicarse la persona y qué es importante para ella; adapta el ritmo, el canal y la duración a sus posibilidades.', name: 'Atención centrada en la persona',
       brief: 'Marco de atención de raíz humanista (Carl Rogers), desarrollado en el cuidado crónico y paliativo, que organiza la intervención alrededor de las preferencias, la dignidad y las posibilidades de comunicación de la persona. En este recurso es el marco de origen de los apoyos de comunicación, que se construyen junto con fonoaudiología.',
       rel: ['empatia', 'nonverbal', 'afasia', 'disartria', 'traqueostomia', 'interdisc'], wiki: S('Atención centrada en la persona') },
 
@@ -1706,7 +1822,7 @@
     milagro: { type: 'tec', from: 'tbcs', name: 'Pregunta del milagro',
       brief: 'Pregunta clásica de la terapia centrada en soluciones: «si esta noche ocurriera un milagro y el problema se resolviera, ¿qué notarías diferente mañana?». Se adapta a metas posibles dentro de la enfermedad.',
       rel: ['futuro', 'escala', 'recursos'], wiki: S('Pregunta del milagro') },
-    escala: { type: 'tec', from: 'tbcs', name: 'Preguntas de escala y de excepción',
+    escala: { type: 'tec', short: 'Escalas y excepciones', from: 'tbcs', name: 'Preguntas de escala y de excepción',
       brief: 'Preguntas que piden ubicar la situación de 1 a 10 y buscar momentos en que el problema fue menor (excepciones), para medir avances y definir el siguiente pequeño paso. Pueden responderse con los dedos o con una escala visual.',
       rel: ['futuro', 'recursos', 'autoeficacia', 'caa'], wiki: W('Terapia_breve_centrada_en_soluciones') },
     recursos: { type: 'tec', from: 'tbcs', name: 'Preguntas de recursos',
@@ -1718,22 +1834,22 @@
     reestructuracion: { type: 'tec', from: 'tcc', name: 'Reestructuración cognitiva',
       brief: 'Identificar pensamientos automáticos poco útiles, examinar la evidencia y construir interpretaciones más equilibradas. Se apoya en el modelo ABC.',
       rel: ['abc', 'distorsiones', 'registro', 'regulacion'], wiki: S('Reestructuración cognitiva') },
-    registro: { type: 'tec', from: 'tcc', name: 'Autorregistro de pensamientos y emociones',
+    registro: { type: 'tec', short: 'Autorregistro', from: 'tcc', name: 'Autorregistro de pensamientos y emociones',
       brief: 'Registro breve de situación, pensamiento, emoción y conducta que lleva el modelo ABC a la práctica para identificar patrones. En el hospital se simplifica a una o dos columnas o se hace de forma oral.',
       rel: ['abc', 'distorsiones', 'reestructuracion', 'regulacion'], wiki: S('Autorregistro psicología') },
-    respiracion: { type: 'tec', from: 'tcc', name: 'Respiración lenta y diafragmática',
+    respiracion: { type: 'tec', short: 'Respiración lenta', alias: ['Respiración diafragmática'], from: 'tcc', name: 'Respiración lenta y diafragmática',
       brief: 'Técnica de autorregulación del protocolo cognitivo-conductual para la ansiedad: respirar de forma lenta, movilizando el abdomen y con exhalaciones más largas, para disminuir la activación fisiológica. Se ajusta a la condición respiratoria del paciente y al visto bueno del equipo.',
       rel: ['ansiedad', 'regulacion', 'relajacion', 'mindfulness'], wiki: S('Respiración diafragmática') },
-    relajacion: { type: 'tec', from: 'tcc', name: 'Relajación muscular progresiva',
+    relajacion: { type: 'tec', alias: ['Relajación de Jacobson', 'RMP'], from: 'tcc', name: 'Relajación muscular progresiva',
       brief: 'Técnica conductual de Edmund Jacobson, integrada en los protocolos de TCC para la ansiedad: tensar y soltar grupos musculares de forma secuencial. En el hospital se adapta a las limitaciones físicas, el dolor y los dispositivos médicos del paciente.',
       rel: ['respiracion', 'ansiedad', 'regulacion'], wiki: S('Relajación muscular progresiva') },
     programacion: { type: 'tec', from: 'ac', name: 'Programación de actividades',
       brief: 'Planificar actividades concretas, graduadas y significativas en el día. Es el corazón práctico de la activación conductual.',
       rel: ['reforzamiento', 'depresion', 'autoeficacia', 'graduada'], wiki: S('Activación conductual') },
-    graduada: { type: 'tec', from: 'ac', name: 'Asignación gradual de tareas',
+    graduada: { type: 'tec', short: 'Tareas graduadas', from: 'ac', name: 'Asignación gradual de tareas',
       brief: 'Dividir una actividad en pasos pequeños ordenados por dificultad, de modo que cada logro sea alcanzable con la energía disponible y fortalezca la sensación de capacidad.',
       rel: ['programacion', 'reforzamiento', 'autoeficacia', 'indefension'], wiki: S('Asignación gradual de tareas') },
-    mindfulness: { type: 'tec', from: 'act', name: 'Ejercicios breves de atención plena',
+    mindfulness: { type: 'tec', short: 'Atención plena breve', alias: ['Mindfulness', 'Atención plena'], from: 'act', name: 'Ejercicios breves de atención plena',
       brief: 'Prácticas cortas de anclaje en el presente (respiración, sonidos, sensaciones) con apertura y sin juzgar. En el hospital se usan en formatos de uno a tres minutos.',
       rel: ['regulacion', 'ansiedad', 'respiracion', 'valores'], wiki: W('Atención_plena') },
     valores: { type: 'tec', from: 'act', name: 'Clarificación de valores',
@@ -1742,30 +1858,30 @@
     balance: { type: 'tec', from: 'emotiv', name: 'Balance decisional',
       brief: 'Explorar con la persona las ventajas y desventajas de cambiar y de no cambiar una conducta de salud (por ejemplo, aceptar una terapia), para hacer visible su ambivalencia sin presionar.',
       rel: ['adherencia', 'reglas', 'preguntas'], wiki: S('Balance decisional') },
-    reglas: { type: 'tec', from: 'emotiv', name: 'Reglas de importancia y confianza',
+    reglas: { type: 'tec', short: 'Importancia y confianza', from: 'emotiv', name: 'Reglas de importancia y confianza',
       brief: 'Preguntas de 0 a 10 sobre cuán importante es el cambio y cuánta confianza tiene la persona en lograrlo, seguidas de «¿por qué no un número menor?» para evocar sus propias razones.',
       rel: ['autoeficacia', 'adherencia', 'balance'], wiki: S('Entrevista motivacional regla') },
     desescalada: { type: 'tec', from: 'crisis', name: 'Desescalada verbal',
       brief: 'Estrategias verbales y no verbales para reducir la agitación de forma segura: tono calmado, distancia adecuada, frases cortas y ofrecer opciones. La seguridad de todos es lo primero.',
       rel: ['agitacion', 'delirium', 'demencia', 'nonverbal', 'validacion'], wiki: S('Desescalada verbal') },
-    pap: { type: 'tec', from: 'crisis', name: 'Primeros auxilios psicológicos',
+    pap: { type: 'tec', short: 'PAP', alias: ['Primeros auxilios psicológicos (PAP)'], from: 'crisis', name: 'Primeros auxilios psicológicos',
       brief: 'Protocolo de ayuda de primer orden (OMS): observar, escuchar y conectar; proteger, atender necesidades básicas y enlazar con apoyos y servicios. Es la herramienta de crisis al alcance del estudiante, siempre bajo supervisión.',
       rel: ['escucha', 'validacion', 'suicida', 'apoyosocial', 'ruta'], wiki: S('Primeros auxilios psicológicos') },
-    caa: { type: 'tec', from: 'acp', name: 'Comunicación aumentativa y alternativa',
+    caa: { type: 'tec', short: 'CAA', alias: ['Comunicación aumentativa', 'Sistemas alternativos de comunicación'], from: 'acp', name: 'Comunicación aumentativa y alternativa',
       brief: 'Sistemas y recursos (gestos, tableros de imágenes, escritura, dispositivos) que complementan o sustituyen el habla cuando una persona tiene dificultades para comunicarse verbalmente. Procede de la fonoaudiología y se aplica en coordinación con ese servicio.',
       rel: ['traqueostomia', 'valvula', 'ventilacion', 'afasia', 'disartria', 'nonverbal', 'preguntas'], wiki: W('Comunicación_aumentativa_y_alternativa') },
-    tableros: { type: 'tec', from: 'acp', name: 'Tableros de comunicación y pictogramas',
+    tableros: { type: 'tec', short: 'Tableros y pictogramas', from: 'acp', name: 'Tableros de comunicación y pictogramas',
       brief: 'Herramienta de comunicación aumentativa: soportes con letras, palabras o imágenes que el paciente señala con la mano, la mirada o el parpadeo para expresar necesidades y emociones.',
       rel: ['caa', 'nonverbal', 'afasia', 'preguntas'], wiki: W('Pictograma') },
 
     /* ===================== 3 · HABILIDADES CLÍNICAS (competencias transversales del terapeuta) ===================== */
-    escucha: { type: 'hab', name: 'Escucha activa',
+    escucha: { type: 'hab', alias: ['Escucha empática'], name: 'Escucha activa',
       brief: 'Escuchar con atención plena lo que la persona dice y siente, mostrando interés con gestos, silencios, paráfrasis y resúmenes, sin juzgar ni interrumpir. Es una competencia transversal del terapeuta, no una técnica de intervención de un enfoque particular: es la base sobre la que se aplica cualquiera de ellas.',
       rel: ['parafraseo', 'reflejo', 'clarificacion', 'resumen', 'silencio', 'alianza'], wiki: W('Escucha_activa') },
     escuchaf: { type: 'hab', name: 'Escucha focalizada',
       brief: 'Escucha activa dirigida a una sola preocupación prioritaria por encuentro. Es útil cuando el tiempo, la energía o la atención disponibles son limitados.',
       rel: ['escucha', 'clarificacion', 'resumen', 'crisis'], wiki: W('Escucha_activa') },
-    validacion: { type: 'hab', name: 'Validación emocional',
+    validacion: { type: 'hab', alias: ['Validación'], name: 'Validación emocional',
       brief: 'Reconocer y comunicar que la emoción de la persona es comprensible dada su situación, sin minimizarla, corregirla ni tener que estar de acuerdo con todo.',
       rel: ['reflejo', 'empatia', 'regulacion', 'alianza'], wiki: S('Validación emocional') },
     parafraseo: { type: 'hab', name: 'Parafraseo',
@@ -1795,13 +1911,13 @@
     microvuln: { type: 'hab', name: 'Microvulnerabilidad',
       brief: 'Mostrar de forma breve, genuina y dosificada la propia humanidad del terapeuta (reconocer que algo también le conmueve o que no tiene todas las respuestas) para reducir la asimetría y fortalecer el vínculo, sin desplazar el foco del paciente ni convertirlo en una autorrevelación extensa.',
       rel: ['empatia', 'alianza', 'autorreg', 'encuadre'], wiki: S('Autorrevelación del terapeuta') },
-    encuadre: { type: 'hab', name: 'Encuadre y manejo de límites',
+    encuadre: { type: 'hab', short: 'Encuadre y límites', name: 'Encuadre y manejo de límites',
       brief: 'Explicar quién eres, cuánto durará el encuentro y qué puedes y no puedes hacer; sostener los límites del rol de practicante (sin diagnósticos, promesas ni cambios de tratamiento) y reconocer cuándo detenerse y consultar.',
       rel: ['alianza', 'interdisc', 'autorreg', 'ruta'], wiki: S('Encuadre terapéutico') },
     observacion: { type: 'hab', name: 'Observación clínica',
       brief: 'Registrar de forma sistemática lo que se ve (expresión, postura, nivel de alerta, respuesta a estímulos), separando lo observado de la interpretación. Permite valorar si la persona está en condiciones de participar.',
       rel: ['nonverbal', 'delirium', 'agitacion', 'encuadre'], wiki: S('Observación clínica') },
-    autorreg: { type: 'hab', name: 'Autorregulación y autocuidado del terapeuta',
+    autorreg: { type: 'hab', short: 'Autocuidado del terapeuta', alias: ['Autocuidado', 'Desgaste por empatía'], name: 'Autorregulación y autocuidado del terapeuta',
       brief: 'Reconocer y regular las propias reacciones emocionales ante el sufrimiento, el deterioro o la muerte, y llevarlas a supervisión. Protege la calidad de la atención y previene el desgaste por empatía.',
       rel: ['empatia', 'microvuln', 'encuadre', 'regulacion'], wiki: S('Fatiga por compasión') },
 
@@ -1827,7 +1943,7 @@
     regulacion: { type: 'psi', name: 'Regulación emocional',
       brief: 'Procesos con los que una persona influye en qué emociones siente, cuándo y con qué intensidad, y en cómo las expresa.',
       rel: ['validacion', 'respiracion', 'mindfulness', 'ansiedad'], wiki: S('Regulación emocional') },
-    afrontamiento: { type: 'psi', name: 'Estrategias de afrontamiento',
+    afrontamiento: { type: 'psi', short: 'Afrontamiento', name: 'Estrategias de afrontamiento',
       brief: 'Esfuerzos cognitivos y conductuales para manejar las demandas de una situación estresante, centrados en el problema o en la emoción (Lazarus y Folkman).',
       rel: ['resiliencia', 'autoeficacia', 'regulacion', 'apoyosocial'], wiki: S('Afrontamiento') },
     resiliencia: { type: 'psi', name: 'Resiliencia',
@@ -1836,13 +1952,13 @@
     apoyosocial: { type: 'psi', name: 'Apoyo social',
       brief: 'Ayuda emocional, práctica o informativa que la persona recibe de su red. Protege frente al estrés de la enfermedad crónica.',
       rel: ['cuidador', 'resiliencia', 'afrontamiento', 'trabsocial'], wiki: S('Apoyo social') },
-    ansiedad: { type: 'psi', name: 'Ansiedad',
+    ansiedad: { type: 'psi', alias: ['Angustia'], name: 'Ansiedad',
       brief: 'Respuesta de anticipación y activación ante algo que se percibe como amenaza. Es frecuente ante procedimientos médicos, la hospitalización y la incertidumbre.',
       rel: ['tcc', 'respiracion', 'psicoed', 'regulacion', 'benzo'], wiki: W('Ansiedad') },
-    depresion: { type: 'psi', name: 'Depresión',
+    depresion: { type: 'psi', alias: ['Ánimo deprimido'], name: 'Depresión',
       brief: 'Estado persistente de tristeza o pérdida de interés que afecta el funcionamiento. Es distinta de la tristeza adaptativa ante la enfermedad y requiere valoración profesional.',
       rel: ['ac', 'indefension', 'suicida', 'isrs', 'interconsulta'], wiki: S('Trastorno depresivo mayor') },
-    suicida: { type: 'psi', name: 'Riesgo e ideación suicida',
+    suicida: { type: 'psi', short: 'Ideación suicida', alias: ['Riesgo suicida', 'Conducta suicida'], name: 'Riesgo e ideación suicida',
       brief: 'Pensamientos sobre quitarse la vida. Ante cualquier señal, el estudiante no indaga por su cuenta: avisa de inmediato al equipo responsable y se activa la ruta institucional.',
       rel: ['ruta', 'crisis', 'pap', 'depresion'], wiki: S('Ideación suicida') },
     duelo: { type: 'psi', name: 'Duelo anticipado',
@@ -1851,7 +1967,7 @@
     ambigua: { type: 'psi', name: 'Pérdida ambigua',
       brief: 'Pérdida sin cierre claro (Pauline Boss): la persona está físicamente presente pero psicológicamente ausente, o al revés, como en daños neurológicos graves.',
       rel: ['duelo', 'cuidador', 'validacion', 'apoyosocial'], wiki: S('Pérdida ambigua') },
-    cuidador: { type: 'psi', name: 'Sobrecarga del cuidador',
+    cuidador: { type: 'psi', alias: ['Síndrome del cuidador'], name: 'Sobrecarga del cuidador',
       brief: 'Desgaste físico, emocional y social de quien cuida a un familiar dependiente durante mucho tiempo.',
       rel: ['psicoed', 'apoyosocial', 'duelo', 'trabsocial'], wiki: S('Síndrome del cuidador quemado') },
     adherencia: { type: 'psi', name: 'Adherencia terapéutica',
@@ -1862,169 +1978,336 @@
       rel: ['escucha', 'validacion', 'empatia', 'encuadre'], wiki: S('Alianza terapéutica') },
 
     /* ===================== CONTEXTO CLÍNICO GENERAL (referencia operativa institucional) ===================== */
-    traqueostomia: { type: 'med', grp: 'dev', name: 'Traqueostomía',
+    traqueostomia: { type: 'med', alias: ['Cánula de traqueostomía', 'TQT'], grp: 'dev', name: 'Traqueostomía',
       brief: 'Abertura quirúrgica en la tráquea con una cánula para facilitar la respiración. Con el balón inflado impide la voz, así que la comunicación debe adaptarse. El manejo de la cánula, la aspiración de secreciones y la colocación de válvulas son funciones del equipo de salud, nunca del estudiante.',
       rel: ['valvula', 'ventilacion', 'caa', 'tableros'], wiki: W('Traqueotomía') },
-    valvula: { type: 'med', grp: 'dev', name: 'Válvula de fonación',
+    valvula: { type: 'med', alias: ['Válvula de habla'], grp: 'dev', name: 'Válvula de fonación',
       brief: 'Dispositivo unidireccional que se coloca en la cánula de traqueostomía y, si el equipo lo autoriza, permite volver a hablar.',
       rel: ['traqueostomia', 'caa', 'ventilacion'], wiki: S('Válvula de fonación') },
-    ventilacion: { type: 'med', grp: 'dev', name: 'Ventilación mecánica',
+    ventilacion: { type: 'med', alias: ['VM', 'Soporte ventilatorio'], grp: 'dev', name: 'Ventilación mecánica',
       brief: 'Soporte con un equipo que asiste o sustituye la respiración. Suele implicar intubación o traqueostomía y limita mucho la comunicación verbal.',
       rel: ['traqueostomia', 'valvula', 'caa', 'delirium'], wiki: S('Ventilación mecánica') },
-    gastrostomia: { type: 'med', grp: 'dev', name: 'Gastrostomía',
-      brief: 'Sonda que comunica el estómago con el exterior a través del abdomen (p. ej., PEG) para alimentar a largo plazo cuando no es posible tragar.',
-      rel: ['sng', 'disfagia'], wiki: W('Gastrostomía') },
-    sng: { type: 'med', grp: 'dev', name: 'Sonda nasogástrica',
-      brief: 'Tubo que pasa por la nariz hasta el estómago, para alimentación o medicación a corto plazo. Puede generar incomodidad y dificultar el habla.',
-      rel: ['gastrostomia', 'disfagia'], wiki: S('Sonda nasogástrica') },
-    disfagia: { type: 'med', grp: 'dev', name: 'Disfagia',
-      brief: 'Dificultad para tragar. Condiciona la alimentación (sondas, gastrostomía) y con frecuencia se acompaña de alteraciones del habla.',
-      rel: ['sng', 'gastrostomia', 'disartria'], wiki: W('Disfagia') },
-    afasia: { type: 'med', grp: 'cond', name: 'Afasia',
-      brief: 'Alteración del lenguaje por una lesión cerebral (por ejemplo, un ACV) que afecta la comprensión, la expresión o ambas.',
-      rel: ['caa', 'tableros', 'disartria', 'nonverbal'], wiki: W('Afasia') },
-    disartria: { type: 'med', grp: 'cond', name: 'Disartria',
-      brief: 'Dificultad para articular las palabras por debilidad o falta de coordinación de los músculos del habla. El lenguaje está conservado, pero se entiende con dificultad.',
-      rel: ['afasia', 'caa', 'silencio'], wiki: W('Disartria') },
-    agitacion: { type: 'med', grp: 'cond', name: 'Agitación psicomotora',
-      brief: 'Aumento de la actividad motora con tensión e irritabilidad que puede escalar hacia la agresividad. La prioridad es la seguridad.',
-      rel: ['desescalada', 'delirium', 'crisis', 'antipsic'], wiki: S('Agitación psicomotora') },
-    isrs: { type: 'med', grp: 'farm', name: 'Antidepresivos ISRS',
+    isrs: { type: 'med', short: 'ISRS', alias: ['Antidepresivos ISRS'], grp: 'farm', name: 'Antidepresivos ISRS',
       brief: 'Inhibidores selectivos de la recaptación de serotonina (p. ej., sertralina, escitalopram, fluoxetina), indicados en depresión y ansiedad. Su efecto tarda de 2 a 6 semanas y al inicio pueden causar náuseas, inquietud o alteraciones del sueño. El estudiante no opina sobre dosis ni suspensión: comunica los cambios que observe al equipo.',
       rel: ['depresion', 'ansiedad', 'interconsulta'], wiki: W('Inhibidor_selectivo_de_la_recaptación_de_serotonina') },
-    benzo: { type: 'med', grp: 'farm', name: 'Benzodiacepinas',
+    benzo: { type: 'med', alias: ['BZD'], grp: 'farm', name: 'Benzodiacepinas',
       brief: 'Ansiolíticos y sedantes de acción rápida (p. ej., lorazepam, clonazepam, alprazolam, midazolam). Pueden producir somnolencia, enlentecimiento y fallas de atención y memoria; en personas mayores aumentan el riesgo de caídas y delirium. Conviene tener en cuenta el horario de la dosis al planear un encuentro.',
       rel: ['ansiedad', 'delirium', 'interconsulta'], wiki: W('Benzodiazepina') },
-    antipsic: { type: 'med', grp: 'farm', name: 'Antipsicóticos',
+    antipsic: { type: 'med', short: 'Antipsicóticos', alias: ['Neurolépticos'], grp: 'farm', name: 'Antipsicóticos',
       brief: 'Fármacos (p. ej., haloperidol, quetiapina, risperidona, olanzapina) usados en psicosis y, en el hospital, en el manejo del delirium o la agitación grave. Pueden causar sedación, rigidez o inquietud motora (efectos extrapiramidales): estos signos se informan al equipo y no deben interpretarse como desinterés.',
       rel: ['delirium', 'agitacion', 'interconsulta'], wiki: W('Antipsicótico') },
-    opioides: { type: 'med', grp: 'farm', name: 'Analgésicos opioides',
+    opioides: { type: 'med', short: 'Opioides', grp: 'farm', name: 'Analgésicos opioides',
       brief: 'Medicamentos para el dolor moderado a intenso (p. ej., morfina, hidromorfona, tramadol), prescritos por el equipo médico o de cuidados paliativos. Pueden generar somnolencia, confusión o lentitud de respuesta; el control del dolor es condición previa para cualquier intervención psicológica.',
       rel: ['paliativos', 'delirium', 'observacion'], wiki: W('Opioide') },
-    interconsulta: { type: 'med', grp: 'ruta', name: 'Interconsulta a Psiquiatría',
+    interconsulta: { type: 'med', alias: ['Psiquiatría de enlace'], grp: 'ruta', name: 'Interconsulta a Psiquiatría',
       brief: 'Solicitud formal del equipo tratante para valoración psiquiátrica ante depresión grave, psicosis, delirium persistente, riesgo suicida o necesidad de ajuste farmacológico. El estudiante no la solicita directamente: informa a su supervisor, quien decide la derivación.',
       rel: ['depresion', 'suicida', 'isrs', 'antipsic'], wiki: S('Psiquiatría de enlace') },
-    ruta: { type: 'med', grp: 'ruta', name: 'Ruta ante riesgo suicida',
+    ruta: { type: 'med', short: 'Ruta de riesgo suicida', alias: ['Protocolo de riesgo suicida'], grp: 'ruta', name: 'Ruta ante riesgo suicida',
       brief: 'Ante cualquier expresión de ideación o intención suicida: no dejar sola a la persona si el riesgo es inmediato, avisar de inmediato al supervisor y al equipo, y seguir el protocolo institucional (vigilancia, valoración por Psiquiatría, retiro de medios). No se promete confidencialidad sobre el riesgo.',
       rel: ['suicida', 'crisis', 'pap', 'interconsulta'], wiki: S('Prevención del suicidio') },
-    trabsocial: { type: 'med', grp: 'ruta', name: 'Trabajo social y red de apoyo',
+    trabsocial: { type: 'med', short: 'Trabajo social', grp: 'ruta', name: 'Trabajo social y red de apoyo',
       brief: 'Derivación para necesidades sociales, económicas, de cuidado en casa, trámites o conflictos familiares que afectan el plan de atención. Complementa el acompañamiento psicológico a la familia.',
       rel: ['cuidador', 'apoyosocial', 'interdisc'], wiki: W('Trabajo_social') },
     interdisc: { type: 'med', grp: 'ruta', name: 'Equipo interdisciplinario',
       brief: 'Medicina, enfermería, Psiquiatría, Psicología, fonoaudiología, fisioterapia, terapia ocupacional, nutrición y trabajo social. Cada intervención psicológica se coordina con sus horarios, indicaciones y hallazgos; los apoyos de comunicación, por ejemplo, se acuerdan con fonoaudiología.',
       rel: ['biopsico', 'trabsocial', 'interconsulta', 'caa'], wiki: S('Equipo interdisciplinario salud') },
-    paliativos: { type: 'med', grp: 'ruta', name: 'Cuidados paliativos',
+    paliativos: { type: 'med', alias: ['Cuidado paliativo', 'Medicina paliativa'], grp: 'ruta', name: 'Cuidados paliativos',
       brief: 'Atención integral que busca aliviar el sufrimiento y mejorar la calidad de vida de personas con enfermedades avanzadas y de sus familias. Su equipo es una vía de derivación ante dolor difícil, sufrimiento al final de la vida o decisiones de adecuación terapéutica.',
       rel: ['duelo', 'cuidador', 'opioides', 'acp'], wiki: W('Cuidados_paliativos') },
-    /* ===================== TRASTORNOS (guía DSM-IV-TR / DSM-5; grp: casos = presentes en los casos clínicos · col = frecuentes en Colombia) ===================== */
-    demencia: { type: 'tra', grp: 'casos', casos: 'Caso 1', name: 'Trastorno neurocognitivo mayor (demencia)',
+
+    /* ===================== CONDICIONES DE SALUD (enfermedades y signos frecuentes en la unidad) ===================== */
+    cronica: { type: 'cond', grp: 'enf', name: 'Condición crónica y condición aguda', short: 'Crónica / aguda', alias: ['Enfermedad crónica', 'Evento agudo', 'Descompensación'],
+      brief: 'Una condición aguda aparece de forma súbita y suele resolverse en días o semanas (una infección, una caída). Una crónica dura más de tres a seis meses, avanza lentamente y se acompaña en el tiempo (EPOC, diabetes, secuelas de ACV). En la unidad es frecuente que una persona crónica tenga una descompensación aguda: en esos días la prioridad es médica y el encuentro psicológico se acorta o se pospone.',
+      rel: ['biopsico', 'adaptativo', 'afrontamiento', 'paliativos'], wiki: W('Enfermedad_crónica') },
+    epoc: { type: 'cond', grp: 'enf', name: 'Enfermedad pulmonar obstructiva crónica', short: 'EPOC', alias: [],
+      brief: 'Enfermedad pulmonar progresiva (casi siempre por tabaco o humo de leña) que limita el paso del aire. La falta de aire genera mucha ansiedad, y la ansiedad empeora la falta de aire. Hablar cansa: usa frases cortas, deja pausas y no confundas la disnea con una crisis de pánico sin revisar antes la saturación con el equipo.',
+      rel: ['hipoxia', 'ansiedad', 'respiracion', 'tag', 'paliativos'], wiki: W('Enfermedad_pulmonar_obstructiva_crónica') },
+    htadm: { type: 'cond', grp: 'enf', name: 'Hipertensión arterial y diabetes mellitus tipo 2', short: 'HTA y DM2', alias: ['HTA (hipertensión arterial)', 'DM2 (diabetes mellitus tipo 2)'],
+      brief: 'Las dos comorbilidades crónicas más frecuentes y la causa de muchos ACV, infartos y amputaciones. Su control depende de la adherencia: medicación, dieta y actividad. Una hipoglucemia puede producir confusión, sudoración o irritabilidad que parecen un cambio emocional; si notas algo así, avisa a enfermería.',
+      rel: ['adherencia', 'emotiv', 'acv', 'autoeficacia', 'psicoed'], wiki: W('Diabetes_mellitus_tipo_2') },
+    acv: { type: 'cond', grp: 'enf', name: 'Accidente cerebrovascular', short: 'ACV', alias: ['ECV (enfermedad cerebrovascular)', 'Ictus', 'Derrame cerebral'],
+      brief: 'Daño cerebral por la obstrucción (isquémico) o la ruptura (hemorrágico) de un vaso. Según la zona afectada deja secuelas como hemiplejia, afasia, disartria, disfagia o cambios emocionales (labilidad, depresión post-ACV). La persona suele comprender más de lo que puede expresar: háblale con naturalidad.',
+      rel: ['hemi', 'afasia', 'disartria', 'disfagia', 'tdm'], wiki: W('Accidente_cerebrovascular') },
+    tce: { type: 'cond', grp: 'enf', name: 'Traumatismo craneoencefálico', short: 'TCE', alias: ['Trauma craneoencefálico'],
+      brief: 'Lesión cerebral por un golpe o una aceleración brusca, frecuente en accidentes de tránsito y violencias. Según su gravedad deja alteraciones de la conciencia, la memoria, la atención, la conducta o la movilidad. La recuperación es lenta e incierta, lo que suele generar pérdida ambigua y sobrecarga en la familia (como en el Caso 5).',
+      rel: ['ambigua', 'cuidador', 'tnc_leve', 'hemi', 'agitacion'], wiki: W('Traumatismo_craneoencefálico') },
+    hemi: { type: 'cond', grp: 'sig', name: 'Hemiplejia y hemiparesia', short: 'Hemiplejia', alias: ['Hemiparesia'],
+      brief: 'Parálisis (hemiplejia) o debilidad (hemiparesia) de un lado del cuerpo, habitual tras un ACV o un TCE. Ubícate del lado que la persona puede ver y mover, ofrece responder con la mano sana y no interpretes la falta de gestos de ese lado como falta de interés.',
+      rel: ['acv', 'tce', 'lpp', 'nonverbal'], wiki: W('Hemiplejia') },
+    afasia: { type: 'cond', grp: 'sig', name: 'Afasia', short: 'Afasia', alias: [],
+      brief: 'Alteración del lenguaje por una lesión cerebral (por ejemplo, un ACV) que afecta la comprensión, la expresión o ambas. La inteligencia y la emoción se conservan: usa frases cortas, preguntas de sí o no, gestos e imágenes, y no hables de la persona como si no estuviera.',
+      rel: ['caa', 'tableros', 'disartria', 'nonverbal'], wiki: W('Afasia') },
+    disartria: { type: 'cond', grp: 'sig', name: 'Disartria', short: 'Disartria', alias: [],
+      brief: 'Dificultad para articular las palabras por debilidad o falta de coordinación de los músculos del habla. El lenguaje está conservado, pero se entiende con dificultad: da tiempo, no completes sus frases y pide que repita sin prisa si no entendiste.',
+      rel: ['afasia', 'caa', 'silencio'], wiki: W('Disartria') },
+    disfagia: { type: 'cond', grp: 'sig', name: 'Disfagia', short: 'Disfagia', alias: [],
+      brief: 'Dificultad para tragar. Condiciona la alimentación (sondas, gastrostomía) y con frecuencia se acompaña de alteraciones del habla. Nunca ofrezcas agua ni alimentos a un paciente sin confirmar con enfermería qué consistencia tiene permitida.',
+      rel: ['sondas', 'disartria', 'acv'], wiki: W('Disfagia') },
+    hipoxia: { type: 'cond', grp: 'sig', name: 'Saturación de oxígeno e hipoxia', short: 'SatO₂ / hipoxia', alias: ['Saturación de oxígeno (SatO₂)', 'Hipoxia', 'Hipoxemia'],
+      brief: 'La saturación (SatO₂) indica qué porcentaje de la hemoglobina lleva oxígeno; suele estar entre el 92 y el 100 % (en EPOC puede aceptarse menos, según el equipo). La hipoxia, falta de oxígeno en los tejidos, puede causar ansiedad, inquietud, confusión o somnolencia. Si un paciente se agita o se confunde de repente, piensa primero en causas médicas como esta y avisa.',
+      rel: ['epoc', 'delirium', 'tag', 'ventilacion'], wiki: W('Hipoxia_(medicina)') },
+    lpp: { type: 'cond', grp: 'sig', name: 'Lesiones por presión', short: 'LPP', alias: ['Úlceras por presión', 'Escaras'],
+      brief: 'Heridas de la piel y los tejidos por presión mantenida, frecuentes en personas que pasan mucho tiempo en cama o en silla. Duelen, alteran la imagen corporal y exigen cambios de posición frecuentes: tenlo en cuenta al planear la duración y la postura del encuentro.',
+      rel: ['hemi', 'cronica', 'opioides'], wiki: S('Úlcera por presión') },
+    agitacion: { type: 'cond', grp: 'sig', name: 'Agitación psicomotora', short: 'Agitación', alias: [],
+      brief: 'Aumento de la actividad motora con tensión e irritabilidad que puede escalar hacia la agresividad. La prioridad es la seguridad: no te quedes solo, mantén distancia y una salida libre, y busca causas como dolor, delirium o hipoxia.',
+      rel: ['desescalada', 'delirium', 'crisis', 'antipsic'], wiki: S('Agitación psicomotora') },
+
+    sondas: { type: 'med', grp: 'dev', name: 'Sondas de alimentación', short: 'SNG / gastrostomía', alias: ['Sonda nasogástrica (SNG)', 'Gastrostomía (PEG)'],
+      brief: 'La sonda nasogástrica (SNG) pasa por la nariz hasta el estómago y se usa por poco tiempo; la gastrostomía comunica el estómago con el exterior a través del abdomen y se usa a largo plazo cuando no es posible tragar. Pueden generar incomodidad, dificultar el habla y vivirse como una pérdida: nombrarlo y validarlo ayuda.',
+      rel: ['disfagia', 'traqueostomia', 'validacion'], wiki: W('Gastrostomía') },
+    canula: { type: 'med', grp: 'dev', name: 'Canalización, canulación y decanulación', short: 'Canalización', alias: ['Canulación', 'Decanulación'],
+      brief: 'Canalizar es colocar un catéter en una vena (vía venosa) para administrar líquidos o medicamentos. Canular es introducir una cánula, por ejemplo en la tráquea. Decanular es retirar la cánula de traqueostomía cuando la persona ya respira sin ella: es un paso esperado y a la vez puede generar miedo. Son procedimientos del equipo de salud; no manipules vías ni cánulas.',
+      rel: ['traqueostomia', 'valvula', 'iaas'], wiki: S('Decanulación traqueostomía') },
+    iaas: { type: 'med', grp: 'dev', name: 'Infecciones asociadas a la atención en salud', short: 'IAAS', alias: ['Aislamiento hospitalario', 'Precauciones de aislamiento'],
+      brief: 'Infecciones que la persona adquiere durante la atención (neumonía, infección urinaria o de vías). Para prevenirlas existen los aislamientos (de contacto, gotas o aéreo), señalizados en la puerta. Antes de entrar sigue el protocolo: higiene de manos y elementos de protección. El aislamiento aumenta la soledad del paciente: tu visita, con las precauciones debidas, tiene mucho valor.',
+      rel: ['canula', 'interdisc', 'apoyosocial'], wiki: S('Infección asociada a la atención en salud') },
+
+    /* ===================== TRASTORNOS · guía DSM-IV-TR / DSM-5 =====================
+       grp: casos = presentes en los casos clínicos · col = frecuentes en la práctica en Colombia
+       dsm.iv / dsm.v: nombre, código, descripción y síntomas de cada versión · dd: [condición, cómo diferenciarla] */
+    demencia: { type: 'tra', grp: 'casos', casos: 'Caso 1', name: 'Demencia', alias: ['Trastorno neurocognitivo mayor', 'Demencia tipo Alzheimer', 'Demencia vascular'],
       rel: ['delirium', 'tnc_leve', 'depresion', 'agitacion', 'cuidador', 'desescalada'], wiki: W('Demencia'),
       dsm: {
-        iv: { name: 'Demencia (tipo Alzheimer, vascular o debida a otras enfermedades)', code: '294.1x Alzheimer · 290.4x vascular',
-          brief: 'Desarrollo de múltiples déficits cognitivos, con deterioro obligatorio de la memoria, que provocan un deterioro significativo de la actividad social o laboral respecto al nivel previo.',
-          sx: ['Deterioro de la memoria (aprender información nueva o recordar la aprendida): requisito obligatorio.', 'Al menos una de: afasia, apraxia, agnosia o alteración de la función ejecutiva.', 'Deterioro significativo social o laboral que representa una merma respecto al nivel previo.', 'Inicio gradual y declive continuo (tipo Alzheimer) o signos y síntomas neurológicos focales (tipo vascular).', 'Especificador: con o sin alteración del comportamiento (p. ej., agresividad, deambulación).'],
-          dd: ['Delirium: los déficits no aparecen exclusivamente durante un delirium.', 'Trastorno depresivo mayor («pseudodemencia» depresiva).', 'Retraso mental (inicio en el desarrollo).', 'Deterioro cognitivo relacionado con la edad, dentro de lo normal.', 'Efectos de sustancias o medicamentos.'] },
+        iv: { name: 'Demencia', code: '294.1x Alzheimer · 290.4x vascular',
+          brief: 'Déficits cognitivos múltiples, con deterioro obligatorio de la memoria, que provocan un deterioro significativo social o laboral respecto al nivel previo. Se subtipifica según la causa (Alzheimer, vascular, otras).',
+          sx: ['Deterioro de la memoria: requisito obligatorio.', 'Además, al menos una de: afasia, apraxia, agnosia o alteración de la función ejecutiva.', 'Merma significativa del funcionamiento social o laboral.', 'Especificador: con o sin alteración del comportamiento (agresividad, deambulación).'] },
         v: { name: 'Trastorno neurocognitivo mayor', code: 'F02.8x / F01.5x (según etiología)',
-          brief: 'Declive cognitivo significativo respecto a un nivel previo en uno o más dominios, que interfiere con la autonomía en las actividades cotidianas. Sustituye el término «demencia», que puede seguir usándose.',
-          sx: ['Declive en uno o más dominios: atención compleja, función ejecutiva, aprendizaje y memoria, lenguaje, habilidad perceptual-motora o cognición social. La memoria ya no es obligatoria.', 'Basado en la preocupación del paciente, un informante o el clínico, y en un deterioro sustancial documentado con evaluación neuropsicológica estandarizada.', 'Interfiere con la independencia en actividades instrumentales (pagar cuentas, manejar la medicación).', 'Se especifica el subtipo etiológico (Alzheimer, vascular, cuerpos de Lewy, frontotemporal, traumatismo, etc.), la gravedad (leve, moderado, grave) y si hay alteración del comportamiento (agitación, psicosis, apatía).'],
-          dd: ['Delirium: inicio agudo, curso fluctuante y alteración central de la atención; pueden coexistir.', 'Trastorno neurocognitivo leve: el declive no impide la independencia.', 'Trastorno depresivo mayor: apatía y quejas de memoria que mejoran con el tratamiento del ánimo.', 'Discapacidad intelectual.', 'Efectos de medicamentos (anticolinérgicos, benzodiacepinas, opioides).'],
-          cambio: 'Pasa de «demencia» a «trastorno neurocognitivo mayor», el deterioro de memoria deja de ser obligatorio y se crea la categoría «leve».' } } },
-    tnc_leve: { type: 'tra', grp: 'casos', casos: 'Caso 3 (déficit cognitivo)', name: 'Trastorno neurocognitivo leve (deterioro cognitivo)',
+          brief: 'Declive cognitivo significativo en uno o más dominios que interfiere con la autonomía en la vida diaria. Sustituye el término «demencia», que puede seguir usándose.',
+          sx: ['Declive en uno o más dominios: atención compleja, función ejecutiva, aprendizaje y memoria, lenguaje, habilidad perceptual-motora o cognición social. La memoria ya no es obligatoria.', 'Lo nota el paciente, un informante o el clínico, y se documenta con evaluación objetiva.', 'Interfiere con la independencia en actividades instrumentales (dinero, medicación).', 'Se especifica la causa, la gravedad y si hay alteración del comportamiento (agitación, psicosis, apatía).'],
+          cambio: 'Pasa de «demencia» a «trastorno neurocognitivo mayor», la memoria deja de ser obligatoria y se crea la categoría «leve».' } },
+      dd: [['Delirium', 'empieza en horas o días y fluctúa a lo largo del día; lo central es la alteración de la atención. En la demencia el inicio es lento (meses o años) y la atención se conserva al principio. Pueden coexistir.'],
+           ['Depresión («pseudodemencia»)', 'la persona se queja mucho de su memoria y responde «no sé» sin esforzarse; en la demencia tiende a minimizar los fallos. La cognición mejora al tratar el ánimo.'],
+           ['Trastorno neurocognitivo leve', 'el declive existe, pero la persona sigue siendo independiente en su vida diaria.'],
+           ['Envejecimiento normal', 'olvidos ocasionales que no afectan la autonomía y que la persona recupera con pistas.'],
+           ['Efecto de medicamentos', 'anticolinérgicos, benzodiacepinas u opioides pueden producir confusión que mejora al ajustar el tratamiento.']] },
+    tnc_leve: { type: 'tra', grp: 'casos', casos: 'Caso 3 (déficit cognitivo)', name: 'Trastorno neurocognitivo leve', alias: ['Deterioro cognitivo leve', 'Trastorno cognoscitivo no especificado'],
       rel: ['demencia', 'delirium', 'esquizofrenia', 'observacion', 'clarificacion'], wiki: S('Deterioro cognitivo leve'),
       dsm: {
         iv: { name: 'Trastorno cognoscitivo no especificado', code: '294.9',
-          brief: 'El DSM-IV-TR no tenía una categoría específica para el deterioro cognitivo que no alcanza la demencia: se codificaba como trastorno cognoscitivo no especificado. El «trastorno neurocognoscitivo leve» figuraba solo en el apéndice de criterios para estudios posteriores.',
-          sx: ['Disfunción cognoscitiva atribuible a una enfermedad médica o sustancia que no cumple criterios de demencia, delirium ni trastorno amnésico.', 'Propuesta del apéndice: deterioro en al menos dos áreas (memoria, ejecutivas, atención, lenguaje, perceptivo-motoras) durante al menos dos semanas, con malestar o deterioro.'],
-          dd: ['Demencia.', 'Delirium.', 'Deterioro cognitivo relacionado con la edad.', 'Trastornos del estado de ánimo o de ansiedad con quejas cognitivas.'] },
+          brief: 'El DSM-IV-TR no tenía una categoría propia para el deterioro que no alcanza la demencia: se codificaba como trastorno cognoscitivo no especificado. El «trastorno neurocognoscitivo leve» solo figuraba como propuesta en el apéndice.',
+          sx: ['Disfunción cognitiva atribuible a una enfermedad médica o a una sustancia que no cumple criterios de demencia, delirium ni trastorno amnésico.', 'Propuesta del apéndice: deterioro en al menos dos áreas (memoria, funciones ejecutivas, atención, lenguaje) durante dos semanas o más.'] },
         v: { name: 'Trastorno neurocognitivo leve', code: 'G31.84 (o según etiología)',
-          brief: 'Declive cognitivo moderado respecto a un nivel previo en uno o más dominios, que no interfiere con la independencia, aunque las actividades pueden exigir más esfuerzo o estrategias compensatorias.',
-          sx: ['Preocupación del paciente, un informante o el clínico por un declive cognitivo leve.', 'Deterioro modesto en la evaluación objetiva (orientativamente entre 1 y 2 desviaciones estándar por debajo de lo esperado).', 'Conserva la independencia en las actividades cotidianas.', 'No ocurre exclusivamente durante un delirium y no se explica mejor por otro trastorno mental.'],
-          dd: ['Trastorno neurocognitivo mayor.', 'Envejecimiento normal.', 'Déficit cognitivo propio de la esquizofrenia u otro trastorno mental (no se diagnostica si lo explica mejor).', 'Depresión, efectos de medicamentos o delirium.', 'Discapacidad intelectual.'],
-          cambio: 'Se crea como categoría diagnóstica propia, con un umbral claro frente al trastorno mayor: la conservación de la independencia.' } } },
-    delirium: { type: 'tra', grp: 'casos', casos: 'Caso 1 (diagnóstico diferencial)', name: 'Delirium',
-      rel: ['demencia', 'agitacion', 'antipsic', 'observacion', 'interconsulta'], wiki: W('Delírium'),
+          brief: 'Declive cognitivo moderado respecto a un nivel previo que no impide la independencia, aunque las tareas cotidianas exigen más esfuerzo o estrategias compensatorias.',
+          sx: ['Preocupación del paciente, un informante o el clínico por un declive leve.', 'Rendimiento modestamente inferior al esperado en una evaluación objetiva.', 'Conserva la independencia en las actividades diarias.', 'No ocurre solo durante un delirium y no se explica mejor por otro trastorno mental.'],
+          cambio: 'Se crea como categoría propia, separada del trastorno mayor por un criterio sencillo: si se conserva o no la independencia.' } },
+      dd: [['Trastorno neurocognitivo mayor', 'la diferencia es funcional: en el mayor la persona necesita ayuda para actividades que antes hacía sola.'],
+           ['Déficit cognitivo de la esquizofrenia', 'si el déficit forma parte del curso de la esquizofrenia y lo explica mejor, no se diagnostica por separado.'],
+           ['Envejecimiento normal', 'no hay declive respecto a su propio nivel previo ni rendimiento bajo en la evaluación.'],
+           ['Depresión o efecto de medicamentos', 'la dificultad aparece con el ánimo bajo o tras un fármaco y mejora al corregir la causa.']] },
+    delirium: { type: 'tra', grp: 'casos', casos: 'Caso 1 (diagnóstico diferencial)', name: 'Delirium', alias: ['Delirium hiperactivo', 'Delirium hipoactivo', 'Síndrome confusional agudo'],
+      rel: ['demencia', 'agitacion', 'antipsic', 'hipoxia', 'observacion', 'interconsulta'], wiki: W('Delírium'),
       dsm: {
-        iv: { name: 'Delirium (debido a enfermedad médica, inducido por sustancias o de múltiples etiologías)', code: '293.0',
-          brief: 'Alteración de la conciencia y de las funciones cognitivas que se desarrolla en poco tiempo y fluctúa, con evidencia de una causa médica o tóxica.',
-          sx: ['Alteración de la conciencia con menor capacidad para centrar, mantener o dirigir la atención.', 'Cambio en las funciones cognitivas (memoria, orientación, lenguaje) o alteración perceptiva no explicada por una demencia.', 'Se presenta en horas o días y tiende a fluctuar a lo largo del día.', 'Demostración de una etiología: enfermedad médica, intoxicación o abstinencia de sustancias, o varias causas.'],
-          dd: ['Demencia: inicio insidioso, sin alteración marcada de la conciencia.', 'Trastorno psicótico breve o esquizofrenia.', 'Trastorno del estado de ánimo con síntomas psicóticos.', 'Simulación o trastorno facticio.'] },
+        iv: { name: 'Delirium', code: '293.0 (debido a enfermedad médica)',
+          brief: 'Alteración de la conciencia y de las funciones cognitivas que aparece en poco tiempo y fluctúa, con evidencia de una causa médica o tóxica.',
+          sx: ['Menor capacidad para centrar, mantener o dirigir la atención.', 'Cambio cognitivo (memoria, orientación, lenguaje) o alteraciones perceptivas no explicadas por una demencia.', 'Aparece en horas o días y fluctúa durante el día.', 'Causa demostrable: enfermedad médica, intoxicación, abstinencia o varias.'] },
         v: { name: 'Delirium', code: 'F05 (según causa)',
-          brief: 'Alteración aguda y fluctuante de la atención y de la conciencia del entorno, con otra alteración cognitiva, causada por una afección médica, una sustancia o un medicamento.',
-          sx: ['Alteración de la atención y de la orientación al entorno.', 'Aparece en poco tiempo (horas o días), representa un cambio respecto al estado basal y fluctúa durante el día.', 'Alteración cognitiva adicional (memoria, orientación, lenguaje, percepción).', 'Especificadores: agudo o persistente; hiperactivo, hipoactivo o mixto.', 'No se explica mejor por un trastorno neurocognitivo previo ni ocurre en un coma.'],
-          dd: ['Trastorno neurocognitivo mayor: atención relativamente conservada al inicio; ambos pueden coexistir.', 'Depresión: el delirium hipoactivo suele confundirse con tristeza o apatía.', 'Trastornos psicóticos primarios.', 'Trastorno de estrés agudo.'],
-          cambio: '«Alteración de la conciencia» se reformula como alteración de la atención y de la orientación al entorno, y se añaden los especificadores de nivel de actividad.' } } },
-    esquizofrenia: { type: 'tra', grp: 'casos', casos: 'Casos 2 y 3', name: 'Esquizofrenia',
+          brief: 'Alteración aguda y fluctuante de la atención y de la orientación al entorno, causada por una afección médica, una sustancia o un medicamento. Es una urgencia médica.',
+          sx: ['Alteración de la atención y de la conciencia del entorno, con otra alteración cognitiva.', 'Aparece en horas o días, es un cambio respecto a lo habitual y fluctúa (suele empeorar en la tarde y la noche).', 'Hiperactivo: inquietud, agitación, intentos de retirarse sondas o vías. Hipoactivo: somnolencia, lentitud, pocas palabras; es el más frecuente y el que más se pasa por alto. Mixto: alterna ambos.', 'Agudo (horas a días) o persistente (semanas o meses).'],
+          cambio: '«Alteración de la conciencia» se reformula como alteración de la atención y de la orientación, y se añaden los especificadores hiperactivo, hipoactivo y mixto.' } },
+      dd: [['Demencia', 'la demencia avanza lentamente y la persona sigue «igual» a lo largo del día; el delirium cambia de un momento a otro y aparece de repente. Pregunta a la familia o a enfermería: «¿estaba así ayer?».'],
+           ['Depresión', 'el delirium hipoactivo parece tristeza o apatía, pero la persona no logra sostener la atención (pierde el hilo, se queda dormida, se desorienta). En la depresión la atención está conservada.'],
+           ['Psicosis primaria (esquizofrenia)', 'en la psicosis la persona suele estar orientada y alerta; en el delirium hay desorientación, somnolencia o fluctuación, y las alucinaciones suelen ser visuales.'],
+           ['Trastorno de estrés agudo', 'aparece tras un evento traumático con recuerdos intrusivos y evitación, pero la persona está orientada y atenta. En el delirium no hay un relato traumático que lo explique y sí desorientación.']] },
+    esquizofrenia: { type: 'tra', grp: 'casos', casos: 'Casos 2, 3 y 6', name: 'Esquizofrenia', alias: ['Esquizofrenia paranoide (DSM-IV-TR / CIE-10)'],
       rel: ['antipsic', 'suicida', 'ruta', 'tnc_leve', 'interconsulta', 'apoyosocial'], wiki: W('Esquizofrenia'),
       dsm: {
-        iv: { name: 'Esquizofrenia (subtipos paranoide, desorganizado, catatónico, indiferenciado y residual)', code: '295.30 paranoide · 295.xx',
-          brief: 'Trastorno psicótico de al menos seis meses de duración con síntomas positivos y negativos y deterioro social o laboral. Se clasificaba en subtipos según el síntoma predominante.',
-          sx: ['Dos o más durante un mes: ideas delirantes, alucinaciones, lenguaje desorganizado, comportamiento catatónico o gravemente desorganizado, síntomas negativos.', 'Basta un síntoma si las ideas delirantes son extrañas o las alucinaciones son voces que comentan o conversan entre sí.', 'Disfunción social o laboral marcada.', 'Duración continua de al menos seis meses, incluido al menos un mes de síntomas activos.', 'Subtipo paranoide: predominio de ideas delirantes o alucinaciones auditivas, con lenguaje y afecto relativamente conservados.'],
-          dd: ['Trastorno esquizoafectivo y trastornos del estado de ánimo con síntomas psicóticos.', 'Trastorno esquizofreniforme (de uno a seis meses) y trastorno psicótico breve (menos de un mes).', 'Trastorno delirante.', 'Trastorno psicótico debido a enfermedad médica (p. ej., epilepsia) o inducido por sustancias.', 'Delirium y demencia.'] },
+        iv: { name: 'Esquizofrenia', code: '295.30 paranoide · 295.xx otros subtipos',
+          brief: 'Trastorno psicótico de al menos seis meses con síntomas positivos y negativos y deterioro funcional. Se clasificaba en subtipos: paranoide, desorganizado, catatónico, indiferenciado y residual.',
+          sx: ['Dos o más durante un mes: ideas delirantes, alucinaciones, lenguaje desorganizado, conducta catatónica o muy desorganizada, síntomas negativos.', 'Basta uno si las ideas delirantes son extrañas o las voces comentan o conversan entre sí.', 'Deterioro social o laboral; duración total de seis meses o más.', 'Paranoide: predominan las ideas delirantes o las voces, con lenguaje y afecto relativamente conservados.'] },
         v: { name: 'Esquizofrenia', code: 'F20.9',
-          brief: 'Trastorno del espectro de la esquizofrenia con síntomas psicóticos durante al menos un mes, signos continuos durante seis meses y deterioro del funcionamiento. Desaparecen los subtipos.',
-          sx: ['Dos o más de cinco síntomas durante un mes, y al menos uno debe ser ideas delirantes, alucinaciones o discurso desorganizado.', 'Los otros posibles: comportamiento muy desorganizado o catatónico, síntomas negativos (expresión emotiva disminuida, abulia).', 'Deterioro del funcionamiento laboral, interpersonal o de autocuidado.', 'Signos continuos durante al menos seis meses.', 'Especificadores de curso, de catatonia y de gravedad dimensional de los síntomas.'],
-          dd: ['Trastorno esquizoafectivo; trastorno depresivo o bipolar con características psicóticas.', 'Trastorno esquizofreniforme, psicótico breve o delirante.', 'Trastorno psicótico debido a otra afección médica (epilepsia, lesiones cerebrales) o inducido por sustancias o medicamentos.', 'Delirium, trastorno neurocognitivo mayor, TOC o trastorno dismórfico corporal con poca introspección.'],
-          cambio: 'Se eliminan los subtipos (incluido el paranoide) y el trato especial de las ideas delirantes extrañas; al menos un síntoma debe ser positivo nuclear.' } } },
-    adaptativo: { type: 'tra', grp: 'casos', casos: 'Caso 4 (y familias del Caso 5)', name: 'Trastorno de adaptación',
-      rel: ['duelo', 'depresion', 'afrontamiento', 'paliativos', 'validacion'], wiki: S('Trastorno de adaptación'),
+          brief: 'Síntomas psicóticos durante al menos un mes, signos continuos durante seis meses y deterioro del funcionamiento. Desaparecen los subtipos.',
+          sx: ['Dos o más de cinco síntomas durante un mes; al menos uno debe ser ideas delirantes, alucinaciones o discurso desorganizado.', 'Los otros: conducta muy desorganizada o catatónica y síntomas negativos (poca expresión emocional, abulia).', 'Deterioro laboral, interpersonal o de autocuidado y signos continuos durante seis meses.', 'Especificadores de curso, de catatonia y de gravedad de los síntomas.'],
+          cambio: 'Se eliminan los subtipos (también el paranoide) y el trato especial de las ideas delirantes extrañas.' } },
+      dd: [['Trastorno esquizoafectivo', 'hay episodios de manía o depresión mayor durante buena parte de la enfermedad; en la esquizofrenia los síntomas afectivos son breves en comparación con la psicosis.'],
+           ['Depresión o bipolaridad con síntomas psicóticos', 'la psicosis aparece solo durante el episodio afectivo y desaparece cuando el ánimo se normaliza.'],
+           ['Esquizofreniforme y psicótico breve', 'se distinguen por la duración: menos de un mes (breve), de uno a seis meses (esquizofreniforme), más de seis meses (esquizofrenia).'],
+           ['Psicosis por afección médica o sustancias', 'aparece ligada a epilepsia, lesión cerebral, consumo o un fármaco, y su curso sigue al de esa causa.'],
+           ['Delirium', 'en el delirium hay desorientación y fluctuación de la atención; en la esquizofrenia la persona suele estar orientada.']] },
+    adaptativo: { type: 'tra', grp: 'casos', casos: 'Caso 4 (y familia del Caso 5)', name: 'Trastorno de adaptación', alias: ['Trastorno adaptativo'],
+      rel: ['duelo', 'depresion', 'afrontamiento', 'cronica', 'paliativos', 'validacion'], wiki: S('Trastorno de adaptación'),
       dsm: {
         iv: { name: 'Trastorno adaptativo', code: '309.x',
-          brief: 'Síntomas emocionales o comportamentales en respuesta a un estresante identificable, con un malestar mayor de lo esperable o un deterioro significativo. Era una categoría propia.',
-          sx: ['Aparición dentro de los tres meses siguientes al estresante (p. ej., un diagnóstico grave o la pérdida de autonomía).', 'Malestar mayor del esperable o deterioro social o laboral significativo.', 'No cumple criterios de otro trastorno del eje I ni es la exacerbación de uno previo.', 'No corresponde a una reacción de duelo.', 'Subtipos: con ánimo depresivo, con ansiedad, mixto, con trastorno del comportamiento; agudo (menos de seis meses) o crónico.'],
-          dd: ['Trastorno depresivo mayor o trastornos de ansiedad.', 'Trastorno por estrés postraumático o agudo.', 'Duelo no complicado.', 'Reacciones no patológicas al estrés (sin deterioro clínicamente significativo).'] },
+          brief: 'Síntomas emocionales o de conducta en respuesta a un estresante identificable, con un malestar mayor del esperable o un deterioro significativo. Era una categoría propia.',
+          sx: ['Aparecen dentro de los tres meses siguientes al estresante (un diagnóstico grave, la pérdida de autonomía).', 'Malestar mayor del esperable o deterioro social o laboral.', 'No cumple criterios de otro trastorno y no es un duelo.', 'Subtipos: con ánimo depresivo, con ansiedad, mixto o con alteración del comportamiento.'] },
         v: { name: 'Trastorno de adaptación', code: 'F43.2x',
-          brief: 'Respuesta emocional o conductual desproporcionada a un estresante identificable. Se reubica en los trastornos relacionados con traumas y factores de estrés.',
-          sx: ['Síntomas dentro de los tres meses posteriores al estresante.', 'Malestar desproporcionado, teniendo en cuenta el contexto y los factores culturales, o deterioro significativo.', 'No cumple criterios de otro trastorno mental ni es duelo normal.', 'Los síntomas no persisten más de seis meses tras terminar el estresante o sus consecuencias.', 'Mismos subtipos que en el DSM-IV-TR.'],
-          dd: ['Trastorno depresivo mayor (si cumple criterios, prevalece).', 'TEPT y trastorno de estrés agudo.', 'Duelo normal y, en el DSM-5-TR, trastorno de duelo prolongado.', 'Factores psicológicos que influyen en otras afecciones médicas.', 'En la enfermedad crónica: tristeza o preocupación esperables que no constituyen trastorno.'],
-          cambio: 'Pasa a la familia de trastornos relacionados con traumas y factores de estrés; los criterios esenciales se mantienen.' } } },
-    tdm: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia (ENSM 2015)', name: 'Trastorno depresivo mayor',
+          brief: 'Respuesta emocional o conductual desproporcionada a un estresante identificable. Se ubica entre los trastornos relacionados con traumas y factores de estrés.',
+          sx: ['Síntomas dentro de los tres meses posteriores al estresante.', 'Malestar desproporcionado, considerando el contexto y la cultura, o deterioro significativo.', 'No cumple criterios de otro trastorno mental ni es un duelo normal.', 'No dura más de seis meses después de terminar el estresante o sus consecuencias.'],
+          cambio: 'Pasa a la familia de trastornos relacionados con traumas y factores de estrés; los criterios esenciales se mantienen.' } },
+      dd: [['Reacción esperable a la enfermedad', 'tristeza o preocupación proporcionadas a la situación, sin deterioro marcado. La mayoría de las respuestas ante una enfermedad grave son esto, no un trastorno.'],
+           ['Trastorno depresivo mayor', 'si cumple los cinco síntomas durante dos semanas, se diagnostica depresión aunque haya un estresante claro.'],
+           ['TEPT o estrés agudo', 'exigen un evento traumático (amenaza de muerte, lesión grave) con recuerdos intrusivos; el de adaptación sigue a cualquier estresante, sin intrusiones.'],
+           ['Duelo', 'si la reacción es por la muerte de un ser querido y su intensidad es la esperable en su cultura, es duelo, no trastorno de adaptación.']] },
+    tdm: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia', name: 'Trastorno depresivo', alias: ['Trastorno depresivo mayor', 'Depresión mayor', 'Episodio depresivo (CIE-10)'],
       rel: ['depresion', 'suicida', 'ruta', 'ac', 'isrs', 'adaptativo'], wiki: S('Trastorno depresivo mayor'),
       dsm: {
-        iv: { name: 'Trastorno depresivo mayor (episodio único o recidivante)', code: '296.2x / 296.3x',
-          brief: 'Uno o más episodios depresivos mayores sin antecedentes de episodios maníacos, mixtos ni hipomaníacos.',
-          sx: ['Cinco o más síntomas durante dos semanas, al menos uno de ellos ánimo depresivo o pérdida de interés o placer.', 'Otros: cambios de peso o apetito, insomnio o hipersomnia, agitación o enlentecimiento, fatiga, inutilidad o culpa, dificultad para concentrarse, ideas de muerte o suicidio.', 'Malestar o deterioro clínicamente significativo.', 'Exclusión por duelo: no se diagnostica si los síntomas se explican mejor por la pérdida de un ser querido (menos de dos meses).'],
-          dd: ['Trastorno del estado de ánimo debido a enfermedad médica o inducido por sustancias (corticoides, interferón, alcohol).', 'Trastorno bipolar (episodios maníacos o hipomaníacos previos).', 'Trastorno distímico.', 'Trastorno adaptativo con ánimo depresivo; duelo.', 'Demencia y delirium hipoactivo.'] },
-        v: { name: 'Trastorno depresivo mayor', code: 'F32.x (único) · F33.x (recurrente)',
-          brief: 'Mismos nueve síntomas y el mismo umbral; se elimina la exclusión por duelo y se añaden especificadores clínicos.',
-          sx: ['Cinco o más síntomas durante dos semanas, al menos uno ánimo depresivo o anhedonia.', 'En la enfermedad crónica, los síntomas físicos (fatiga, apetito, sueño) se solapan con la enfermedad: pesan más la anhedonia, la culpa, la desesperanza y la ideación suicida.', 'Malestar o deterioro significativo, no atribuible a sustancias ni a otra afección médica.', 'Especificadores: con ansiedad, con características mixtas, melancólicas, psicóticas, con inicio en el periparto, entre otros.'],
-          dd: ['Trastorno depresivo debido a otra afección médica o inducido por sustancias o medicamentos.', 'Trastorno bipolar.', 'Trastorno depresivo persistente (distimia).', 'Trastorno de adaptación con estado de ánimo deprimido y duelo (juicio clínico).', 'Delirium hipoactivo y trastorno neurocognitivo con apatía.'],
-          cambio: 'Se elimina la exclusión por duelo (decide el juicio clínico) y se añade el especificador «con ansiedad».' } } },
-    tag: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia (ENSM 2015)', name: 'Trastorno de ansiedad generalizada',
-      rel: ['ansiedad', 'tcc', 'respiracion', 'benzo', 'isrs'], wiki: S('Trastorno de ansiedad generalizada'),
+        iv: { name: 'Trastorno depresivo mayor', code: '296.2x único · 296.3x recidivante',
+          brief: 'Uno o más episodios depresivos mayores sin antecedentes de manía, hipomanía ni episodios mixtos.',
+          sx: ['Cinco o más síntomas durante dos semanas; al menos uno es ánimo depresivo o pérdida de interés o placer.', 'Otros: cambios de peso o apetito, sueño alterado, agitación o enlentecimiento, fatiga, culpa o inutilidad, poca concentración, ideas de muerte.', 'Malestar o deterioro significativo.', 'Exclusión por duelo: no se diagnostica si se explica por la muerte de un ser querido en los dos meses previos.'] },
+        v: { name: 'Trastorno depresivo mayor', code: 'F32.x único · F33.x recurrente',
+          brief: 'Mismos nueve síntomas y mismo umbral; se elimina la exclusión por duelo y se añaden especificadores.',
+          sx: ['Cinco o más síntomas durante dos semanas; al menos uno es ánimo depresivo o anhedonia.', 'En la enfermedad crónica la fatiga, el apetito y el sueño se solapan con la enfermedad: pesan más la anhedonia, la culpa, la desesperanza y la ideación suicida.', 'No se explica por sustancias ni por otra afección médica.', 'Especificadores: con ansiedad, con características mixtas, melancólicas, psicóticas, entre otros.'],
+          cambio: 'Se elimina la exclusión por duelo (decide el juicio clínico) y se añade el especificador «con ansiedad».' } },
+      dd: [['Tristeza esperable por la enfermedad', 'la persona sigue disfrutando de algunas cosas (una visita, la música) y conserva la esperanza; en la depresión predominan la anhedonia y la desesperanza la mayor parte del día.'],
+           ['Trastorno bipolar', 'pregunta si alguna vez tuvo días de energía excesiva, poco sueño sin cansancio y euforia o irritabilidad; si los hubo, no es depresión unipolar.'],
+           ['Depresión por afección médica o fármacos', 'aparece tras un fármaco (corticoides, interferón) o por hipotiroidismo u otra enfermedad, y su curso sigue al de esa causa.'],
+           ['Delirium hipoactivo', 'parece apatía, pero hay desorientación, somnolencia y fluctuación de la atención.'],
+           ['Trastorno de adaptación', 'el malestar sigue a un estresante sin llegar a los cinco síntomas durante dos semanas.']] },
+    tag: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia', name: 'Trastorno de ansiedad', alias: ['Trastorno de ansiedad generalizada (TAG)', 'Trastornos de ansiedad'],
+      rel: ['ansiedad', 'tcc', 'respiracion', 'benzo', 'isrs', 'hipoxia'], wiki: S('Trastorno de ansiedad generalizada'),
       dsm: {
         iv: { name: 'Trastorno de ansiedad generalizada', code: '300.02',
-          brief: 'Ansiedad y preocupación excesivas y difíciles de controlar sobre diversos temas, la mayoría de los días durante al menos seis meses.',
-          sx: ['Preocupación excesiva sobre varios acontecimientos o actividades, la mayoría de los días, durante seis meses o más.', 'Dificultad para controlar la preocupación.', 'Tres o más de: inquietud, fatigabilidad, dificultad para concentrarse, irritabilidad, tensión muscular, alteraciones del sueño.', 'No se limita a los aspectos de otro trastorno del eje I ni aparece exclusivamente durante un trastorno del estado de ánimo o psicótico.'],
-          dd: ['Trastorno de ansiedad debido a enfermedad médica (hipertiroidismo, hipoxia, dolor).', 'Trastorno de ansiedad inducido por sustancias (cafeína, broncodilatadores, abstinencia).', 'TOC, fobia social, trastorno de angustia, TEPT.', 'Trastorno depresivo mayor y trastorno adaptativo con ansiedad.'] },
+          brief: 'Ansiedad y preocupación excesivas y difíciles de controlar sobre varios temas, la mayoría de los días durante al menos seis meses. Es el modelo de los trastornos de ansiedad, junto con el pánico y las fobias.',
+          sx: ['Preocupación excesiva sobre diversos asuntos durante seis meses o más.', 'Dificultad para controlarla.', 'Tres o más de: inquietud, fatiga, poca concentración, irritabilidad, tensión muscular, sueño alterado.', 'No se limita a los temas de otro trastorno ni ocurre solo durante un trastorno del ánimo.'] },
         v: { name: 'Trastorno de ansiedad generalizada', code: 'F41.1',
-          brief: 'Los criterios se mantienen prácticamente sin cambios respecto al DSM-IV-TR.',
-          sx: ['Ansiedad y preocupación excesivas, la mayoría de los días durante al menos seis meses, sobre diversos temas.', 'Difícil de controlar.', 'Tres o más de seis síntomas (inquietud, fatiga, concentración, irritabilidad, tensión muscular, sueño).', 'Malestar o deterioro significativo, no atribuible a sustancias ni a otra afección médica, y no explicado mejor por otro trastorno mental.'],
-          dd: ['Trastorno de ansiedad debido a otra afección médica o inducido por sustancias o medicamentos.', 'Preocupación realista y proporcionada ante una enfermedad grave (no es trastorno).', 'TOC, TEPT, trastorno de adaptación, trastorno de ansiedad por enfermedad.', 'Trastorno depresivo mayor.'],
-          cambio: 'Sin cambios sustanciales; se reorganizan las exclusiones con ejemplos de otros trastornos.' } } },
-    tept: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia (conflicto armado y violencias)', name: 'Trastorno de estrés postraumático',
+          brief: 'Los criterios se mantienen prácticamente igual. El capítulo de ansiedad del DSM-5 deja fuera el TOC y el TEPT, que pasan a capítulos propios.',
+          sx: ['Ansiedad y preocupación excesivas, la mayoría de los días durante seis meses o más.', 'Difícil de controlar.', 'Tres o más de seis síntomas (inquietud, fatiga, concentración, irritabilidad, tensión, sueño).', 'No se explica por sustancias, otra afección médica ni otro trastorno mental.'],
+          cambio: 'Sin cambios sustanciales en el TAG; el TOC y el TEPT salen del capítulo de ansiedad.' } },
+      dd: [['Preocupación realista por la enfermedad', 'es proporcionada a un riesgo real y se centra en ese tema; en el TAG la preocupación salta de un asunto a otro y dura meses.'],
+           ['Ansiedad por causa médica', 'hipoxia, dolor, hipertiroidismo o hipoglucemia producen ansiedad física intensa: revisa la saturación y el dolor antes de pensar en un trastorno.'],
+           ['Ansiedad por sustancias o fármacos', 'cafeína, broncodilatadores, corticoides o la abstinencia de alcohol o benzodiacepinas la producen o empeoran.'],
+           ['Trastorno de pánico', 'crisis bruscas de miedo intenso que alcanzan su máximo en minutos, en lugar de una preocupación constante.'],
+           ['Depresión', 'si predomina el ánimo bajo y la anhedonia, la ansiedad suele ser un especificador de la depresión.']] },
+    tept: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia (conflicto armado y violencias)', name: 'Trastorno de estrés postraumático', alias: ['TEPT'],
       rel: ['crisis', 'pap', 'regulacion', 'apoyosocial', 'adaptativo'], wiki: W('Trastorno_por_estrés_postraumático'),
       dsm: {
         iv: { name: 'Trastorno por estrés postraumático', code: '309.81',
-          brief: 'Clasificado entre los trastornos de ansiedad. Tras un acontecimiento traumático aparecen reexperimentación, evitación y aumento de la activación durante más de un mes.',
-          sx: ['A1: exposición a un acontecimiento con muerte o amenaza para la integridad física; A2: respuesta de temor, desesperanza u horror intensos.', 'Reexperimentación (uno o más): recuerdos intrusivos, pesadillas, flashbacks, malestar ante estímulos asociados.', 'Evitación y embotamiento (tres o más).', 'Aumento de la activación (dos o más): insomnio, irritabilidad, hipervigilancia, sobresaltos, problemas de concentración.', 'Duración superior a un mes; agudo (menos de tres meses), crónico o de inicio demorado.'],
-          dd: ['Trastorno por estrés agudo (menos de un mes).', 'Trastorno adaptativo (estresante no traumático).', 'Trastorno depresivo mayor y otros trastornos de ansiedad.', 'TOC, trastornos disociativos y psicóticos.', 'Lesión cerebral traumática.'] },
+          brief: 'Clasificado entre los trastornos de ansiedad: tras un evento traumático aparecen reexperimentación, evitación y aumento de la activación durante más de un mes.',
+          sx: ['Exposición a un evento con amenaza de muerte o lesión, con respuesta de temor, desesperanza u horror intensos.', 'Reexperimentación: recuerdos intrusivos, pesadillas, flashbacks.', 'Evitación y embotamiento emocional (tres o más).', 'Hiperactivación (dos o más): insomnio, irritabilidad, hipervigilancia, sobresaltos; más de un mes.'] },
         v: { name: 'Trastorno de estrés postraumático', code: 'F43.10',
           brief: 'Pasa a los trastornos relacionados con traumas y factores de estrés, con cuatro grupos de síntomas.',
-          sx: ['A: exposición directa, como testigo, al enterarse de lo ocurrido a un ser cercano o por exposición repetida a detalles aversivos (p. ej., profesionales). Se elimina A2.', 'Intrusión (uno o más) y evitación (uno o más).', 'Alteraciones negativas de la cognición y el estado de ánimo (dos o más): culpa, creencias negativas, desapego, incapacidad de sentir emociones positivas.', 'Alteración de la activación y la reactividad (dos o más), incluida la conducta imprudente o autodestructiva.', 'Duración superior a un mes; especificadores con síntomas disociativos y con expresión retardada.'],
-          dd: ['Trastorno de estrés agudo (de tres días a un mes).', 'Trastorno de adaptación.', 'Trastorno depresivo mayor, de ansiedad o TOC.', 'Trastornos disociativos y psicóticos.', 'Lesión cerebral traumática; en el hospital, malestar tras la estancia en UCI.'],
-          cambio: 'Sale de los trastornos de ansiedad, desaparece el criterio A2 y la evitación pasa a ser un grupo propio, con un nuevo grupo de cognición y ánimo.' } } },
-    alcohol: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia (ENSM 2015 y estudios de consumo)', name: 'Trastorno por consumo de alcohol',
-      rel: ['emotiv', 'balance', 'delirium', 'benzo', 'interconsulta'], wiki: S('Trastorno por consumo de alcohol'),
+          sx: ['Exposición directa, como testigo, al enterarse de lo ocurrido a un ser cercano o por exposición repetida a detalles aversivos (profesionales). Ya no se exige la reacción de horror.', 'Intrusión (uno o más) y evitación (uno o más).', 'Cambios negativos en pensamientos y ánimo (dos o más): culpa, creencias negativas, desapego.', 'Alteraciones de la activación (dos o más), incluida la conducta imprudente; más de un mes.'],
+          cambio: 'Sale de los trastornos de ansiedad, desaparece la exigencia de reacción de horror y se añade un grupo de cambios en cognición y ánimo.' } },
+      dd: [['Trastorno de estrés agudo', 'mismo tipo de síntomas, pero duran de tres días a un mes; después de un mes se considera TEPT.'],
+           ['Trastorno de adaptación', 'sigue a cualquier estresante (un despido, un diagnóstico) sin recuerdos intrusivos ni flashbacks.'],
+           ['Depresión', 'puede coexistir; si no hay intrusiones ni evitación ligadas al evento, es depresión sin TEPT.'],
+           ['Psicosis', 'los flashbacks son recuerdos vividos del evento y la persona sabe que son recuerdos; las alucinaciones psicóticas no se relacionan con un trauma concreto.']] },
+    sustancias: { type: 'tra', grp: 'col', casos: 'Frecuente en Colombia (alcohol, tabaco, cannabis)', name: 'Trastorno por consumo de sustancias psicoactivas', alias: ['Abuso de sustancias', 'Dependencia de sustancias', 'Trastorno por consumo de alcohol'],
+      rel: ['emotiv', 'balance', 'delirium', 'benzo', 'interconsulta', 'trabsocial'], wiki: S('Trastorno por consumo de sustancias'),
       dsm: {
-        iv: { name: 'Abuso de alcohol / Dependencia del alcohol', code: '305.00 abuso · 303.90 dependencia',
-          brief: 'Dos diagnósticos jerárquicos: el abuso (consecuencias negativas recurrentes) y la dependencia (patrón de pérdida de control, con o sin dependencia fisiológica).',
-          sx: ['Abuso: uno o más en doce meses: incumplir obligaciones, consumo en situaciones peligrosas, problemas legales, consumo pese a problemas sociales.', 'Dependencia: tres o más en doce meses: tolerancia, abstinencia, consumo mayor del previsto, deseo persistente o fracaso al controlarlo, mucho tiempo dedicado, abandono de actividades, consumo pese a problemas físicos o psicológicos.', 'Si alguna vez cumplió criterios de dependencia, no se diagnostica abuso.'],
-          dd: ['Consumo no patológico.', 'Intoxicación o abstinencia aisladas sin patrón de abuso o dependencia.', 'Trastornos inducidos por alcohol (ánimo, ansiedad, sueño).', 'Consumo de otras sustancias.'] },
-        v: { name: 'Trastorno por consumo de alcohol', code: 'F10.10 leve · F10.20 moderado o grave',
-          brief: 'Un único trastorno dimensional que unifica abuso y dependencia, con gravedad según el número de criterios.',
-          sx: ['Dos o más de once criterios en doce meses (control, deterioro social, consumo de riesgo, criterios farmacológicos).', 'Se añade el deseo intenso de consumir (craving) y se elimina «problemas legales».', 'Gravedad: leve (2–3 criterios), moderado (4–5), grave (6 o más).', 'En el hospital: la abstinencia (temblor, sudoración, ansiedad, alucinaciones, convulsiones, delirium tremens a las 48–96 horas) es una urgencia médica que se informa de inmediato.'],
-          dd: ['Consumo no patológico.', 'Intoxicación o abstinencia sin trastorno por consumo.', 'Trastornos depresivos o de ansiedad inducidos por alcohol frente a primarios (valorar tras la abstinencia).', 'Trastornos por consumo de otras sustancias.', 'Encefalopatía de Wernicke y delirium.'],
-          cambio: 'Abuso y dependencia se unen en un solo trastorno con niveles de gravedad; entra el craving y sale el criterio legal.' } } }
+        iv: { name: 'Abuso y dependencia de sustancias', code: '305.xx abuso · 304.xx / 303.90 dependencia',
+          brief: 'Dos diagnósticos jerárquicos para cada sustancia: el abuso (consecuencias negativas repetidas) y la dependencia (pérdida de control, con o sin dependencia fisiológica).',
+          sx: ['Abuso: uno o más en doce meses: incumplir obligaciones, consumo en situaciones peligrosas, problemas legales, consumo pese a problemas sociales.', 'Dependencia: tres o más en doce meses: tolerancia, abstinencia, consumir más de lo previsto, fracaso al controlarlo, mucho tiempo dedicado, abandono de actividades, consumo pese al daño.', 'Si alguna vez hubo dependencia, ya no se diagnostica abuso.'] },
+        v: { name: 'Trastorno por consumo de sustancias', code: 'F10.x alcohol · F12.x cannabis · F14.x cocaína',
+          brief: 'Un solo trastorno dimensional por sustancia que une abuso y dependencia, con gravedad según el número de criterios.',
+          sx: ['Dos o más de once criterios en doce meses (control, deterioro social, consumo de riesgo, tolerancia y abstinencia).', 'Entra el deseo intenso de consumir (craving) y sale el criterio de problemas legales.', 'Gravedad: leve (2–3), moderado (4–5), grave (6 o más).', 'En el hospital, la abstinencia de alcohol (temblor, sudoración, alucinaciones, convulsiones, delirium tremens a las 48–96 horas) es una urgencia médica.'],
+          cambio: 'Abuso y dependencia se unen en un solo trastorno con niveles de gravedad; entra el craving y sale el criterio legal.' } },
+      dd: [['Consumo sin trastorno', 'consumo ocasional sin pérdida de control ni consecuencias repetidas; no cumple dos criterios en doce meses.'],
+           ['Intoxicación o abstinencia aisladas', 'son cuadros agudos que pueden ocurrir sin un patrón de consumo problemático.'],
+           ['Depresión o ansiedad inducidas', 'si los síntomas aparecen con el consumo y desaparecen tras unas semanas de abstinencia, son inducidos; si persisten, probablemente son primarios.'],
+           ['Uso de medicamentos prescritos', 'la tolerancia y la abstinencia por opioides o benzodiacepinas tomados según indicación médica no cuentan como criterios.']] },
+    bipolar: { type: 'tra', grp: 'col', casos: 'Frecuente en la práctica clínica', name: 'Trastorno afectivo bipolar', alias: ['Trastorno bipolar I', 'Trastorno bipolar II', 'TAB'],
+      rel: ['antipsic', 'tdm', 'suicida', 'interconsulta', 'adherencia', 'psicoed'], wiki: W('Trastorno_bipolar'),
+      dsm: {
+        iv: { name: 'Trastorno bipolar', code: '296.xx (tipo I) · 296.89 (tipo II)',
+          brief: 'Clasificado entre los trastornos del estado de ánimo: episodios de manía o hipomanía, habitualmente alternados con episodios depresivos.',
+          sx: ['Manía: una semana o más de ánimo elevado, expansivo o irritable, con tres o más síntomas (grandiosidad, menos necesidad de dormir, verborrea, fuga de ideas, distraibilidad, más actividad, conductas de riesgo).', 'Tipo I: al menos un episodio maníaco o mixto. Tipo II: depresión mayor más hipomanía (cuatro días o más, sin deterioro grave).', 'Episodio mixto: manía y depresión mayor a la vez durante una semana.'] },
+        v: { name: 'Trastorno bipolar I / II', code: 'F31.x',
+          brief: 'Tiene capítulo propio entre los trastornos depresivos y la esquizofrenia. Además del ánimo, la energía o la actividad aumentada pasan a ser criterio central.',
+          sx: ['Manía: ánimo elevado o irritable y aumento de la energía o la actividad, una semana o más, con tres o más síntomas.', 'Hipomanía: cuatro días o más, observable por otros, sin deterioro grave ni psicosis.', 'Desaparece el «episodio mixto»: se usa el especificador «con características mixtas».', 'Tipo I: al menos una manía. Tipo II: al menos una hipomanía y una depresión mayor, sin manía nunca.'],
+          cambio: 'Capítulo propio, energía o actividad aumentada como criterio central y especificador de características mixtas en lugar del episodio mixto.' } },
+      dd: [['Depresión unipolar', 'la clave es la historia: pregunta por días de mucha energía, poco sueño sin cansancio y planes excesivos. Si nunca los hubo, es depresión unipolar.'],
+           ['Manía inducida por sustancias o fármacos', 'aparece con corticoides, antidepresivos, estimulantes o cocaína y cede al retirarlos.'],
+           ['Esquizofrenia o trastorno esquizoafectivo', 'en el bipolar la psicosis ocurre dentro de los episodios afectivos; en la esquizofrenia persiste sin ellos.'],
+           ['Trastorno límite de la personalidad', 'sus cambios de ánimo duran horas y responden a situaciones interpersonales; los episodios bipolares duran días o semanas.']] },
+    tdah: { type: 'tra', grp: 'col', casos: 'Frecuente en la práctica clínica', name: 'Trastorno por déficit de atención e hiperactividad', alias: ['TDAH'],
+      rel: ['psicoed', 'reforzamiento', 'regulacion', 'sustancias', 'conducta'], wiki: W('Trastorno_por_déficit_de_atención_con_hiperactividad'),
+      dsm: {
+        iv: { name: 'Trastorno por déficit de atención con hiperactividad', code: '314.xx',
+          brief: 'Patrón persistente de inatención y/o hiperactividad-impulsividad, más frecuente y grave que lo esperable para la edad, con inicio en la infancia.',
+          sx: ['Seis o más síntomas de inatención y/o seis o más de hiperactividad-impulsividad durante seis meses.', 'Algunos síntomas que causaban deterioro estaban presentes antes de los siete años.', 'Deterioro en dos o más ambientes (casa, colegio, trabajo).', 'Subtipos: combinado, con predominio inatento o con predominio hiperactivo-impulsivo. No se diagnosticaba junto con autismo.'] },
+        v: { name: 'Trastorno por déficit de atención/hiperactividad', code: 'F90.x',
+          brief: 'Se ubica entre los trastornos del neurodesarrollo y se adapta mejor al diagnóstico en adolescentes y adultos.',
+          sx: ['Seis o más síntomas en una o ambas dimensiones; desde los 17 años bastan cinco.', 'Varios síntomas presentes antes de los 12 años.', 'Presentes en dos o más ambientes, con interferencia en el funcionamiento.', 'Los subtipos pasan a ser «presentaciones» y se permite el diagnóstico junto con el autismo.'],
+          cambio: 'Edad de inicio de 7 a 12 años, umbral de cinco síntomas en adultos y posibilidad de diagnosticarlo junto con autismo.' } },
+      dd: [['Ansiedad o depresión', 'la desatención aparece con el malestar emocional y no desde la infancia; en el TDAH los síntomas existen desde antes de los 12 años.'],
+           ['Discapacidad intelectual', 'si la desatención es proporcional a su nivel de desarrollo, no se diagnostica TDAH.'],
+           ['Trastorno negativista o de la conducta', 'en estos la persona no quiere cumplir; en el TDAH quiere, pero no logra sostener la atención o frenar el impulso.'],
+           ['Consumo de sustancias o problemas de sueño', 'producen inatención que no existía antes y mejora al corregir la causa.']] },
+    tlp: { type: 'tra', grp: 'col', casos: 'Frecuente en la práctica clínica', name: 'Trastorno límite de la personalidad', alias: ['TLP', 'Trastorno de inestabilidad emocional de la personalidad (CIE-10)'],
+      rel: ['regulacion', 'validacion', 'suicida', 'ruta', 'encuadre', 'alianza'], wiki: W('Trastorno_límite_de_la_personalidad'),
+      dsm: {
+        iv: { name: 'Trastorno límite de la personalidad', code: '301.83 (eje II)',
+          brief: 'Patrón persistente de inestabilidad en las relaciones, la autoimagen y el afecto, con impulsividad marcada desde el inicio de la edad adulta. Se registraba en el eje II del sistema multiaxial.',
+          sx: ['Cinco o más de nueve criterios.', 'Esfuerzos frenéticos por evitar el abandono; relaciones intensas e inestables (idealización y devaluación).', 'Identidad inestable, impulsividad dañina, conductas autolesivas o amenazas suicidas recurrentes.', 'Inestabilidad afectiva, vacío crónico, ira intensa, ideas paranoides o disociación transitorias con el estrés.'] },
+        v: { name: 'Trastorno límite de la personalidad', code: 'F60.3',
+          brief: 'Los nueve criterios se mantienen. Desaparece el sistema multiaxial y se propone, aparte, un modelo dimensional alternativo para estudio.',
+          sx: ['Cinco o más de los mismos nueve criterios.', 'Patrón estable desde el inicio de la edad adulta y en varios contextos.', 'La sección III del manual propone evaluarlo por el nivel de funcionamiento de la personalidad y por rasgos (afectividad negativa, desinhibición, antagonismo).'],
+          cambio: 'Sin cambios en los criterios; desaparece el eje II y se añade un modelo alternativo dimensional.' } },
+      dd: [['Trastorno bipolar', 'los cambios de ánimo del TLP duran horas y se disparan por situaciones con otras personas; los episodios bipolares duran días o semanas y tienen cambios de energía y sueño.'],
+           ['Depresión', 'la depresión es un episodio con inicio y fin; el TLP es un patrón estable desde la juventud. Pueden coexistir.'],
+           ['Reacción a la hospitalización o a la enfermedad', 'la irritabilidad o la desconfianza ligadas a la situación actual, sin un patrón de toda la vida, no son un trastorno de personalidad. No se diagnostica personalidad en un solo encuentro ni en crisis.'],
+           ['Cambio de personalidad por afección médica', 'aparece después de un TCE, ACV u otra lesión cerebral, en alguien que antes no era así.']] },
+    insomnio: { type: 'tra', grp: 'col', casos: 'Frecuente en hospitalización', name: 'Insomnio no orgánico', alias: ['Insomnio primario', 'Trastorno de insomnio', 'Insomnio no orgánico (CIE-10 F51.0)'],
+      rel: ['ansiedad', 'regulacion', 'relajacion', 'benzo', 'depresion'], wiki: W('Insomnio'),
+      dsm: {
+        iv: { name: 'Insomnio primario', code: '307.42',
+          brief: 'Dificultad para iniciar o mantener el sueño, o sueño no reparador, durante al menos un mes, que no se explica por otro trastorno mental, médico ni por sustancias. El insomnio asociado a otra condición se codificaba aparte.',
+          sx: ['Dificultad para conciliar o mantener el sueño, o sueño no reparador, durante un mes o más.', 'Malestar o deterioro diurno significativo.', 'No ocurre exclusivamente en el curso de otro trastorno del sueño o mental.', 'No se debe a sustancias ni a una enfermedad médica.'] },
+        v: { name: 'Trastorno de insomnio', code: 'F51.01 / G47.00',
+          brief: 'Insatisfacción con la cantidad o la calidad del sueño al menos tres noches por semana durante tres meses. Desaparece la distinción entre insomnio primario y secundario: se diagnostica aunque coexista con otra condición, si merece atención propia.',
+          sx: ['Dificultad para iniciar o mantener el sueño, o despertar precoz sin poder volver a dormir.', 'Al menos tres noches por semana durante tres meses (episódico si dura de uno a tres meses).', 'Ocurre pese a tener oportunidad adecuada de dormir.', 'Malestar o deterioro diurno: cansancio, irritabilidad, poca concentración.'],
+          cambio: 'Se elimina la división primario/secundario, se exigen tres noches por semana durante tres meses y puede diagnosticarse junto con otras condiciones.' } },
+      dd: [['Sueño alterado por el entorno hospitalario', 'ruido, luz, controles nocturnos o dolor: no hay «oportunidad adecuada de dormir», así que no es trastorno de insomnio. Cuenta lo que pasaba en casa.'],
+           ['Depresión o ansiedad', 'si el insomnio es un síntoma más del cuadro y no necesita atención propia, se registra como parte de ese trastorno.'],
+           ['Apnea del sueño u otros trastornos del sueño', 'ronquidos fuertes, pausas respiratorias o piernas inquietas apuntan a otro trastorno del sueño.'],
+           ['Fármacos o sustancias', 'corticoides, broncodilatadores, cafeína o la abstinencia de alcohol y benzodiacepinas.']] },
+    somatico: { type: 'tra', grp: 'col', casos: 'Frecuente en atención en salud', name: 'Trastorno de síntomas somáticos', alias: ['Trastornos somatomorfos', 'Trastorno de somatización', 'Trastorno de ansiedad por enfermedad', 'Hipocondría'],
+      rel: ['ansiedad', 'psicoed', 'validacion', 'cronica', 'alianza'], wiki: S('Trastorno de síntomas somáticos'),
+      dsm: {
+        iv: { name: 'Trastornos somatomorfos', code: '300.81 somatización · 300.7 hipocondría',
+          brief: 'Síntomas físicos que no se explican completamente por una enfermedad médica. El de somatización exigía muchos síntomas sin explicación médica desde antes de los 30 años; la hipocondría, el miedo a tener una enfermedad grave.',
+          sx: ['Somatización: cuatro síntomas de dolor, dos gastrointestinales, uno sexual y uno pseudoneurológico, sin explicación médica suficiente.', 'Inicio antes de los 30 años y curso de varios años.', 'Hipocondría: preocupación por tener una enfermedad grave durante seis meses o más, que persiste pese a exploraciones normales.', 'Incluía también el trastorno de conversión, el trastorno por dolor y el dismórfico corporal.'] },
+        v: { name: 'Trastorno de síntomas somáticos', code: 'F45.1',
+          brief: 'Lo central ya no es que el síntoma «no tenga explicación médica», sino la respuesta desproporcionada de pensamientos, emociones y conductas ante él. Puede diagnosticarse aunque exista una enfermedad médica real.',
+          sx: ['Uno o más síntomas somáticos que causan malestar o alteran la vida diaria.', 'Pensamientos desproporcionados sobre su gravedad, ansiedad persistente por la salud o demasiado tiempo y energía dedicados a ellos.', 'Duración habitual de más de seis meses.', 'El antiguo hipocondríaco sin síntomas físicos pasa a «trastorno de ansiedad por enfermedad».'],
+          cambio: 'Se abandona el criterio de «síntomas sin explicación médica»; el foco es la respuesta excesiva al síntoma. La somatización y la hipocondría se reorganizan en dos diagnósticos.' } },
+      dd: [['Enfermedad médica no diagnosticada aún', 'antes de pensar en lo psicológico, el equipo médico debe descartar la causa física; nunca concluyas que un síntoma «es psicológico».'],
+           ['Preocupación proporcionada en la enfermedad crónica', 'preocuparse por un síntoma nuevo en alguien con una enfermedad grave es esperable; es trastorno si la respuesta es claramente desproporcionada y domina su vida.'],
+           ['Trastorno de ansiedad o depresión', 'si las quejas físicas aparecen solo dentro de un episodio ansioso o depresivo, se registran como parte de él.'],
+           ['Trastorno de pánico', 'los síntomas físicos aparecen en crisis bruscas de minutos, no como una preocupación sostenida.']] },
+    tca: { type: 'tra', grp: 'col', casos: 'Frecuente en adolescentes y adultos jóvenes', name: 'Trastornos de la conducta alimentaria', alias: ['TCA', 'Anorexia nerviosa', 'Bulimia nerviosa', 'Trastorno por atracón'],
+      rel: ['regulacion', 'interconsulta', 'interdisc', 'tcc', 'suicida'], wiki: W('Trastorno_de_la_conducta_alimentaria'),
+      dsm: {
+        iv: { name: 'Trastornos de la conducta alimentaria', code: '307.1 anorexia · 307.51 bulimia · 307.50 no especificado',
+          brief: 'Comprendía la anorexia nerviosa, la bulimia nerviosa y el trastorno no especificado, donde quedaban muchos casos (incluido el atracón).',
+          sx: ['Anorexia: peso inferior al 85 % del esperado, miedo intenso a engordar, alteración de la imagen corporal y amenorrea.', 'Bulimia: atracones y conductas compensatorias (vómito, laxantes, ayuno) dos veces por semana durante tres meses.', 'Atracón: solo en el apéndice de investigación.'] },
+        v: { name: 'Trastornos alimentarios y de la ingestión de alimentos', code: 'F50.0x anorexia · F50.2 bulimia · F50.81 atracón',
+          brief: 'Capítulo ampliado que incluye la anorexia, la bulimia, el trastorno por atracón y el trastorno de evitación/restricción de la ingesta, entre otros.',
+          sx: ['Anorexia: restricción que lleva a un peso significativamente bajo, miedo a engordar y alteración de la imagen corporal. Se elimina la amenorrea.', 'Bulimia: atracones y compensaciones una vez por semana durante tres meses.', 'Atracón: atracones semanales con pérdida de control y malestar, sin compensación.', 'Evitación/restricción: come muy poco por desinterés o miedo (a atragantarse, por ejemplo), sin preocupación por la figura.'],
+          cambio: 'Se elimina la amenorrea, baja la frecuencia exigida en la bulimia y el trastorno por atracón se reconoce como diagnóstico.' } },
+      dd: [['Pérdida de peso por enfermedad médica', 'en el cáncer, la EPOC o la disfagia se pierde peso sin miedo a engordar ni alteración de la imagen corporal.'],
+           ['Depresión', 'el apetito disminuye por desinterés general, sin miedo a engordar ni conductas compensatorias.'],
+           ['Disfagia o miedo a atragantarse', 'si come poco por miedo a ahogarse, sin preocupación por el cuerpo, orienta a evitación/restricción o a un problema médico de deglución.'],
+           ['Conducta alimentaria en la psicosis', 'el rechazo a comer se debe a una idea delirante (p. ej., «la comida está envenenada»), no a la figura.']] },
+    tea: { type: 'tra', grp: 'col', casos: 'Frecuente en la práctica clínica', name: 'Trastorno del espectro autista', alias: ['TEA', 'Autismo', 'Síndrome de Asperger'],
+      rel: ['caa', 'tableros', 'nonverbal', 'tdah', 'interdisc'], wiki: W('Trastorno_del_espectro_autista'),
+      dsm: {
+        iv: { name: 'Trastornos generalizados del desarrollo', code: '299.00 autista · 299.80 Asperger',
+          brief: 'Grupo de categorías separadas: trastorno autista, trastorno de Asperger, trastorno desintegrativo infantil y trastorno generalizado del desarrollo no especificado.',
+          sx: ['Trastorno autista: alteración de la interacción social, de la comunicación y patrones restringidos de conducta e intereses (tríada), con inicio antes de los tres años.', 'Asperger: dificultades sociales e intereses restringidos sin retraso del lenguaje ni cognitivo.', 'No se podía diagnosticar junto con TDAH.'] },
+        v: { name: 'Trastorno del espectro autista', code: 'F84.0',
+          brief: 'Un único espectro que reemplaza las categorías anteriores, con dos dominios de síntomas y niveles de apoyo.',
+          sx: ['Déficits persistentes en la comunicación e interacción social (reciprocidad, comunicación no verbal, relaciones).', 'Patrones restringidos y repetitivos: movimientos o lenguaje repetitivo, rutinas rígidas, intereses intensos, hiper- o hiporreactividad sensorial.', 'Síntomas desde el desarrollo temprano, aunque pueden hacerse evidentes más tarde.', 'Nivel de gravedad según el apoyo que requiere (1, 2 o 3) y si hay discapacidad intelectual o del lenguaje.'],
+          cambio: 'Las categorías se unen en un espectro, la tríada pasa a dos dominios, entra la reactividad sensorial y se permite el diagnóstico junto con TDAH.' } },
+      dd: [['Discapacidad intelectual', 'si la comunicación social está al nivel de su desarrollo general, no es TEA; en el TEA lo social está por debajo de lo esperado para su nivel.'],
+           ['Trastorno de la comunicación social', 'dificultades sociales sin intereses restringidos ni conductas repetitivas.'],
+           ['Ansiedad social', 'la persona sabe cómo relacionarse, pero el miedo le impide hacerlo; en el TEA cuesta comprender las claves sociales.'],
+           ['Esquizofrenia', 'tiene un inicio posterior a un desarrollo típico, con alucinaciones o ideas delirantes.']] },
+    conducta: { type: 'tra', grp: 'col', casos: 'Frecuente en niñez y adolescencia', name: 'Trastorno de la conducta', alias: ['Trastorno disocial'],
+      rel: ['tdah', 'reforzamiento', 'apoyosocial', 'trabsocial', 'encuadre'], wiki: S('Trastorno de conducta'),
+      dsm: {
+        iv: { name: 'Trastorno disocial', code: '312.8x',
+          brief: 'Patrón repetitivo y persistente de conducta que viola los derechos de los demás o las normas sociales propias de la edad.',
+          sx: ['Tres o más de quince criterios en doce meses (al menos uno en los últimos seis).', 'Cuatro grupos: agresión a personas o animales, destrucción de la propiedad, fraude o robo, violaciones graves de normas.', 'Subtipos por edad de inicio: infantil (antes de los diez años) o adolescente.'] },
+        v: { name: 'Trastorno de la conducta', code: 'F91.x',
+          brief: 'Se ubica en los trastornos disruptivos, del control de impulsos y de la conducta, con los mismos quince criterios.',
+          sx: ['Tres o más criterios en doce meses, con al menos uno en los últimos seis.', 'Mismos cuatro grupos de conductas.', 'Nuevo especificador «con emociones prosociales limitadas»: falta de remordimiento, de empatía y de preocupación por su desempeño, afecto superficial.', 'Inicio infantil, adolescente o no especificado.'],
+          cambio: 'Cambia de nombre y de capítulo y se añade el especificador «con emociones prosociales limitadas».' } },
+      dd: [['Trastorno negativista desafiante', 'desobediencia, discusiones e irritabilidad con adultos, sin agresión grave, robo ni destrucción.'],
+           ['TDAH', 'la impulsividad puede romper normas, pero sin intención de dañar ni violar los derechos de otros. Pueden coexistir.'],
+           ['Reacción a un contexto adverso', 'conductas que aparecen como respuesta a un entorno violento o de riesgo (por ejemplo, para sobrevivir) y no como un patrón propio.'],
+           ['Episodio afectivo', 'la irritabilidad y las conductas de riesgo aparecen solo durante una manía o una depresión.']] }
   };
   /* Nombres y descripciones de cada pilar de la Biblioteca Relacional */
   const CAT = {
@@ -2032,21 +2315,51 @@
     tec: { name: 'Técnicas y Herramientas', desc: 'Procedimientos prácticos de intervención, agrupados según el enfoque o terapia del que proceden.' },
     hab: { name: 'Habilidades Clínicas', desc: 'Competencias transversales del terapeuta. No pertenecen a un enfoque concreto: sostienen la aplicación de todos.' },
     psi: { name: 'Conceptos Psicológicos', desc: 'Constructos teóricos y tecnolecto de la disciplina que explican por qué funciona lo que haces.' },
-    med: { name: 'Contexto Clínico General', desc: 'Referencia operativa para la práctica institucional: dispositivos, condiciones, psicofármacos frecuentes y vías de derivación.' },
+    cond: { name: 'Condiciones de Salud', desc: 'Enfermedades, secuelas y signos frecuentes en la unidad, explicados desde lo que significan para el encuentro psicológico.' },
+    med: { name: 'Contexto Clínico', desc: 'Referencia operativa para la práctica institucional: dispositivos y procedimientos, bioseguridad, psicofármacos frecuentes y vías de derivación.' },
     tra: { name: 'Trastornos (DSM)', desc: 'Guía comparada DSM-IV-TR / DSM-5 de los trastornos que aparecen en los casos clínicos y de los más frecuentes en Colombia. Es material de estudio: no sustituye el texto oficial ni la evaluación profesional.' }
   };
-  const GRP = { dev: 'Dispositivos y procedimientos', cond: 'Condiciones que afectan la interacción', farm: 'Psicofármacos y medicación frecuente', ruta: 'Vías de derivación y trabajo en equipo', casos: 'Presentes en los casos clínicos', col: 'Frecuentes en Colombia' };
+  const GRP = { enf: 'Enfermedades y condiciones frecuentes', sig: 'Secuelas y signos que afectan la interacción', dev: 'Dispositivos, procedimientos y bioseguridad', farm: 'Psicofármacos y medicación frecuente', ruta: 'Vías de derivación y trabajo en equipo', casos: 'Presentes en los casos clínicos', col: 'Frecuentes en la práctica clínica en Colombia' };
+  const GRP_OF = { med: ['dev', 'farm', 'ruta'], cond: ['enf', 'sig'], tra: ['casos', 'col'] };
+  const REMAP = { sng: 'sondas', gastrostomia: 'sondas', alcohol: 'sustancias' };
+  Object.values(C).forEach(c => { c.rel = [...new Set(c.rel.map(r => REMAP[r] || r))].filter(r => C[r]); });
   const ALIAS = {
     'activación conductual breve': 'ac', 'comunicación aumentativa': 'caa', 'pregunta de recursos': 'recursos',
     'respiración lenta': 'respiracion', 'respiración diafragmática': 'respiracion', 'atención plena': 'mindfulness',
     'terapia de aceptación y compromiso': 'act', 'primeros auxilios psicológicos (pap)': 'pap', 'escala': 'escala'
   };
-  Object.keys(C).forEach(k => { ALIAS[C[k].name.toLowerCase()] = k; });
-  const TYPE = { ter: 'Enfoque / Terapia', tec: 'Técnica / Herramienta', hab: 'Habilidad clínica', psi: 'Concepto psicológico', med: 'Contexto clínico general', tra: 'Trastorno · guía DSM' };
-  const ICO = { ter: 'heart', tec: 'tool', hab: 'chat', psi: 'spark', med: 'pulse', tra: 'clip' };
+  Object.keys(C).forEach(k => { const c = C[k];
+    [c.name, c.short].concat(c.alias || [], c.dsm ? [c.dsm.iv.name, c.dsm.v.name] : []).forEach(n => { if (n && !ALIAS[n.toLowerCase()]) ALIAS[n.toLowerCase()] = k; });
+    ALIAS[c.name.toLowerCase()] = k; });
+  const TYPE = { ter: 'Enfoque / Terapia', tec: 'Técnica / Herramienta', hab: 'Habilidad clínica', psi: 'Concepto psicológico', med: 'Contexto clínico', cond: 'Condición de salud', tra: 'Trastorno · guía DSM' };
+  const ICO = { ter: 'heart', tec: 'tool', hab: 'chat', psi: 'spark', med: 'pulse', cond: 'cross', tra: 'clip' };
   const svg = n => '<svg class="ic" aria-hidden="true"><use href="#i-' + n + '"/></svg>';
   const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 
+
+
+  const modal = $('#cx-modal'), card = $('.cx-card', modal);
+  let stack = [], opener = null;
+
+  const keysOf = t => Object.keys(C).filter(k => C[k].type === t);
+  /* Nombres: en recuadros se usa el nombre corto; en la ficha, el completo. Los trastornos cambian de nombre según el DSM elegido. */
+  let dsmV = 'v';
+  const fullName = k => C[k].type === 'tra' ? C[k].dsm[dsmV].name : C[k].name;
+  const nameOf = k => C[k].type === 'tra' ? C[k].dsm[dsmV].name : (C[k].short || C[k].name);
+  const briefOf = k => C[k].type === 'tra' ? C[k].dsm[dsmV].brief : C[k].brief;
+  const excerpt = k => { const b = briefOf(k), m = b.match(/^.+?[.!?](?=\s|$)/); let x = m ? m[0] : b; if (x.length > 150) x = x.slice(0, 147).replace(/\s+\S*$/, '') + '…'; return x; };
+  const chip = k => '<button type="button" class="cx-rel ' + C[k].type + '" data-concept="' + k + '" title="' + esc(fullName(k)) + '">' + svg(ICO[C[k].type]) + esc(nameOf(k)) + '</button>';
+  const card2 = k => '<button type="button" class="cx-card2 ' + C[k].type + '" data-concept="' + k + '" title="' + esc(fullName(k)) + '">' +
+    '<b>' + svg(ICO[C[k].type]) + esc(nameOf(k)) + '</b><span>' + esc(excerpt(k)) + '</span></button>';
+  const cards = ks => '<div class="cx-cards2">' + ks.map(card2).join('') + '</div>';
+  function setAka(c, extra) {
+    const aka = $('.cx-aka', card), list = (c.alias || []).filter(a => a.toLowerCase() !== fullName(c.key).toLowerCase());
+    const parts = [];
+    if (extra) parts.push('<span class="aka-code">' + esc(extra) + '</span>');
+    if (c.short && c.short !== c.name && !list.includes(c.short)) list.unshift(c.short);
+    if (list.length) parts.push('<span class="aka-k">También llamado:</span> ' + list.map(a => '<span class="aka">' + esc(a) + '</span>').join(''));
+    aka.innerHTML = parts.join(''); aka.hidden = !parts.length;
+  }
   // Etiquetas existentes → elementos interactivos
   $$('.tag').forEach(el => {
     const key = ALIAS[el.textContent.trim().toLowerCase()];
@@ -2055,20 +2368,13 @@
     el.dataset.concept = key;
     el.setAttribute('role', 'button'); el.tabIndex = 0;
     el.setAttribute('aria-haspopup', 'dialog');
-    el.title = 'Ver ficha de «' + C[key].name + '»';
-  });
-
-  const modal = $('#cx-modal'), card = $('.cx-card', modal);
-  let stack = [], opener = null;
-
-  const keysOf = t => Object.keys(C).filter(k => C[k].type === t);
-  const chip = k => '<button type="button" class="cx-rel ' + C[k].type + '" data-concept="' + k + '">' + svg(ICO[C[k].type]) + esc(C[k].name) + '</button>';
-  /* Ficha de trastorno: alterna DSM-IV-TR / DSM-5 */
-  let dsmV = 'v';
+    el.title = 'Ver ficha de «' + fullName(key) + '»';
+  });  /* Ficha de trastorno: alterna DSM-IV-TR / DSM-5 */
   function renderTra(c, tl, links, sub, rels) {
     const d = c.dsm[dsmV], other = dsmV === 'v' ? 'iv' : 'v', lab = { iv: 'DSM-IV-TR', v: 'DSM-5' };
     $('.cx-kicker', card).innerHTML = svg(ICO.tra) + TYPE.tra + ' · ' + esc(c.casos);
-    $('span', tl).textContent = c.name; tl.href = c.wiki; tl.title = 'Abrir «' + c.name + '» en Wikipedia (pestaña nueva)'; tl.classList.remove('no-link');
+    $('span', tl).textContent = d.name; tl.href = c.wiki; tl.title = 'Abrir en Wikipedia (pestaña nueva)'; tl.classList.remove('no-link');
+    setAka(c, lab[dsmV] + ' · ' + d.code);
     $('.cx-brief', card).textContent = '';
     const li = a => '<ul class="dsm-list">' + a.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>';
     links.innerHTML =
@@ -2076,19 +2382,19 @@
         '<button type="button" data-dsm="' + k + '" aria-pressed="' + (k === dsmV) + '">' + lab[k] + '</button>').join('') +
       '<button type="button" class="dsm-swap" data-dsm="' + other + '">Ver en ' + lab[other] + ' ⇄</button></div>' +
       '<div class="dsm-panel">' +
-        '<p class="dsm-name">' + esc(d.name) + '<span class="dsm-code">' + lab[dsmV] + ' · ' + esc(d.code) + '</span></p>' +
         '<p class="dsm-brief">' + esc(d.brief) + '</p>' +
         '<p class="cx-sub">Síntomas y criterios clave</p>' + li(d.sx) +
-        '<p class="cx-sub">Diagnóstico diferencial</p>' + li(d.dd) +
         (d.cambio ? '<p class="dsm-change"><b>Qué cambió respecto al DSM-IV-TR:</b> ' + esc(d.cambio) + '</p>' : '') +
       '</div>' +
+      '<p class="cx-sub">Diagnóstico diferencial · cómo distinguirlo</p>' +
+      '<ul class="dsm-dd">' + c.dd.map(x => '<li><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></li>').join('') + '</ul>' +
       '<p class="dsm-aviso">' + svg('shield') + '<span><b>Solo es una guía de estudio.</b> Resume criterios para orientarte, pero no es una herramienta diagnóstica. Antes de cualquier decisión clínica revisa el texto oficial del DSM (APA) y la CIE vigente en el sistema de salud colombiano, y consúltalo con tu supervisor. El diagnóstico lo establece un profesional habilitado tras una evaluación completa.</span></p>';
-    sub.textContent = 'Red de conceptos relacionados (' + c.rel.length + ')';
-    rels.className = 'cx-rels';
-    rels.innerHTML = c.rel.map(chip).join('');
+    sub.textContent = 'Conceptos relacionados (' + c.rel.length + ')';
+    rels.className = 'cx-rels cx-relcards';
+    rels.innerHTML = cards(c.rel);
   }
   function render(view) {
-    card.classList.remove('is-ter', 'is-tec', 'is-cat', 'is-hab', 'is-psi', 'is-med', 'is-tra', 'is-catalog');
+    card.classList.remove('is-ter', 'is-tec', 'is-cat', 'is-hab', 'is-psi', 'is-med', 'is-tra', 'is-cond', 'is-catalog');
     const back = $('.cx-back', card); back.hidden = stack.length < 2;
     const rels = $('.cx-body > .cx-rels', card), sub = $('.cx-body > .cx-sub', card), tl = $('.cx-title-link', card), links = $('.cx-links', card);
     if (view.cat) {
@@ -2096,37 +2402,39 @@
       card.classList.add('is-' + t, 'is-catalog');
       $('.cx-kicker', card).innerHTML = svg(ICO[t]) + 'Biblioteca Relacional · Catálogo';
       $('span', tl).textContent = CAT[t].name; tl.removeAttribute('href'); tl.removeAttribute('title'); tl.classList.add('no-link');
+      $('.cx-aka', card).hidden = true;
       $('.cx-brief', card).textContent = CAT[t].desc;
-      links.innerHTML = '';
+      links.innerHTML = t === 'tra' ? '<div class="dsm-toggle" role="group" aria-label="Nombres según">' + [['iv', 'DSM-IV-TR'], ['v', 'DSM-5']].map(x =>
+        '<button type="button" data-dsm="' + x[0] + '" aria-pressed="' + (x[0] === dsmV) + '">Nombres ' + x[1] + '</button>').join('') + '</div>' : '';
       sub.textContent = ks.length + ' elementos · elige uno para ver su ficha';
       let groups;
       if (t === 'tec') groups = keysOf('ter').map(o => ({ from: o, keys: ks.filter(k => C[k].from === o) })).filter(g => g.keys.length);
-      else if (t === 'med' || t === 'tra') groups = Object.keys(GRP).map(g => ({ label: GRP[g], keys: ks.filter(k => C[k].grp === g) })).filter(g => g.keys.length);
+      else if (GRP_OF[t]) groups = GRP_OF[t].map(g => ({ label: GRP[g], keys: ks.filter(k => C[k].grp === g) })).filter(g => g.keys.length);
       else groups = [{ keys: ks }];
       rels.className = 'cx-rels cx-cat';
       rels.innerHTML = groups.map(g =>
-        (g.from ? '<p class="cx-gh">' + svg(ICO.ter) + 'Enfoque de origen: <button type="button" class="cx-gh-link" data-concept="' + g.from + '">' + esc(C[g.from].name) + '</button></p>'
-                : g.label ? '<p class="cx-gh">' + esc(g.label) + '</p>' : '') +
-        '<div class="cx-grid">' + g.keys.map(k => '<button type="button" class="cx-rel ' + t + '" data-concept="' + k + '">' + esc(C[k].name) + ' <span aria-hidden="true">→</span></button>').join('') + '</div>').join('');
+        (g.from ? '<p class="cx-gh">' + svg(ICO.ter) + 'Enfoque de origen: <button type="button" class="cx-gh-link" data-concept="' + g.from + '">' + esc(fullName(g.from)) + '</button></p>'
+                : g.label ? '<p class="cx-gh">' + esc(g.label) + '</p>' : '') + cards(g.keys)).join('');
     } else {
-      const c = C[view.key];
+      const c = C[view.key]; c.key = view.key;
       card.classList.add('is-' + c.type);
       if (c.type === 'tra') { renderTra(c, tl, links, sub, rels); card.scrollTop = 0; return; }
-      $('.cx-kicker', card).innerHTML = svg(ICO[c.type]) + TYPE[c.type] + (c.grp ? ' · ' + GRP[c.grp] : '');
+      $('.cx-kicker', card).innerHTML = svg(ICO[c.type]) + TYPE[c.type] + (c.grp && GRP[c.grp] ? ' · ' + GRP[c.grp] : '');
       $('span', tl).textContent = c.name; tl.href = c.wiki; tl.title = 'Abrir «' + c.name + '» en Wikipedia (pestaña nueva)'; tl.classList.remove('no-link');
+      setAka(c);
       $('.cx-brief', card).textContent = c.brief;
       let lk = '';
-      if (c.type === 'tec' && c.from) lk = '<p class="cx-sub">Enfoque o terapia de origen</p><div class="cx-rels">' + chip(c.from) + '</div>';
+      if (c.practica) lk += '<p class="cx-practica">' + svg('compass') + '<span><b>En tu rotación:</b> ' + esc(c.practica) + '</span></p>';
+      if (c.type === 'tec' && c.from) lk += '<p class="cx-sub">Enfoque o terapia de origen</p>' + cards([c.from]);
       if (c.type === 'ter') {
         const kids = keysOf('tec').filter(k => C[k].from === view.key);
-        lk = '<p class="cx-sub">Técnicas y herramientas de este enfoque (' + kids.length + ')</p><div class="cx-rels">' + kids.map(chip).join('') + '</div>';
+        lk += '<p class="cx-sub">Técnicas y herramientas de este enfoque (' + kids.length + ')</p>' + cards(kids);
       }
-      if (c.type === 'hab') lk = '<p class="cx-note">' + svg('chat') + 'Competencia transversal del terapeuta: no es una técnica de intervención de un enfoque concreto, sino la base sobre la que se aplican todos.</p>';
+      if (c.type === 'hab') lk += '<p class="cx-note">' + svg('chat') + 'Competencia transversal del terapeuta: no es una técnica de intervención de un enfoque concreto, sino la base sobre la que se aplican todos.</p>';
       links.innerHTML = lk;
-      sub.textContent = 'Red de conceptos relacionados (' + c.rel.length + ')';
-      rels.className = 'cx-rels';
-      rels.innerHTML = c.rel.map(r => C[r] ? chip(r)
-        : '<a class="cx-rel" href="' + wikiSearch(r) + '" target="_blank" rel="noopener noreferrer">' + svg('link') + esc(r) + '</a>').join('');
+      sub.textContent = 'Conceptos relacionados (' + c.rel.length + ')';
+      rels.className = 'cx-rels cx-relcards';
+      rels.innerHTML = cards(c.rel);
     }
     card.scrollTop = 0;
   }
@@ -2412,7 +2720,7 @@
   }
 
   /* ---------- Biblioteca Relacional: el núcleo se centra, se expande y despliega sus ramas ---------- */
-  const COLOR = { ter: 'var(--green)', tec: 'var(--violet)', hab: 'var(--rose)', psi: 'var(--cyan)', med: 'var(--ochre)', tra: 'var(--indigo)' };
+  const COLOR = { ter: 'var(--green)', tec: 'var(--violet)', hab: 'var(--rose)', psi: 'var(--cyan)', med: 'var(--ochre)', cond: 'var(--steel)', tra: 'var(--indigo)' };
   $$('.onode [data-catalog]').forEach(b => b.insertAdjacentHTML('beforeend', '<em class="on-n" aria-label="' + keysOf(b.dataset.catalog).length + ' elementos">' + keysOf(b.dataset.catalog).length + '</em>'));
   const orbit = $('.orbit'), core = $('#lib-core'), rmBd = $('#relmap'), rm = rmBd && $('.relmap', rmBd);
   let rmBuilt = false, rmOpener = null, rmTimer = 0;
@@ -2446,7 +2754,7 @@
     });
     // 1) pintar para medir
     nodesEl.innerHTML = '<div class="rm-hub" aria-hidden="true">' + svg('net') + 'Biblioteca<br>Relacional</div>' +
-      N.map(o => '<button type="button" class="rm-node ' + o.kind + '" data-concept="' + o.k + '" data-t="' + o.t + '" style="--c:' + o.hue + '">' + esc(C[o.k].name) + '</button>').join('');
+      N.map(o => '<button type="button" class="rm-node ' + o.kind + '" data-concept="' + o.k + '" data-t="' + o.t + '" title="' + esc(fullName(o.k)) + '" style="--c:' + o.hue + '">' + esc(nameOf(o.k)) + '</button>').join('');
     const els = $$('.rm-node', nodesEl), hub = $('.rm-hub', nodesEl);
     N.forEach((o, i) => { o.el = els[i]; o.w = els[i].offsetWidth; o.h = els[i].offsetHeight; });
     const H = { x: cx, y: cy, w: hub.offsetWidth + 30, h: hub.offsetHeight + 30, fixed: true };
@@ -2589,7 +2897,7 @@
     if ((el = t.closest('[data-scroll]'))) { const d = $(el.dataset.scroll); if (d) d.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); return; }
     if (t.closest('#lib-core')) return openMap();
     if (t.closest('.rm-close')) return closeMap();
-    if ((el = t.closest('[data-dsm]'))) { dsmV = el.dataset.dsm; render(stack[stack.length - 1]); const p = $('.dsm-panel', card); if (p) p.classList.add('swap'); return; }
+    if ((el = t.closest('[data-dsm]'))) { dsmV = el.dataset.dsm; render(stack[stack.length - 1]); const p = $('.dsm-panel', card) || $('.cx-cat', card); if (p) p.classList.add('swap'); return; }
     if ((el = t.closest('[data-concept]'))) { e.preventDefault(); return openView({ key: el.dataset.concept }, !modal.hidden); }
     if ((el = t.closest('[data-catalog]'))) return openView({ cat: el.dataset.catalog }, !modal.hidden);
     if (t.closest('.cx-back')) { stack.pop(); return render(stack[stack.length - 1]); }
@@ -2766,6 +3074,191 @@
 })();
 
 </script>
+<script id="ux-js">
+/* =====================================================
+   Ilustraciones propias (SVG en línea, sin archivos externos)
+   y mejoras de presentación: Inicio (autocuidado), Fundamentos
+   (cabecera ilustrada y animaciones) y Casos Clínicos (ficha,
+   recuadros y desplegables).
+   ===================================================== */
+(function () {
+  'use strict';
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+  const svgI = n => '<svg class="ic" aria-hidden="true"><use href="#i-' + n + '"/></svg>';
+
+  /* ---------- Primitivas de ilustración (lienzo 240 × 180) ---------- */
+  const SK = '#f4c7a1', INK = '#25303c';
+  const bg = (a, b) => '<circle cx="120" cy="96" r="80" fill="' + a + '" opacity=".16"/><circle cx="186" cy="40" r="16" fill="' + b + '" opacity=".22"/>' +
+    '<circle cx="46" cy="150" r="9" fill="' + b + '" opacity=".28"/><circle cx="36" cy="46" r="4" fill="' + a + '" opacity=".5"/><circle cx="208" cy="140" r="5" fill="' + a + '" opacity=".4"/>';
+  const person = (x, y, s, col, hair, cls) => '<g class="' + (cls || '') + '" transform="translate(' + x + ' ' + y + ') scale(' + s + ')">' +
+    '<path d="M-19 4 C-19 -18 -10 -26 0 -26 C10 -26 19 -18 19 4 Z" fill="' + col + '"/>' +
+    '<circle cy="-38" r="11" fill="' + SK + '"/>' + (hair ? '<path d="M-11 -40 C-11 -52 11 -52 11 -40 C8 -46 -6 -47 -11 -40Z" fill="' + hair + '"/>' : '') + '</g>';
+  const bed = (x, y, w, col) => '<g transform="translate(' + x + ' ' + y + ')"><rect x="0" y="0" width="' + w + '" height="14" rx="5" fill="#fff" stroke="#cfd8e3" stroke-width="2"/>' +
+    '<rect x="0" y="12" width="' + w + '" height="7" rx="3" fill="' + col + '"/><rect x="4" y="19" width="5" height="18" rx="2" fill="#9aa8b8"/><rect x="' + (w - 9) + '" y="19" width="5" height="18" rx="2" fill="#9aa8b8"/>' +
+    '<rect x="-6" y="-22" width="8" height="40" rx="3" fill="#9aa8b8"/><rect x="6" y="-8" width="26" height="10" rx="5" fill="#eef3fa" stroke="#cfd8e3" stroke-width="1.5"/></g>';
+  const lying = (x, y, col) => '<g transform="translate(' + x + ' ' + y + ')"><circle cx="0" cy="-6" r="10" fill="' + SK + '"/><path d="M10 -14 h58 a8 8 0 0 1 8 8 v6 h-66z" fill="' + col + '"/></g>';
+  const bubble = (x, y, w, h, col, inner, cls) => '<g class="' + (cls || 'fl') + '" transform="translate(' + x + ' ' + y + ')"><rect width="' + w + '" height="' + h + '" rx="' + Math.min(14, h / 2) + '" fill="' + col + '"/>' +
+    '<path d="M14 ' + (h - 1) + ' l-4 12 l14 -11z" fill="' + col + '"/>' + (inner || '') + '</g>';
+  const dots = (w, h) => [0, 1, 2].map(i => '<circle cx="' + (w / 2 - 12 + i * 12) + '" cy="' + h / 2 + '" r="3.2" fill="#fff"/>').join('');
+  const lines = (w, h) => '<rect x="12" y="' + (h / 2 - 7) + '" width="' + (w - 24) + '" height="4" rx="2" fill="#fff" opacity=".9"/><rect x="12" y="' + (h / 2 + 3) + '" width="' + (w - 40) + '" height="4" rx="2" fill="#fff" opacity=".7"/>';
+  const heart = (x, y, s, col, cls) => '<g class="' + (cls || 'pulse') + '" transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><path d="M0 8 C-14 -2 -14 -16 -4 -16 C0 -16 0 -12 0 -10 C0 -12 0 -16 4 -16 C14 -16 14 -2 0 8Z" fill="' + col + '"/></g>';
+  const clock = (x, y, r, col) => '<g transform="translate(' + x + ' ' + y + ')"><circle r="' + r + '" fill="#fff" stroke="' + col + '" stroke-width="4"/>' +
+    '<line class="spin-h" x1="0" y1="0" x2="0" y2="' + (-r * .6) + '" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/><line x1="0" y1="0" x2="' + r * .45 + '" y2="0" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/><circle r="3" fill="' + col + '"/></g>';
+  const cloud = (x, y, s, col) => '<g class="fl" transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><path d="M-20 6 a10 10 0 0 1 2 -20 a14 14 0 0 1 26 -4 a11 11 0 0 1 12 18 z" fill="' + col + '"/></g>';
+  const win = (x, y, w, h, sky, sun) => '<g transform="translate(' + x + ' ' + y + ')"><rect width="' + w + '" height="' + h + '" rx="6" fill="' + sky + '" stroke="#cfd8e3" stroke-width="3"/>' +
+    '<circle cx="' + w * .68 + '" cy="' + h * .4 + '" r="' + h * .18 + '" fill="' + sun + '" class="pulse"/><line x1="' + w / 2 + '" y1="0" x2="' + w / 2 + '" y2="' + h + '" stroke="#cfd8e3" stroke-width="3"/></g>';
+  const iv = (x, y) => '<g transform="translate(' + x + ' ' + y + ')"><rect x="-2" y="0" width="4" height="70" fill="#9aa8b8"/><rect x="-10" y="68" width="20" height="4" rx="2" fill="#9aa8b8"/><rect x="-9" y="2" width="12" height="18" rx="4" fill="#cfe7ff" stroke="#7fb0e8" stroke-width="2"/></g>';
+  const board = (x, y, cols) => '<g transform="translate(' + x + ' ' + y + ')"><rect width="58" height="44" rx="8" fill="#fff" stroke="#cfd8e3" stroke-width="2"/>' +
+    cols.map((c, i) => '<rect x="' + (7 + (i % 3) * 16) + '" y="' + (7 + Math.floor(i / 3) * 16) + '" width="12" height="12" rx="3" fill="' + c + '"/>').join('') + '</g>';
+  const shield = (x, y, s, col) => '<g class="fl" transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><path d="M0 -20 L16 -14 V0 C16 10 8 17 0 20 C-8 17 -16 10 -16 0 V-14Z" fill="' + col + '"/><path d="M-7 0 l5 5 l9 -10" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></g>';
+  const calendar = (x, y, col) => '<g transform="translate(' + x + ' ' + y + ')"><rect width="64" height="58" rx="8" fill="#fff" stroke="#cfd8e3" stroke-width="2"/><rect width="64" height="15" rx="8" fill="' + col + '"/>' +
+    [0, 1, 2, 3, 4, 5, 6, 7].map(i => '<rect x="' + (8 + (i % 4) * 13) + '" y="' + (22 + Math.floor(i / 4) * 13) + '" width="9" height="8" rx="2" fill="' + (i === 5 ? col : '#e3e9f1') + '"/>').join('') + '</g>';
+  const ecg = (x, y, col) => '<path class="draw" transform="translate(' + x + ' ' + y + ')" d="M0 0 H22 L30 -16 L40 18 L48 -8 L54 0 H86" fill="none" stroke="' + col + '" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>';
+  const plant = (x, y, col) => '<g transform="translate(' + x + ' ' + y + ')"><path d="M-12 0 h24 l-4 20 h-16z" fill="#c98a5a"/><path class="sway" d="M0 0 C0 -16 0 -26 0 -34 M0 -18 C-14 -22 -18 -34 -16 -40 C-6 -38 0 -30 0 -20 M0 -26 C10 -30 18 -40 18 -48 C8 -46 0 -38 0 -28" fill="' + col + '" stroke="' + col + '" stroke-width="2"/></g>';
+  const clip = (x, y, col) => '<g transform="translate(' + x + ' ' + y + ') rotate(-8)"><rect width="34" height="44" rx="5" fill="#fff" stroke="' + col + '" stroke-width="2.5"/><rect x="10" y="-4" width="14" height="8" rx="3" fill="' + col + '"/>' +
+    '<rect x="7" y="12" width="20" height="3" rx="1.5" fill="#cfd8e3"/><rect x="7" y="20" width="16" height="3" rx="1.5" fill="#cfd8e3"/><rect x="7" y="28" width="18" height="3" rx="1.5" fill="#cfd8e3"/></g>';
+  const eye = (x, y, col) => '<g class="blink" transform="translate(' + x + ' ' + y + ')"><path d="M-16 0 C-8 -10 8 -10 16 0 C8 10 -8 10 -16 0Z" fill="#fff" stroke="' + col + '" stroke-width="2.5"/><circle r="5" fill="' + col + '"/></g>';
+  const waves = (x, y, col) => '<g class="fl" transform="translate(' + x + ' ' + y + ')" fill="none" stroke="' + col + '" stroke-width="2.5" stroke-linecap="round"><path d="M0 0 q6 -8 12 0 t12 0"/><path d="M0 9 q6 -8 12 0 t12 0" opacity=".6"/></g>';
+  const zig = (x, y, col) => '<path class="fl" transform="translate(' + x + ' ' + y + ')" d="M0 0 l6 -8 l6 8 l6 -8 l6 8" fill="none" stroke="' + col + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+  const bolt = (x, y, col) => '<path class="pulse" transform="translate(' + x + ' ' + y + ')" d="M4 -14 L-6 2 H2 L-2 14 L8 -2 H0Z" fill="' + col + '"/>';
+  const ill = (body, label) => '<svg class="ill" viewBox="0 0 240 180" role="img" aria-label="' + label + '">' + body + '</svg>';
+
+  const ILL = {
+    f0: ill(bg('#2f5da8', '#f2a900') + clock(78, 98, 30, '#2f5da8') + person(160, 150, 1.05, '#12806f', '#4a3426') + bubble(132, 34, 64, 36, '#2f5da8', bolt(32, 18, '#f2a900')), 'Reloj y conversación breve'),
+    f1: ill(bg('#12806f', '#2e7d32') + calendar(36, 54, '#12806f') + ecg(112, 88, '#e0496a') + plant(184, 150, '#2e7d32'), 'Calendario, ritmo cardiaco y planta que crece'),
+    f2: ill(bg('#2f5da8', '#12806f') + win(150, 26, 60, 46, '#e6f2ff', '#f2a900') + bed(54, 120, 120, '#7fb0e8') + lying(70, 120, '#2f5da8') + iv(198, 82), 'Habitación de hospital'),
+    f3: ill(bg('#e0496a', '#f2a900') + person(120, 152, 1.15, '#6b4fb3', '#3b2b22') + heart(120, 66, 2.2, '#e0496a') + bubble(36, 52, 44, 28, '#12806f', dots(44, 28)) + bubble(166, 40, 44, 28, '#f2a900', dots(44, 28), 'fl2'), 'Persona con un corazón y emociones'),
+    f4: ill(bg('#6b4fb3', '#12806f') + person(62, 152, 1, '#2f5da8', '#4a3426') + bubble(26, 40, 70, 34, '#6b4fb3', lines(70, 34)) + board(140, 70, ['#e0496a', '#12806f', '#f2a900', '#2f5da8', '#6b4fb3', '#7fb0e8']) + bubble(150, 24, 52, 30, '#12806f', dots(52, 30), 'fl2'), 'Comunicación con burbujas y tablero de pictogramas'),
+    f5: ill(bg('#2e7d32', '#f2a900') + person(70, 154, .95, '#12806f', '#4a3426') + person(170, 154, .95, '#f08a3c', '#8a5a1c') + person(120, 160, 1.2, '#2f5da8', '#3b2b22') + heart(120, 52, 1.6, '#e0496a'), 'Familia y cuidadores'),
+    f6: ill(bg('#2f5da8', '#2e7d32') + person(96, 154, 1.15, '#2f5da8', '#4a3426') + clip(124, 92, '#12806f') + shield(184, 62, 1.5, '#2e7d32'), 'Estudiante con su lista y un escudo de protección'),
+    c1: ill(bg('#c4562a', '#2f5da8') + person(108, 154, 1.2, '#7c8ea3', '#d9dee5') + cloud(176, 52, 1.3, '#c4562a') + zig(163, 46, '#fff') + bubble(30, 40, 44, 30, '#2f5da8', '<text x="22" y="21" text-anchor="middle" font-size="18" font-weight="700" fill="#fff" font-family="system-ui">?</text>', 'fl2'), 'Adulto mayor con irritabilidad'),
+    c2: ill(bg('#6b4fb3', '#f2a900') + person(70, 154, 1.05, '#12806f', '#4a3426') + person(170, 154, 1.05, '#c4562a', '#2b2b2b') + bubble(30, 34, 60, 32, '#c4562a', '<path d="M14 16 l6 -6 l6 6 l6 -6 l6 6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>') + bubble(146, 30, 60, 32, '#12806f', lines(60, 32), 'fl2'), 'Dos personas con un desacuerdo'),
+    c3: ill(bg('#2f5da8', '#12806f') + person(96, 156, 1.1, '#7c8ea3', '#3b2b22') + person(160, 156, 1.15, '#12806f', '#4a3426') + '<path d="M140 118 q-14 -2 -24 6" fill="none" stroke="' + SK + '" stroke-width="7" stroke-linecap="round"/>' + cloud(92, 52, 1.1, '#9aa8b8') + heart(176, 54, 1.3, '#e0496a'), 'Acompañamiento a una persona que sufre'),
+    c4: ill(bg('#f08a3c', '#e0496a') + win(156, 22, 58, 44, '#ffe9d6', '#f08a3c') + bed(40, 122, 116, '#f3b98a') + lying(56, 122, '#7c8ea3') + person(190, 160, .95, '#2f5da8', '#4a3426') + heart(120, 56, 1.4, '#e0496a'), 'Paciente en cama acompañado por su familia'),
+    c5: ill(bg('#12806f', '#6b4fb3') + bed(30, 124, 120, '#9fd5cb') + lying(46, 124, '#7c8ea3') + person(186, 160, 1.05, '#6b4fb3', '#4a3426') + eye(84, 70, '#12806f') + waves(110, 48, '#6b4fb3'), 'Madre junto a su hijo con compromiso neurológico'),
+    c6: ill(bg('#7c8ea3', '#2f5da8') + win(28, 28, 58, 44, '#e6f2ff', '#f2a900') + bed(70, 124, 124, '#c6d2df') + lying(86, 124, '#2f5da8') + clock(186, 60, 22, '#7c8ea3'), 'Paciente en cama mirando el reloj'),
+    care: ill(bg('#12806f', '#e0496a') + plant(120, 150, '#2e7d32') + heart(120, 58, 2, '#e0496a') + '<path class="fl" d="M60 120 c10 -30 30 -38 40 -36 M180 120 c-10 -30 -30 -38 -40 -36" fill="none" stroke="' + SK + '" stroke-width="10" stroke-linecap="round"/>', 'Manos que cuidan una planta y un corazón')
+  };
+  window.ccIllus = ILL;
+
+  /* ---------- Inicio: mensaje de autocuidado ---------- */
+  const explora = $('#sec-explora');
+  if (explora) explora.insertAdjacentHTML('afterend', `
+    <section class="h-sec care" aria-labelledby="h-care">
+      <div class="care-card">
+        <div class="care-ill">${ILL.care}</div>
+        <div class="care-txt">
+          <p class="eyebrow">Antes de empezar · y siempre</p>
+          <h3 id="h-care">Cuidarte también es parte del cuidado</h3>
+          <p>Acompañar la enfermedad, la pérdida y, a veces, el final de la vida deja huella. Si después de un encuentro sientes cansancio, tristeza o impotencia, no significa que lo estés haciendo mal: significa que te importa.</p>
+          <p>Tu bienestar no es un lujo ni algo que se atiende cuando sobra tiempo. Es la base de una escucha atenta, de decisiones serenas y de un trato verdaderamente humano: nadie puede ofrecer por mucho tiempo lo que no tiene. Y, sobre todo, mereces cuidado no solo porque te hace mejor profesional, sino porque eres una persona.</p>
+        </div>
+      </div>
+      <div class="care-tips">
+        <div class="care-tip" style="--c:var(--teal)">${svgI('pulse')}<b>Haz una pausa</b><span>Tres respiraciones lentas antes de entrar a la siguiente habitación.</span></div>
+        <div class="care-tip" style="--c:var(--blue)">${svgI('chat')}<b>Llévalo a supervisión</b><span>Hablar de lo que te movió es parte del trabajo, no una debilidad.</span></div>
+        <div class="care-tip" style="--c:var(--green)">${svgI('heart')}<b>Cuida lo básico</b><span>Dormir, comer, moverte y desconectarte al salir de la institución.</span></div>
+        <div class="care-tip" style="--c:var(--violet)">${svgI('users')}<b>Apóyate en otros</b><span>Compañeros, docentes y tu red: nadie hace esta rotación solo.</span></div>
+        <div class="care-tip" style="--c:#c98a00">${svgI('spark')}<b>Celebra lo pequeño</b><span>Un encuentro breve, respetuoso y presente ya tiene valor.</span></div>
+      </div>
+      <p class="care-quote">«Quien cuida también necesita ser cuidado.» Si en algún momento te sientes desbordado, busca apoyo: es un acto de responsabilidad contigo y con los demás. <span class="tag hab">Autocuidado del terapeuta</span></p>
+    </section>`);
+  // la etiqueta nueva se vuelve interactiva igual que las demás
+  const careTag = $('.care-quote .tag');
+  if (careTag) { careTag.dataset.concept = 'autorreg'; careTag.setAttribute('role', 'button'); careTag.tabIndex = 0; careTag.title = 'Ver ficha'; }
+
+  /* ---------- Fundamentos: cabecera ilustrada y animación al pasar de página ---------- */
+  const pages = $$('#mod2 .f-stage > .topic[id]');
+  pages.forEach((p, i) => {
+    const head = $(':scope > .topic-h', p); if (!head) return;
+    const idea = $('.brief-box .keyidea', p);
+    let ideaHTML = '';
+    if (idea) { const c = idea.cloneNode(true); const st = c.querySelector('strong'); if (st && /idea clave/i.test(st.textContent)) st.remove(); ideaHTML = c.innerHTML.trim(); }
+    const words = p.textContent.trim().split(/\s+/).length, mins = Math.max(1, Math.round(words / 190));
+    const nSrc = new Set($$('.cite', p).map(c => c.dataset.ref)).size;
+    const hero = document.createElement('div'); hero.className = 'f-hero';
+    hero.innerHTML = '<div class="f-hero-txt"><p class="f-hero-k">Apartado ' + (i + 1) + ' de ' + pages.length + '</p></div><div class="f-hero-ill">' + (ILL['f' + i] || '') + '</div>';
+    head.before(hero); $('.f-hero-txt', hero).appendChild(head);
+    if (ideaHTML) $('.f-hero-txt', hero).insertAdjacentHTML('beforeend', '<p class="f-hero-idea">' + svgI('bulb') + '<span>' + ideaHTML + '</span></p>');
+    $('.f-hero-txt', hero).insertAdjacentHTML('beforeend', '<div class="f-hero-chips"><span>' + svgI('book') + '≈ ' + mins + ' min de lectura</span>' + (nSrc ? '<span>' + svgI('quote') + nSrc + ' fuente' + (nSrc > 1 ? 's' : '') + '</span>' : '') + '</div>');
+    $$('.f-card, .f-grid > li, .f-acc, .brief-box .apply', p).forEach((el, k) => el.style.setProperty('--i', k));
+  });
+  // reproducir la entrada escalonada cada vez que cambia la página
+  const stage = $('#mod2 .f-stage');
+  if (stage) new MutationObserver(ms => ms.forEach(m => {
+    const t = m.target, was = /\bin-(next|prev)\b/.test(m.oldValue || ''), is = /\bin-(next|prev)\b/.test(t.className);
+    if (t.classList.contains('f-page') && is && !was) { t.classList.remove('stagger'); void t.offsetWidth; t.classList.add('stagger'); }   // solo al iniciar el cambio de página
+  })).observe(stage, { attributes: true, subtree: true, attributeFilter: ['class'], attributeOldValue: true });
+  if (pages[0]) pages[0].classList.add('stagger');
+
+  /* ---------- Casos clínicos: ficha con imagen, recuadros y desplegables ---------- */
+  const isNA = dd => dd.classList.contains('na') || /^no reporta/i.test(dd.textContent.trim());
+  function compactKV(dl) {                    // deja visibles los datos reportados y agrupa los «No reporta»
+    const rows = $$(':scope > .kv-row', dl), na = rows.filter(r => isNA($('dd', r)));
+    if (!na.length) return 0;
+    na.forEach(r => r.remove());
+    dl.insertAdjacentHTML('afterend', '<p class="kv-na"><b>Sin información:</b> ' + na.map(r => '<span>' + $('dt', r).textContent + '</span>').join('') + '</p>');
+    return na.length;
+  }
+  function acc(title, nodes, hint) {
+    const d = document.createElement('details'); d.className = 'cs-acc';
+    d.innerHTML = '<summary><span>' + title + '</span>' + (hint ? '<em>' + hint + '</em>' : '') + svgI('chev') + '</summary><div class="cs-acc-body"></div>';
+    nodes.forEach(n => $('.cs-acc-body', d).appendChild(n)); return d;
+  }
+  $$('#mod3 .case').forEach((cs, ci) => {
+    const b1 = $('.block[data-block="1"]', cs), ctx = b1 && $('.ctx', b1); if (!ctx) return;
+    const sec = {}; $$(':scope > .ctx-sec', ctx).forEach(s => { sec[$('h5', s).textContent.trim()] = s; });
+    const socio = sec['Datos sociodemográficos'], motivo = sec['Motivo de consulta'], hist = sec['Historia del problema'];
+    if (!socio || !motivo || !hist) return;
+    // 1) ficha del caso
+    const rows = $$('.kv-row', socio), get = n => { const r = rows.find(r => $('dt', r).textContent.trim() === n); return r ? $('dd', r) : null; };
+    const nombre = get('Nombre'), chips = rows.filter(r => !isNA($('dd', r)) && $('dt', r).textContent.trim() !== 'Nombre');
+    const naRows = rows.filter(r => isNA($('dd', r)));
+    const hero = document.createElement('section'); hero.className = 'cs-hero';
+    hero.innerHTML = '<div class="cs-ill">' + (ILL['c' + (ci + 1)] || '') + '</div><div class="cs-ficha">' +
+      '<p class="cs-k">' + svgI('clip') + 'Ficha del caso · Datos simulados</p>' +
+      '<p class="cs-name">' + (nombre ? nombre.textContent.replace(/\.$/, '') : 'Paciente') + '</p>' +
+      '<div class="cs-chips">' + chips.map(r => '<span><small>' + $('dt', r).textContent + '</small>' + $('dd', r).innerHTML.replace(/\.$/, '') + '</span>').join('') + '</div>' +
+      (naRows.length ? '<p class="kv-na"><b>Sin información:</b> ' + naRows.map(r => '<span>' + $('dt', r).textContent + '</span>').join('') + '</p>' : '') +
+      '<blockquote class="cs-quote">' + svgI('quote') + '<div><small>Motivo de consulta</small>' + $$('p', motivo).map(p => '<p>' + p.innerHTML + '</p>').join('') + '</div></blockquote></div>';
+    // 2) historia + recuadros cortos (diagnóstico y plan)
+    const fgrid = $('.fgrid', hist);
+    const grid = document.createElement('div'); grid.className = 'cs-grid';
+    const side = document.createElement('div'); side.className = 'cs-side';
+    [sec['Diagnóstico'], sec['Plan terapéutico y recomendaciones']].forEach(s => { if (s) { s.classList.add('cs-box'); side.appendChild(s); } });
+    grid.appendChild(hist); grid.appendChild(side);
+    // 3) factores del caso a lo ancho
+    let fwrap = null;
+    if (fgrid) { fwrap = document.createElement('section'); fwrap.className = 'ctx-sec cs-factores'; fwrap.innerHTML = '<h5>Factores del caso</h5>'; fwrap.appendChild(fgrid); }
+    // 4) información extensa en desplegables
+    const accs = document.createElement('div'); accs.className = 'cs-accs';
+    [['Cuadro clínico', 'pulse'], ['Antecedentes', 'book'], ['Estado mental', 'target']].forEach(([n, ic]) => {
+      const s = sec[n]; if (!s) return;
+      const nodes = Array.from(s.children).filter(c => c.tagName !== 'H5');
+      let hidden = 0; nodes.forEach(n => { if (n.matches && n.matches('dl.kv')) hidden += compactKV(n); });
+      const nodes2 = Array.from(s.children).filter(c => c.tagName !== 'H5');
+      const shown = $$('.kv-row', s).length;
+      const hint = s.querySelector('dl.kv') ? shown + ' dato' + (shown === 1 ? '' : 's') + ' reportado' + (shown === 1 ? '' : 's') : 'Ver detalle';
+      const d = acc(svgI(ic) + n, nodes2, hint); s.replaceWith(d); accs.appendChild(d);
+    });
+    const anal = sec['Análisis'];
+    // nuevo orden
+    ctx.innerHTML = '';
+    ctx.append(hero, grid);
+    if (fwrap) ctx.append(fwrap);
+    if (anal) { anal.classList.add('cs-analisis'); ctx.append(anal); }
+    ctx.append(accs);
+    socio.remove(); motivo.remove();
+    // Bloque 2: alternativas como acordeón (una abierta a la vez)
+    const alts = $$('.block[data-block="2"] details.alt', cs);
+    alts.forEach((d, k) => { d.open = k === 0; d.addEventListener('toggle', () => { if (d.open) alts.forEach(o => { if (o !== d) o.open = false; }); }); });
+  });
+  // pestañas de casos con miniatura
+  $$('#mod3 .case-tab').forEach((t, i) => { const n = $('.ct-num', t); if (n && ILL['c' + (i + 1)]) n.insertAdjacentHTML('afterend', '<span class="ct-ill" aria-hidden="true">' + ILL['c' + (i + 1)] + '</span>'); });
+})();
+</script>
+
 
 <!-- Foro: voto negativo con motivo -->
 <dialog class="fo-dialog" id="fo-dialogo-negativo" aria-labelledby="fo-titulo-negativo">
