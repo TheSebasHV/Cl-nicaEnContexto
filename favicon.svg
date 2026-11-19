@@ -6,11 +6,13 @@
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="16" fill="url(#g)"/>
-  <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round">
-    <path d="M32 26.5V17M36.8 35.3l8.4 4.9M27.2 35.3l-8.4 4.9"/>
+  <!-- Ψ: brazos abiertos y eje central, que se cruza abajo formando un rombo -->
+  <g fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 15V53"/>
+    <path d="M17 14v8c0 8.5 6.5 13.5 15 13.5S47 30.5 47 22v-8"/>
+    <path d="M14 15.5l3-1.5 3 1.5M44 15.5l3-1.5 3 1.5"/>
+    <path d="M24.5 38.5L40 49.5 32 56l-8-6.5 15.5-11"/>
   </g>
-  <circle cx="32" cy="32" r="6.2" fill="#fff"/>
-  <circle cx="32" cy="13" r="4.4" fill="#f2c94c"/>
-  <circle cx="48.6" cy="42.2" r="4.4" fill="#fff"/>
-  <circle cx="15.4" cy="42.2" r="4.4" fill="#fff"/>
+  <!-- estrella en la punta del eje -->
+  <path d="M32 4.5l1.9 4.1 4.4.5-3.3 3 .9 4.4L32 14.3l-3.9 2.2.9-4.4-3.3-3 4.4-.5z" fill="#f2c94c"/>
 </svg>
